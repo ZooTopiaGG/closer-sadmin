@@ -1,0 +1,134 @@
+import {
+  getAllActivity,
+  updateActivity,
+  updateActivityStatus,
+  closerActivityList,
+  activityWaterList
+} from './service'
+
+export default {
+  namespaced: true,
+  state: {
+    activityLists: {
+      data: [],
+      count: 0
+    },
+    closerActivityLists: {
+      data: [],
+      count: 0
+    },
+    waterList: {
+      data: [],
+      count: 0
+    }
+  },
+  mutations: {
+    activityLists(state, para) {
+      state.activityLists = para
+    },
+    closerActivityLists(state, para) {
+      state.closerActivityLists = para
+    },
+    waterList(state, para) {
+      state.waterList = para
+    }
+  },
+  actions: {
+    async getAllActivity({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await getAllActivity(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.status = x.status ? "已停用" : "已启用";
+          return x;
+        });
+        commit('activityLists', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async updateActivity({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await updateActivity(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success("操作成功！");
+        return true
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async updateActivityStatus({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await updateActivityStatus(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success("操作成功！");
+        return true
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async closerActivityList({
+      commit,
+      state
+    }) {
+      let {
+        data
+      } = await closerActivityList().catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      console.log('data===', data)
+      if (data.code === 0) {
+        let arr = data.result.data.map(x => {
+          x.createTime = x.createTime ?
+            $async.createTime(x.createTime, "yy-mm-dd hh:MM") :
+            "-";
+          return x;
+        });
+        commit('closerActivityLists', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async activityWaterList({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await activityWaterList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      console.log('data===', data)
+      if (data.code === 0) {
+        data.result.data.map(x => {
+          x.address = x.address ? x.address : "-";
+          x.name = x.name ? x.name : "-";
+          x.phone = x.phone ? x.phone : "-";
+          x.nickname = x.nickname ? x.nickname : "-";
+          return x;
+        });
+        commit('waterList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+  },
+};
