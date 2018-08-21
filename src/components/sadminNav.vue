@@ -21,7 +21,7 @@
               </el-dropdown-menu>
             </el-dropdown>
             <el-dialog title="个人信息" :visible.sync="outerVisible">
-              <div class="dialog-content">
+              <section class="dialog-content">
                 <el-form label-width="100px" class="info-ruleForm">
                   <el-form-item label="用户名：" prop="name">
                     <el-input :value="authUser.username" disabled></el-input>
@@ -33,10 +33,10 @@
                     <el-input value="renshi" disabled></el-input>
                   </el-form-item> -->
                 </el-form>
-              </div>
-              <div slot="footer" class="dialog-footer">
+              </section>
+              <section slot="footer" class="dialog-footer">
                 <el-button @click="outerVisible = false">确 定</el-button>
-              </div>
+              </section>
             </el-dialog>
           </li>
         </ul>

@@ -203,3 +203,8 @@ body .el-dropdown-menu {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+.el-menu-item.is-active {
+  color: #303133 !important;
+  background: #FDDB00 !important;
+}

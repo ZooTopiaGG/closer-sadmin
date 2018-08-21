@@ -1,18 +1,18 @@
 <template>
-  <div id="record" class="flex flex-v">
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="record" class="flex flex-v">
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             栏目ID
           </span>
           <el-input v-model="columnid" maxlength="11" @keyup.enter.native="bindSearch" placeholder="栏目ID">
             <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
           </el-input>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- table 修改查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="communityRecordsList.data" style="width: 100%">
           <el-table-column fixed prop="name" label="栏目名称">
           </el-table-column>
@@ -26,10 +26,10 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </section>
       <!-- dialog  -->
       <el-dialog title="栏目详情" class="column-dialog" :visible.sync="dialogTableVisible">
-        <div class="userinfo" v-if="columnInfo">
+        <section class="userinfo" v-if="columnInfo">
           <p class="flex">
             <span class="label">栏目类型：</span>
             <span v-if="row.type === 0">个人</span>
@@ -78,29 +78,29 @@
             <span class="label">稿费发放总额度：</span>
             <span>{{ columnInfo.totalPaymentAmt / 100 }}</span>
           </p>
-        </div>
+        </section>
         <el-table :data="rechargeInfo.data">
           <el-table-column property="transChannel" label="类型"></el-table-column>
           <el-table-column property="createTime" label="时间"></el-table-column>
           <el-table-column property="transAmt" label="额度"></el-table-column>
           <el-table-column property="transRemark" label="备注"></el-table-column>
         </el-table>
-        <div class="block eldialog-block" v-if="rechargeInfo.count > 0">
+        <section class="block eldialog-block" v-if="rechargeInfo.count > 0">
           <el-pagination @current-change="handleCurrentChange2" :current-page="pagenum2" :page-size="pagesize2" layout="total, prev, pager, next, jumper"
             :total="rechargeInfo.count">
           </el-pagination>
-        </div>
+        </section>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="dialogTableVisible = false">返回</el-button>
         </span>
       </el-dialog>
-    </div>
-    <div class="block" v-if="communityRecordsList.count > 0">
+    </section>
+    <section class="block" v-if="communityRecordsList.count > 0">
       <el-pagination @current-change="handleCurrentChange1" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="communityRecordsList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

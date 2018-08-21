@@ -1,89 +1,89 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">内容审核</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">内容审核</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="content_labelname labelname">
             贴子名称
           </span>
           <el-input v-model="seachbytitle" placeholder="请输入贴子标题全称" @keyup.enter.native="bindSearch">
             <el-button slot="append" @click="bindSearch" icon="el-icon-search"></el-button>
           </el-input>
-        </div>
-        <div class="flex flex-align-center">
+        </section>
+        <section class="flex flex-align-center">
           <el-select class='list-filter-select' @change="handleSelect" v-model="fliterfeeds" placeholder="贴子状态">
             <el-option v-for="item in feeds.options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
           <a class="yetread" v-if="authUser.type != 1" @click="read" href="javascript:;">已读条数：{{readCount}}</a>
           <el-button icon="el-icon-delete" @click="recover">回收站</el-button>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- feed流 -->
       <ul v-if="readList.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
         <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='true'>
-          <div class="feed-box">
-            <div class="feed-cell-title flex flex-align-center flex-pack-justify">
+          <section class="feed-box">
+            <section class="feed-cell-title flex flex-align-center flex-pack-justify">
               <p class="flex">
                 <span>更新于：{{ item.long_update_time }}</span>
                 &nbsp;&nbsp;&nbsp;
                 <span class="isRead">已读</span>
               </p>
               <el-button @click.stop="dropoff(item.subjectid, index, -1)">下 架</el-button>
-            </div>
-            <div class="hasreport flex flex-align-start" v-if="item.report_list && item.report_list.length > 0">
+            </section>
+            <section class="hasreport flex flex-align-start" v-if="item.report_list && item.report_list.length > 0">
               <span>投诉理由：</span>
-              <div class="report-list flex flex-v">
+              <section class="report-list flex flex-v">
                 <span :key="reportIndex" v-for="(reportItem, reportIndex) in item.report_list">{{ reportItem. reportContents }}（{{ reportItem. reportCount }}）</span>
-              </div>
-            </div>
-            <div class="feed-cell-content">
-              <div class="columnname flex flex-align-center">
+              </section>
+            </section>
+            <section class="feed-cell-content">
+              <section class="columnname flex flex-align-center">
                 <img v-if="item.blogo" :src="item.blogo" :onerror="defaultErrorImg">
                 <img v-else src="@/assets/images/default.jpeg" :onerror="defaultErrorImg">
                 <span class="name text-ellipse flex-1">{{ item.communityName }}</span>
                 <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
-              </div>
+              </section>
               <!-- 贴子详情 -->
               <!-- 纯图片类型 int_type == 0-->
-              <div class="feedmain" v-if="item.int_type === 0">
-                <div v-if="item.content.text" class="feedtitle text-ellipse">
+              <section class="feedmain" v-if="item.int_type === 0">
+                <section v-if="item.content.text" class="feedtitle text-ellipse">
                   {{ item.content.text }}
-                </div>
-                <div v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" style="width: 100%;height:100%;" :key="index">
+                </section>
+                <section v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedcontent">
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" style="width: 100%;height:100%;" :key="index">
                     <img class="feed-cover-list" :src="$com.makeFileUrl(img.link)" :style="{ 
                                         display:'block',
                                         position:'relative',
                                         height: '400px'}" :onerror="defaultErrorImg">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                  </div>
-                </div>
-                <div v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+                  </section>
+                </section>
+                <section v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedcontent">
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                  </div>
-                </div>
-                <div v-if="(item.content.images && item.content.images.length == 3) || (item.content.images && item.content.images.length > 4)"
+                  </section>
+                </section>
+                <section v-if="(item.content.images && item.content.images.length == 3) || (item.content.images && item.content.images.length > 4)"
                   class="flex feedcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src', 208)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src', 208)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                  </div>
-                </div>
-                <div v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedcontent">
-                  <div class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  </section>
+                </section>
+                <section v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedcontent">
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
 
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
-                  </div>
-                </div>
-              </div>
+                  </section>
+                </section>
+              </section>
               <!-- 视频贴 int_type == 1-->
-              <div class="feedmain" v-else-if="item.int_type === 1">
-                <div class="feedcontent">
+              <section class="feedmain" v-else-if="item.int_type === 1">
+                <section class="feedcontent">
                   <!-- <video :src="videos.src" controls="controls" preload="none"
                     :poster="videos.imageUrl" :data-cover="videos.imageUrl">
                   </video> -->
@@ -112,26 +112,26 @@
                       <span>00:00/{{ $com.toCurrent(item.content.videos[0].duration) }}</span>
                     </section>
                   </section>
-                </div>
-                <div v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</div>
-              </div>
+                </section>
+                <section v-if="item.content.text" class="feedtitle text-ellipse">{{ item.content.text }}</section>
+              </section>
               <!-- 长图文有封面 int_type == 2 int_category=== 3神议论 1是征稿-->
-              <div class="feedmain" v-else-if="item.int_type === 2">
-                <div v-if="item.cover" class="feedcover flex">
+              <section class="feedmain" v-else-if="item.int_type === 2">
+                <section v-if="item.cover" class="feedcover flex">
                   <img :style="{ 
                     display:'block',
                     position:'relative'}" :src="$com.makeFileUrl(item.cover)" :onerror="defaultErrorImg">
-                </div>
-                <div class="feedtype">
-                  <div v-if="item.title" class="feedtitle text-ellipse">
+                </section>
+                <section class="feedtype">
+                  <section v-if="item.title" class="feedtitle text-ellipse">
                     {{ item.title }}
-                  </div>
-                  <div v-if="item.content.summary" class="feedcontent feedcontent2">
+                  </section>
+                  <section v-if="item.content.summary" class="feedcontent feedcontent2">
                     {{ item.content.summary }}
-                  </div>
-                </div>
-              </div>
-              <div class="feeddata flex flex-pack-justify flex-align-center">
+                  </section>
+                </section>
+              </section>
+              <section class="feeddata flex flex-pack-justify flex-align-center">
                 <label class="flex flex-align-center">
                   <i class="icon iconfont icon-share"></i>
                   <span>{{ item.long_share }}</span>
@@ -144,20 +144,20 @@
                   <i class="icon iconfont icon-upvote"></i>
                   <span>{{ item.like }}</span>
                 </label>
-              </div>
-            </div>
-          </div>
+              </section>
+            </section>
+          </section>
         </li>
       </ul>
-      <div v-else class="nocon">
+      <section v-else class="nocon">
         暂无贴子
-      </div>
-      <div class="loading" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" :autoFill="false" infinite-scroll-distance="10">
+      </section>
+      <section class="loading" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" :autoFill="false" infinite-scroll-distance="10">
          {{ loading_text }}
-      </div>
+      </section>
       <!-- dialog -->
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-        <div>
+        <section>
           <p>选择以下原因后下架：</p>
           <el-checkbox-group v-model="checkList" class="dropreason flex">
             <el-checkbox label="垃圾营销"></el-checkbox>
@@ -169,15 +169,15 @@
             <el-checkbox label="抄袭我的内容"></el-checkbox>
             <el-checkbox label="违规有奖活动"></el-checkbox>
           </el-checkbox-group>
-        </div>
+        </section>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="updateVerify">确 定</el-button>
         </span>
       </el-dialog>
-    </div>
+    </section>
 
-  </div>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

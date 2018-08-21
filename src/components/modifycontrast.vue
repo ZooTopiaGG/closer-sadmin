@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <section>
     <!-- dialog.信息  添加账号 结束  -->
     <!-- dialog 开始。邀请栏目 个人，企业 start-->
     <el-dialog :title="title" class="modify-el-dialog" :visible.sync="outerVisible2">
-      <div class="flex">
-        <div class="dialog-content">
+      <section class="flex">
+        <section class="dialog-content">
           <el-form label-width="140px" class="column-ruleForm" :disabled="isdisabled">
             <el-form-item label="修改前">
             </el-form-item>
@@ -70,8 +70,8 @@
               </el-upload>
             </el-form-item>
           </el-form>
-        </div>
-        <div class="dialog-content">
+        </section>
+        <section class="dialog-content">
           <el-form label-width="140px" class="column-ruleForm" :disabled="isdisabled">
             <el-form-item label="修改前">
             </el-form-item>
@@ -147,12 +147,12 @@
               </el-upload>
             </el-form-item>
           </el-form>
-        </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
+        </section>
+      </section>
+      <section slot="footer" class="dialog-footer">
         <el-button @click="waitColumnPassOrRefuse(0)">拒 绝</el-button>
         <el-button type="primary" @click="waitColumnPassOrRefuse(1)">通 过</el-button>
-      </div>
+      </section>
     </el-dialog>
     <!-- 拒绝时 提示输入拒绝理由 -->
     <el-dialog :title="title2" :visible.sync="dialogVisible2" width="30%">
@@ -164,7 +164,7 @@
       </span>
     </el-dialog>
     <!-- dialog 开始。邀请栏目 个人，企业 end-->
-  </div>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

@@ -1,32 +1,32 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">数据统计/推广数据/留存数据</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">数据统计/推广数据/留存数据</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
        
-          <div class="flex flex-align-center">
+          <section class="flex flex-align-center">
             <span class="labelname">
               渠道名称：{{ channelName }}
             </span>
-          </div>
-          <div class="flex flex-align-center">
-            <div class="block2">
+          </section>
+          <section class="flex flex-align-center">
+            <section class="block2">
               <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelect" align="right"
                 unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"
                 :picker-options="pickerOptions2">
               </el-date-picker>
-            </div>
-          </div>
-      </div>
-      <div class="permission_table_content">
+            </section>
+          </section>
+      </section>
+      <section class="permission_table_content">
         <el-table :data="tableData" style="width: 100%">
           <el-table-column fixed="left" label="首次使用时间">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <el-button type="text" size="small">
                   <span>{{ scope.row.username }}</span>
                 </el-button>
-              </div>
+              </section>
             </template>
           </el-table-column>
           <el-table-column prop="phone" label="新增用户">
@@ -50,14 +50,14 @@
           <el-table-column prop="createTime" label="30天后">
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block cloumn-block" >
+      </section>
+    </section>
+    <section class="block cloumn-block" >
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="10">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

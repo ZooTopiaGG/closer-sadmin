@@ -1,31 +1,31 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">数据统计/推广数据/{{ $route.query.type }}</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center flex-1">
-          <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">数据统计/推广数据/{{ $route.query.type }}</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center flex-1">
+          <section class="flex flex-align-center">
             <span class="labelname">
               推广名称：
             </span>
             <el-input class="user_phone" v-model="searchname" placeholder="输入推广名称" @keyup.enter.native="getList">
               <el-button slot="append" @click="getList" icon="el-icon-search"></el-button>
             </el-input>
-          </div>
-          <div class="flex flex-align-center">
-            <div class="block2">
+          </section>
+          <section class="flex flex-align-center">
+            <section class="block2">
               <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelectByTime" align="right"
                 unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"
                 :picker-options="pickerOptions2">
               </el-date-picker>
-            </div>
-          </div>
-        </div>
-        <div>
+            </section>
+          </section>
+        </section>
+        <section>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addPlanActivity">新建推广活动</el-button>
-        </div>
-      </div>
-      <div class="permission_table_content">
+        </section>
+      </section>
+      <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
           <el-table-column prop="name" label="名称">
           </el-table-column>
@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="160">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <!-- <el-button type="text" size="small" @click="retain">
                   <span>留存</span>
                 </el-button> -->
@@ -62,12 +62,12 @@
                 <el-button type="text" size="small" @click="deleteRow(scope.row, 'delete')">
                   <span>删除</span>
                 </el-button>
-              </div>
+              </section>
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
+      </section>
+    </section>
     <!-- dialog 列表 -->
     <el-dialog :title="channelTitle" :visible.sync="outerVisible">
       <el-form :model="channelForm" label-width="120px" class="column-form" :disabled="channelDisabled">
@@ -79,26 +79,26 @@
             <!-- <el-button type="primary">生成链接</el-button> -->
           </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <div v-if="op === 'update'">
+      <section slot="footer" class="dialog-footer">
+        <section v-if="op === 'update'">
           <el-button @click="outerVisible = false">取 消</el-button>
           <el-button type="primary" @click="sureUpdateRow">确 定</el-button>
-        </div>
-        <div v-else-if="op === 'look'">
+        </section>
+        <section v-else-if="op === 'look'">
           <el-button type="primary" @click="outerVisible = false">确 定</el-button>
-        </div>
-        <div v-else>
+        </section>
+        <section v-else>
           <el-button @click="outerVisible = false">取 消</el-button>
           <el-button type="primary" @click="sureAddActivity">确 定</el-button>
-        </div>
-      </div>
+        </section>
+      </section>
     </el-dialog>
-    <div class="block cloumn-block" v-if="res.count > 0">
+    <section class="block cloumn-block" v-if="res.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="res.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

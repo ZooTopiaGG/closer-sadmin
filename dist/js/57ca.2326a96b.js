@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["57ca"],{"57ca":function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"wait"},[e._v("等待分配权限...")])},i=[],s={},c=s,l=t("2877"),u=Object(l["a"])(c,a,i,!1,null,null,null);u.options.__file="index.vue";n["default"]=u.exports}}]);
-//# sourceMappingURL=57ca.2326a96b.js.map

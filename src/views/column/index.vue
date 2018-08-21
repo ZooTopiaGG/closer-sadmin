@@ -1,24 +1,24 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">
-      <div>城市栏目管理</div>
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">
+      <section>城市栏目管理</section>
       <span class="bind-prompt flex-1" v-if="JSON.stringify(res.needBindCover) === 'true'">当前选择城市暂未绑定城市封面栏目，
         <span class="tobind" @click="tobindcover(res.needBindCover)">去绑定</span>
         后城市才能在首页显示
       </span>
-    </div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center flex-1">
-          <div class="flex flex-align-center searchbyphone">
+    </section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center flex-1">
+          <section class="flex flex-align-center searchbyphone">
             <span class="labelname column_labelname">
               栏目主手机号
             </span>
             <el-input v-model="columnerphone" style="width:200px" maxlength="11" placeholder="请输入栏目主手机号" @keyup.enter.native="bindSearch">
               <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
             </el-input>
-          </div>
-          <div class="list-filter">
+          </section>
+          <section class="list-filter">
             <!-- <span class="labelname column_labelname ">
                             所属区域
                         </span> -->
@@ -26,38 +26,38 @@
               <el-option v-for="item in searchregion" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
-          </div>
-          <div class="list-filter list-filter-2">
+          </section>
+          <section class="list-filter list-filter-2">
             <el-select class='list-filter-select' @change="handleSelect" v-model="filtercondition" placeholder="请选择">
               <el-option v-for="item in condition.options" :key="item.value" :value="item.value">
               </el-option>
             </el-select>
-          </div>
-        </div>
-        <div>
+          </section>
+        </section>
+        <section>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="columnAdd">添加默认栏目</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="tobindcover(res.needBindCover)">
             <span v-if="JSON.stringify(res.needBindCover) === 'true'">设置封面栏目</span>
             <span v-else>修改封面栏目</span>
           </el-button>
           <el-button type="primary" icon="el-icon-circle-check-outline" @click="columnInvite">邀请栏目</el-button>
-        </div>
+        </section>
         <!-- dialog.信息 开始 设置默认栏目 绑定/设置城市封面  -->
         <el-dialog :title="title" :visible.sync="outerVisible">
-          <div class="dialog-content">
-            <div v-if="type === 0 || !res.needBindCover">
+          <section class="dialog-content">
+            <section v-if="type === 0 || !res.needBindCover">
               <span>所属区域：</span>
               <el-select class='list-filter-select' disabled v-model="fliterregion" placeholder="所属区域">
                 <el-option v-for="item in allregion" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
-            </div>
-            <div class="search">
+            </section>
+            <section class="search">
               <el-input v-model="state5" placeholder="请输入栏目ID" suffix-icon="el-icon-search" class="searchid"></el-input>
               <el-button @click="searchDefault">确 定</el-button>
-            </div>
+            </section>
             <!-- 待修改 城市封面栏目 -->
-            <div class="result flex flex-align-center" v-if="showResult">
+            <section class="result flex flex-align-center" v-if="showResult">
               <el-radio v-if="searchRow.int_self === 1 && type === 0" v-model="defaultradio" label="1">{{ searchRow.name }}</el-radio>
               <el-radio v-else-if="searchRow.tags && searchRow.tags.indexOf('region-cover') > -1 && type === 1" v-model="defaultradio" label="1">{{ searchRow.name }}</el-radio>
               <el-checkbox v-else v-model="defaultchecked" disabled>{{ searchRow.name }}</el-checkbox>
@@ -67,19 +67,19 @@
               </p>
               <p v-if="searchRow.int_self === 1 && type === 0" style="color: #f00">已经是默认栏目</p>
               <p v-else-if="searchRow.tags && searchRow.tags.indexOf('region-cover') > -1 && type === 1" style="color: #f00">已经被绑定为封面栏目</p>
-            </div>
-          </div>
-          <div slot="footer" class="dialog-footer">
+            </section>
+          </section>
+          <section slot="footer" class="dialog-footer">
             <el-button @click="outerVisible = false">取 消</el-button>
             <el-button type="primary" v-if=" type === 0 " @click="setDefault">确 定</el-button>
             <el-button type="primary" v-else @click="tosetbindcover(searchRow)">确 定</el-button>
-          </div>
+          </section>
         </el-dialog>
         <!-- dialog.信息  添加账号 结束  -->
         <!-- dialog 开始。邀请栏目 个人，企业 start-->
         <el-dialog :title="title" :visible.sync="outerVisible2">
           <el-dialog width="30%" class="tj-eldialog" title="复制邀请码" :visible.sync="innerVisible2" append-to-body>
-            <div>
+            <section>
               <p>已生成邀请码</p>
               <p class="tj-invite-p flex flex-align-center">
                 <span class="flex-1">邀请码：{{ copyInviteValue }}</span>
@@ -89,9 +89,9 @@
                 <span class="flex-1">邀请链接： {{ copyInviteLink }}</span>
                 <el-button type="primary" @click="handleBtn(copyInviteLink)">复制</el-button>
               </p>
-            </div>
+            </section>
           </el-dialog>
-          <div class="dialog-content" v-loading.body="loadingAvatarUpload">
+          <section class="dialog-content" v-loading.body="loadingAvatarUpload">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="column-ruleForm" :disabled="isdisabled">
               <el-form-item v-if="operationtype != 2" label="栏目类型" prop="columntype" required>
                 <el-radio-group v-model="ruleForm.columntype">
@@ -115,17 +115,17 @@
                 <el-input v-model="ruleForm.columnname"></el-input>
               </el-form-item>
               <el-form-item v-if="operationtype === 2" label="栏目logo" prop="blogo" class="blogo">
-                <div class="flex">
+                <section class="flex">
                   <el-upload class="avatar-uploader" :headers="headers" :action="uploadUrl" :show-file-list="false" :on-error="handleError"
                   :on-success="handleBlogoSuccess" :before-upload="beforeAvatarUpload">
                   <img v-if="ruleForm.blogoUrl" :src="ruleForm.blogoUrl" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-                <div style="margin-left: 10px; color: #999; font-size:12px">
+                <section style="margin-left: 10px; color: #999; font-size:12px">
                   <span>尺寸 70*30像素；</span>
                   <span>大小不超过 500k</span>
-                </div>
-                </div>
+                </section>
+                </section>
               </el-form-item>
               <el-form-item v-if="operationtype === 2" label="栏目类别" prop="category">
                 <el-input v-model="ruleForm.columntype" :disabled="cateisdisabled"></el-input>
@@ -192,16 +192,16 @@
                 <el-button type="primary" @click="submitForm('ruleForm')">保 存</el-button>
               </el-form-item>
             </el-form>
-          </div>
-          <div slot="footer" v-if="operationtype === 5" class="dialog-footer">
+          </section>
+          <section slot="footer" v-if="operationtype === 5" class="dialog-footer">
             <el-button @click="waitColumnPassOrRefuse(row, 0)">拒 绝</el-button>
             <el-button type="primary" @click="waitColumnPassOrRefuse(row, 1)">通 过</el-button>
-          </div>
+          </section>
         </el-dialog>
         <!-- dialog 开始。邀请栏目 个人，企业 end-->
-      </div>
+      </section>
       <!-- table 修改查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
           <el-table-column fixed>
             <template slot-scope="scope">
@@ -242,7 +242,7 @@
           <el-table-column fixed="right" label="操作" width="120">
             <!-- 根据不同筛选显示不同操作按钮 -->
             <template slot-scope="scope">
-              <div v-if="filtercondition == '未上线待审' || filtercondition === '已上线待改'">
+              <section v-if="filtercondition == '未上线待审' || filtercondition === '已上线待改'">
                 <el-button type="text" size="small" @click="waitColumnPassOrRefuse(scope.row, 1)">
                   <span>通过</span>
                 </el-button>
@@ -250,8 +250,8 @@
                 <el-button @click="waitColumnReview(scope.row, 2)" type="text" size="small">
                   <span>查看栏目</span>
                 </el-button>
-              </div>
-              <div v-else>
+              </section>
+              <section v-else>
                 <el-button type="text" size="small" @click="columnShut(scope.row, scope.$index)">
                   <span v-if="!scope.row.bool_ban">禁言</span>
                   <span v-else>取消禁言</span>
@@ -263,7 +263,7 @@
                 <!-- <el-button type="text" v-if="!scope.row.isCover" size="small" @click="tosetbindcover(scope.row)">
                   <span>设置封面栏目</span>
                 </el-button> -->
-              </div>
+              </section>
             </template>
           </el-table-column>
         </el-table>
@@ -276,17 +276,17 @@
             <el-button type="primary" @click="verify(0)">确 定</el-button>
           </span>
         </el-dialog>
-      </div>
-    </div>
-    <div class="block cloumn-block" v-if="res.count > 0">
+      </section>
+    </section>
+    <section class="block cloumn-block" v-if="res.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="res.count">
       </el-pagination>
-    </div>
-    <div class="modify-dialog" v-if="modifyDialogVisible">
+    </section>
+    <section class="modify-dialog" v-if="modifyDialogVisible">
       <Modify :modifyRow="modifyRow" :selfRow="selfRow"></Modify>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

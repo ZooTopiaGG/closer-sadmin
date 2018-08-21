@@ -1,30 +1,30 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/content' }">内容审核</el-breadcrumb-item>
         <el-breadcrumb-item>已读栏目</el-breadcrumb-item>
       </el-breadcrumb>
-    </div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+    </section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             贴子名称
           </span>
           <el-input v-model="searchbytitle" placeholder="请输入贴子名称" @keyup.enter.native="handleSearch">
             <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
           </el-input>
-        </div>
-        <div class="flex flex-align-center">
-          <div class="block2">
+        </section>
+        <section class="flex flex-align-center">
+          <section class="block2">
             <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelect" align="right"
               unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
             </el-date-picker>
-          </div>
-        </div>
-      </div>
-      <div class="permission_table_content">
+          </section>
+        </section>
+      </section>
+      <section class="permission_table_content">
         <el-table :data="readList2.data" style="width: 100%;">
           <el-table-column fixed prop="title" label="贴子名称">
           </el-table-column>
@@ -40,14 +40,14 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block cloumn-block" v-if="readList2.count > 0">
+      </section>
+    </section>
+    <section class="block cloumn-block" v-if="readList2.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="readList2.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

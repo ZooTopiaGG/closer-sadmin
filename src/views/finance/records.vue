@@ -1,17 +1,17 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">
       <span style="margin-right: 30px;">财务记录</span>
       <el-radio-group v-model="radioRecord" @change="handleSelect">
         <el-radio label="/finance/records/column">栏目记录</el-radio>
         <el-radio label="/finance/records/user">用户记录</el-radio>
         <el-radio label="/finance/records/apply">审批记录</el-radio>
       </el-radio-group>
-    </div>
-    <div class="permission_table flex-1">
+    </section>
+    <section class="permission_table flex-1">
       <router-view />
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

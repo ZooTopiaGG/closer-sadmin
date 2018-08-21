@@ -17,7 +17,8 @@ export default new Vuex.Store({
     IS_DEV: false,
     authUser: {},
     token: '',
-    isLoginPage: false
+    isLoginPage: false,
+    activeIndex: '/permission'
   },
   modules: {
     permission,

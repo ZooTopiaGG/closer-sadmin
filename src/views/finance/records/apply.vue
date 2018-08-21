@@ -1,8 +1,8 @@
 <template>
-  <div id="record" class="flex flex-v">
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="record" class="flex flex-v">
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             栏目ID
           </span>
@@ -13,10 +13,10 @@
             <el-option v-for="item in record.options" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- table 改政策查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="rechargeList.data" style="width: 100%">
           <el-table-column fixed prop="communityName" label="栏目名称">
           </el-table-column>
@@ -29,14 +29,14 @@
           <el-table-column prop="auditStatus" label="审核结果">
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block" v-if="rechargeList.count > 0">
+      </section>
+    </section>
+    <section class="block" v-if="rechargeList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="rechargeList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

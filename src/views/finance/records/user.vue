@@ -1,18 +1,18 @@
 <template>
-  <div id="record" class="flex flex-v">
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="record" class="flex flex-v">
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             客户ID
           </span>
           <el-input v-model="userid" maxlength="11" @keyup.enter.native="bindSearch" placeholder="客户ID">
             <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
           </el-input>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- table 修改查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="userList.data" style="width: 100%">
           <el-table-column fixed prop="fullname" label="客户名">
           </el-table-column>
@@ -26,10 +26,10 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </section>
       <!-- dialog  -->
       <el-dialog title="用户详情" :visible.sync="dialogTableVisible">
-        <div class="userinfo">
+        <section class="userinfo">
           <p class="flex">
             <span class="label">用户名：</span>
             <span>{{ userInfo.fullname }}</span>
@@ -45,27 +45,27 @@
           <p class="flex">
             <span class="label">提现记录：</span>
           </p>
-        </div>
+        </section>
         <el-table :data="columnInfo.data2">
           <el-table-column property="createTime" label="时间"></el-table-column>
           <el-table-column property="withdrawAmt" label="额度"></el-table-column>
         </el-table>
-        <div class="block eldialog-block" v-if="columnInfo.count>0">
+        <section class="block eldialog-block" v-if="columnInfo.count>0">
           <el-pagination @current-change="handleCurrentChange1" :current-page="pagenum2" :page-size="pagesize2" layout="total, prev, pager, next, jumper"
             :total="columnInfo.count">
           </el-pagination>
-        </div>
+        </section>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="sure_lock_wallet">{{ buttonname }}</el-button>
         </span>
       </el-dialog>
-    </div>
-    <div class="block" v-if="userList.count>0">
+    </section>
+    <section class="block" v-if="userList.count>0">
       <el-pagination @current-change="handleCurrentChange2" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="userList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

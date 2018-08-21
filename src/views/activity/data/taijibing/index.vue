@@ -1,31 +1,31 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">活动数据</div>
-    <div class="permission_table">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex">
-          <div class="flex flex-align-center" style="margin-right: 35px;">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">活动数据</section>
+    <section class="permission_table">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex">
+          <section class="flex flex-align-center" style="margin-right: 35px;">
             <span class="labelname">
               姓名
             </span>
             <el-input v-model="inputName" class="input-search" placeholder="请输入姓名" @keyup.enter.native="searchCityByName">
               <el-button slot="append" icon="el-icon-search" @click="searchCityByName"></el-button>
             </el-input>
-          </div>
-          <div class="flex flex-align-center">
+          </section>
+          <section class="flex flex-align-center">
             <span class="labelname">
               手机号
             </span>
             <el-input v-model="inputPhone" class="input-search" placeholder="请输入手机号" @keyup.enter.native="searchCityByPhone">
               <el-button slot="append" icon="el-icon-search" @click="searchCityByPhone"></el-button>
             </el-input>
-          </div>
-        </div>
-        <!-- <div class="flex flex-align-center">
+          </section>
+        </section>
+        <!-- <section class="flex flex-align-center">
           <el-button type="primary" class="text-button">导出数据</el-button>
-        </div> -->
-      </div>
-      <div class="permission_table_content">
+        </section> -->
+      </section>
+      <section class="permission_table_content">
         <el-table :data="waterList.data" style="width: 100%">
           <el-table-column prop="nickname" label="用户名">
           </el-table-column>
@@ -36,14 +36,14 @@
           <el-table-column prop="address" label="住址">
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block" v-if="waterList.count > 0">
+      </section>
+    </section>
+    <section class="block" v-if="waterList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="waterList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

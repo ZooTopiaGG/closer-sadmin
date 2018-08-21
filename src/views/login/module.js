@@ -82,8 +82,9 @@ export default {
         Cookies.set('token', data.result.token, {
           expires: 7
         })
+        console.log('store===', store.state)
         store.state.authUser = base
-        store.state.token = base.token
+        store.state.token = data.result.token
         return true
       } else {
         $message.error(data.result)

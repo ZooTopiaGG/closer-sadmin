@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
 import store from './store'
+import router from './router'
+import '@/utils/routerAuth'
 import ElementUI from 'element-ui'
 import {
   Message,
@@ -21,6 +22,7 @@ import axios from '@/utils/axios'
 import '@/utils/opreation'
 import async from '@/utils/async'
 import api from '@/utils/api'
+import '@/utils/json2csv'
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(ElementUI)
 Vue.use(infiniteScroll)
@@ -41,10 +43,12 @@ window.Axios = axios;
 window.Cookies = Cookies;
 window.$async = async;
 window.api = api;
-store.state.authUser = Cookies.get('token') ? JSON.parse(decodeURIComponent(decodeURIComponent(Cookies.get('user')))) : '';
+let t = Cookies.get('token');
+store.state.authUser = t ? JSON.parse(decodeURIComponent(decodeURIComponent(Cookies.get('user')))) : '';
+store.state.token = t ? t : '';
 if (/sandbox.tiejin/.test(window.location.href) || /localhost/.test(window.location.href) || /10.3.0.27/.test(window.location.href)) {
   store.state.IS_DEV = true
-  api['filePath'] = 'http://file-sandbox.tiejin.cn';
+  api['filePath'] = '';
   api['invitepath'] = 'http://admin-sandbox.tiejin.cn/register/';
   Cookies.set("IS_DEV", true, {
     expires: 1
@@ -54,20 +58,6 @@ if (/sandbox.tiejin/.test(window.location.href) || /localhost/.test(window.locat
   api['invitepath'] = 'http://open.tiejin.cn/register/';
 }
 Vue.config.productionTip = false
-
-// 路由鉴权
-router.beforeEach((to, from, next) => {
-  console.log(to)
-  store.state.isLoginPage = to.path === '/login' || to.path === '/register';
-  if (!Cookies.get('token')) {
-    if (to.path != '/login') {
-      next({
-        path: '/login'
-      })
-    }
-  }
-  next()
-})
 
 new Vue({
   router,

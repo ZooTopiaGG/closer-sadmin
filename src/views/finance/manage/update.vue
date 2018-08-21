@@ -1,19 +1,19 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">财务申请</div>
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">财务申请</section>
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             栏目名称
           </span>
           <el-input v-model="columnid" placeholder="请输入栏目ID" @keyup.enter.native="bindSearch">
             <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
           </el-input>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- table 改政策查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="communityList.data" style="width: 100%">
           <el-table-column fixed prop="name" label="栏目名称">
           </el-table-column>
@@ -28,7 +28,7 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </section>
       <!-- el-dialog -->
       <el-dialog title="栏目详情" class="column-dialog" :visible.sync="dialogTableVisible">
         <el-form class="userinfo" :model="ruleForm" :disabled="disabled">
@@ -95,13 +95,13 @@
           <el-button type="primary" @click="sureOrRefuse('success')">同意</el-button>
         </span>
       </el-dialog>
-    </div>
-    <div class="block" v-if="communityList.count > 0">
+    </section>
+    <section class="block" v-if="communityList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="communityList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

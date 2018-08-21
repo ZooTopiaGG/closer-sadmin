@@ -1,17 +1,17 @@
 <template>
-  <div id="app">
-    <div class="flex">
+  <section id="app">
+    <section class="flex">
     <sadmin-aside v-if="!isLoginPage"></sadmin-aside>
-    <div :class="{
+    <section :class="{
       main:true, 'flex-1': true, container: true, loginpage: isLoginPage
     }">
       <sadmin-nav v-if="!isLoginPage"></sadmin-nav>
       <el-scrollbar class="page_container">
         <router-view/>
       </el-scrollbar>
-    </div>
-  </div>
-  </div>
+    </section>
+  </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

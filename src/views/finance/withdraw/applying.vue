@@ -1,24 +1,24 @@
 <template>
-  <div id="record" class="flex flex-v">
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-align-center flex-pack-justify">
+  <section id="record" class="flex flex-v">
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-align-center flex-pack-justify">
         <!-- <el-input class="label-phone" v-model="phonenum" maxlength="11" @keyup.enter.native="bindSearch" placeholder="请输入手机号">
           <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
         </el-input> -->
-        <div class="flex flex-align-center">
-          <div class="block2">
+        <section class="flex flex-align-center">
+          <section class="block2">
             <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelect" align="right"
               unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
             </el-date-picker>
-          </div>
-        </div>
-        <div v-if="!(currentSize === 0 || currentPage === 0)">
+          </section>
+        </section>
+        <section v-if="!(currentSize === 0 || currentPage === 0)">
           <span style="color: #a71616">最后操作位置：</span>
           <span>第 {{currentPage}} 页 / 第 {{currentSize}} 条</span>
-        </div>
-      </div>
+        </section>
+      </section>
       <!-- table 改政策查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="withdrawList.data" style="width: 100%">
           <el-table-column fixed width="100">
             <template slot-scope="scope">
@@ -45,25 +45,24 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
+      </section>
+    </section>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
       <p style="margin-bottom: 20px;">选择以下原因后拒绝：</p>
       <el-radio-group v-model="refuseLabel">
-        <el-radio label="恶意提现">恶意提现</el-radio>
-        <el-radio label="金额超限">金额超限</el-radio>
+        <el-radio label="由于您的账户存在安全风险，已暂时冻结">由于您的账户存在安全风险，已暂时冻结</el-radio>
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="sureRefuse">确 定</el-button>
       </span>
     </el-dialog>
-    <div class="block" v-if="withdrawList.count > 0">
+    <section class="block" v-if="withdrawList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="withdrawList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -96,7 +95,7 @@ export default {
       },
       phonenum: "",
       dialogVisible: false,
-      refuseLabel: "恶意提现",
+      refuseLabel: "由于您的账户存在安全风险，已暂时冻结",
       listRow: {},
       listType: "",
       pagenum: 1,

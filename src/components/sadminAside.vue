@@ -1,6 +1,6 @@
 <template>
   <aside class="aside-nav container">
-      <div class="logo">
+      <section class="logo">
         <router-link to="/" class='flex flex-align-center'>
           <img src="@/assets/images/logo-super.png">
           <transition name="fade">
@@ -9,9 +9,9 @@
             </span>
           </transition>
         </router-link>
-      </div>
+      </section>
       <el-scrollbar class='page_container'>
-        <el-menu v-if="authUser && authUser.type === 1" :default-active="$route.path" class="el-menu-vertical" background-color="#464646"
+        <el-menu v-if="authUser && authUser.type === 1" :default-active="activeIndex" class="el-menu-vertical" background-color="#464646"
           text-color="#fff" active-text-color="#FDDB00" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-menu-item index="/permission">
             <i class="el-icon-setting"></i>
@@ -132,6 +132,9 @@ export default {
   computed: {
     authUser() {
       return this.$store.state.authUser;
+    },
+    activeIndex() {
+      return this.$store.state.activeIndex;
     }
   },
   data() {
@@ -143,6 +146,7 @@ export default {
     handleOpen(key, keyPath) {},
     handleClose(key, keyPath) {},
     handleSelect(key, keyPath) {
+      console.log("key==", key);
       switch (key) {
         case "/permission":
           this.$router.push({

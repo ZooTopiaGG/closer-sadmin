@@ -1,8 +1,8 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">活动管理</div>
-    <div class="permission_table">
-      <div class="permission_table_content">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">活动管理</section>
+    <section class="permission_table">
+      <section class="permission_table_content">
         <el-table :data="activityLists.data" style="width: 100%">
           <el-table-column prop="activityName" label="活动名称">
           </el-table-column>
@@ -12,9 +12,9 @@
           </el-table-column>
           <el-table-column label="展示图">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <img :src="scope.row.logo" alt="" class="table_logo">
-              </div>
+              </section>
             </template>
           </el-table-column>
           <el-table-column prop="status" label="展示状态">
@@ -23,49 +23,49 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="280">
             <template slot-scope="scope">
-             <div v-if="authUser.type === 1" >
+             <section v-if="authUser.type === 1" >
                 <el-button  type="text" size="medium" @click="edit(scope.row)">编辑</el-button>
               <el-button type="text" size="medium" @click="start(scope.row)">
                 <span v-if="scope.row.status ==='已停用'">启用</span>
                 <span v-else>停用</span>
               </el-button>
               <el-button type="text" size="medium" @click="look(scope.row)">查看</el-button>
-             </div>
-             <div v-else>
+             </section>
+             <section v-else>
               <el-button v-if="authUser.permissions && authUser.permissions.activity && authUser.permissions.activity[0].permissions === 'activity_update'" type="text" size="medium" @click="edit(scope.row)">编辑</el-button>
               <el-button v-if="authUser.permissions && authUser.permissions.activity && authUser.permissions.activity[0].permissions === 'activity_update'" type="text" size="medium" @click="start(scope.row)">
                 <span v-if="scope.row.status ==='已停用'">启用</span>
                 <span v-else>停用</span>
               </el-button>
               <el-button v-if="authUser.permissions && authUser.permissions.activity && authUser.permissions.activity[0].permissions === 'activity_view'" type="text" size="medium" @click="look(scope.row)">查看</el-button>
-             </div>
+             </section>
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </section>
       <el-dialog title="查看位置" :visible.sync="outerVisible1" style="text-align: center">
         <img src="@/assets/images/displaylogo.png" alt="">
       </el-dialog>
       <el-dialog title="编辑活动" :visible.sync="outerVisible">
-          <div class="dialog-content">
+          <section class="dialog-content">
             <el-form class="city-ruleform" :rules="rules" label-width="140px" :disabled="isdisabled">
               <el-form-item label="活动名称：">
-                <div class="flex flex-align-center dialog-label">
+                <section class="flex flex-align-center dialog-label">
                   <el-input v-model="displayname" placeholder="输入活动名称"></el-input>
-                </div>
+                </section>
               </el-form-item>
               <el-form-item label="建议尺寸（px）：">
-                <div class="flex flex-align-center dialog-label">
+                <section class="flex flex-align-center dialog-label">
                   <span>{{ displaysize }}</span>
-                </div>
+                </section>
               </el-form-item>
               <el-form-item label="关联页面：">
-                <div class="flex flex-align-center">
+                <section class="flex flex-align-center">
                   <el-input type="url" v-model="displaypage" placeholder="输入链接"></el-input>
-                </div>
+                </section>
               </el-form-item>
               <el-form-item v-loading.body="loadingAvatarUpload" label="展示图：">
-                <div class="activity-cell flex flex-align-start">
+                <section class="activity-cell flex flex-align-start">
                   <el-upload class="avatar-uploader" 
                   :action="uploadUrl" 
                   :show-file-list="false" 
@@ -76,31 +76,31 @@
                     <img v-if="imageUrl" :src="imageUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
-                  <!-- <div class="prompt flex flex-v">
+                  <!-- <section class="prompt flex flex-v">
                     <span class="flex-1"></span>
                     <span>尺寸：750*930像素</span>
                     <span>大小：不超过500kb</span>
-                  </div> -->
-                </div>
+                  </section> -->
+                </section>
               </el-form-item>
               <el-form-item label="版本号：">
-                <div class="flex flex-align-center dialog-label">
+                <section class="flex flex-align-center dialog-label">
                   <el-input v-model="buildVer" :disabled="verDisabled" placeholder="待审版本号"></el-input>
-                </div>
+                </section>
               </el-form-item>
               <el-form-item label="展示位状态：">
-                <div class="flex flex-align-center dialog-label">
+                <section class="flex flex-align-center dialog-label">
                   <el-input v-model="displaystatus" :disabled="true"></el-input>
-                </div>
+                </section>
               </el-form-item>
             </el-form>
-          </div>
-          <div slot="footer" class="dialog-footer">
+          </section>
+          <section slot="footer" class="dialog-footer">
             <el-button type="primary" @click="save">保 存</el-button>
-          </div>
+          </section>
         </el-dialog>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

@@ -1,7 +1,7 @@
 <template>
-  <div id="record" class="flex flex-v">
-    <div class="flex-1">
-      <div class="permission_table_top flex flex-align-center flex-pack-justify">
+  <section id="record" class="flex flex-v">
+    <section class="flex-1">
+      <section class="permission_table_top flex flex-align-center flex-pack-justify">
         <!-- <el-select class='status-check' v-model="statusvalue" placeholder="请选择">
           <el-option v-for="item in status.options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
@@ -9,22 +9,22 @@
         <el-input class="label-phone" v-model="phonenum" maxlength="11" @keyup.enter.native="bindSearch" placeholder="请输入手机号">
           <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
         </el-input> -->
-        <div class="flex flex-align-center">
-          <div class="block2">
+        <section class="flex flex-align-center">
+          <section class="block2">
             <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelect" align="right"
               unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
             </el-date-picker>
-          </div>
-        </div>
-        <!-- <div class="all-numbers">
+          </section>
+        </section>
+        <!-- <section class="all-numbers">
           <span>提现用户数： 1000</span>
-        </div>
-        <div class="flex flex-align-center">
+        </section>
+        <section class="flex flex-align-center">
           <el-button type="primary" class="text-button">导出数据</el-button>
-        </div> -->
-      </div>
+        </section> -->
+      </section>
       <!-- table 改政策查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="withdrawList.data" style="width: 100%">
           <el-table-column fixed prop="userName" label="申请人昵称">
           </el-table-column>
@@ -43,14 +43,14 @@
           <el-table-column prop="auditUser" label="审核人员">
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block" v-if="withdrawList.count > 0">
+      </section>
+    </section>
+    <section class="block" v-if="withdrawList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="withdrawList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

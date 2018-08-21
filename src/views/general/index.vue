@@ -1,5 +1,5 @@
 <template>
-  <div class="wait">等待分配权限...</div>
+  <section class="wait">等待分配权限...</section>
 </template>
 
 <script>

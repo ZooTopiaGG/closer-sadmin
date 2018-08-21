@@ -1,39 +1,39 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">权限设置</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">权限设置</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             用户（员工）手机号
           </span>
           <el-input v-model="state4" maxlength="11" placeholder="请输入用户手机号" @keyup.enter.native="bindSearch">
             <el-button slot="append" @click="bindSearch" icon="el-icon-search"></el-button>
           </el-input>
-        </div>
+        </section>
         <el-dialog :title="title" :visible.sync="outerVisible">
           <el-form class="dialog-content" :disabled="disabled">
             <!-- 搜索信息 operationtype判断操作类型 0添加1修改2查看-->
-            <div v-if="operationtype === 0">
-              <div class="persmission-dialog flex flex-align-center">
+            <section v-if="operationtype === 0">
+              <section class="persmission-dialog flex flex-align-center">
                 <span class="dialog-label">手机号：</span>
                 <el-input placeholder="请输入手机" maxlength="11" prefix-icon="el-icon-phone" v-model="phonenum">
                 </el-input>
                 <el-button class="dialog-sure" @click="searchadminbyphone">确 定</el-button>
-              </div>
-              <div v-if="nosearch">
-                <div v-if="searchuserinfo" class="searchtrue flex flex-align-center">
+              </section>
+              <section v-if="nosearch">
+                <section v-if="searchuserinfo" class="searchtrue flex flex-align-center">
                   <el-checkbox v-model="checked" disabled></el-checkbox>
                   <span class="searchname">掌声</span>
                   <span>122923993249</span>
-                </div>
-                <div v-else class="searchtrue flex flex-align-center flex-pack-around">
+                </section>
+                <section v-else class="searchtrue flex flex-align-center flex-pack-around">
                   <span class="searcherror">用户不存在</span>
-                </div>
-              </div>
-            </div>
-            <div v-else>
-              <div class="persmission-dialog flex flex-v">
+                </section>
+              </section>
+            </section>
+            <section v-else>
+              <section class="persmission-dialog flex flex-v">
                 <label class="flex flex-align-center">
                   <span class="dialog-label">用户名：</span>
                   <el-input  maxlength="20" :disabled="username_visible" v-model="u_username">
@@ -46,28 +46,28 @@
                   </el-input>
                   <el-button v-if="operationtype === 1" type="text" @click="phone_visible = false">修改</el-button>
                 </label>
-              </div>
-            </div>
+              </section>
+            </section>
             <!-- 权限信息 根据权限设置可用与不可用 查看只显示拥有的权限-->
             <el-tabs v-model="activeName" class="tabs-manage" @tab-click="handleClick1">
               <el-tab-pane label="Boss" name="Boss" v-if="authUser && authUser.type === 1">
-                <div class="role-manage manage flex">
+                <section class="role-manage manage flex">
                   <span class="manage-label">角色管理权限：</span>
                   <el-checkbox-group @change="handleSelect2" v-model="checkListPermission">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.permission" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
-                <div class="city-manage manage flex">
+                </section>
+                <section class="city-manage manage flex">
                   <span class="manage-label">城市管理权限：</span>
                   <el-checkbox-group v-model="checkListCity" @change="handleSelect">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.city" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
-                <div class="city-column-manage manage flex">
+                </section>
+                <section class="city-column-manage manage flex">
                   <span class="manage-label">城市栏目管理员：</span>
                   
                   <el-select v-model="checkListColumn" class="region_list" multiple placeholder="请选择">
@@ -78,34 +78,34 @@
                       :value="item.region_id">
                     </el-option>
                   </el-select>
-                </div>
-                <div class="role-manage manage flex">
+                </section>
+                <section class="role-manage manage flex">
                   <span class="manage-label">财务管理：</span>
                   <el-checkbox-group @change="handleSelect3" v-model="checkListFinance">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.finance" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
-                <div class="logo-manage manage flex">
+                </section>
+                <section class="logo-manage manage flex">
                   <span class="manage-label">操作日志：</span>
                   <el-checkbox-group v-model="checkListLog" @change="handleSelect">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.log" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
-                <div class="role-manage manage flex">
+                </section>
+                <section class="role-manage manage flex">
                   <span class="manage-label">数据统计：</span>
                   <el-checkbox-group @change="handleSelect4" v-model="checkListData">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.data" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
+                </section>
               </el-tab-pane>
               <el-tab-pane label="其他" name="其他">
-                <div class="content-manage manage flex flex-align-center">
+                <section class="content-manage manage flex flex-align-center">
                   <span class="manage-label">内容审核权限：</span>
                   <section class="flex flex-v">
                     <el-select v-model="checkListColumn2" multiple placeholder="请选择" @change="handleSelect1">
@@ -122,40 +122,40 @@
                     </el-checkbox>
                   </el-checkbox-group>
                   </section>
-                </div>
-                <div class="role-manage manage flex">
+                </section>
+                <section class="role-manage manage flex">
                   <span class="manage-label">活动管理：</span>
                   <el-checkbox-group @change="handleSelect5" v-model="checkListActivity">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.activity" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
-                <div class="role-manage manage flex">
+                </section>
+                <section class="role-manage manage flex">
                   <span class="manage-label">活动数据：</span>
                   <el-checkbox-group @change="handleSelect6" v-model="checkListActivityData">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.activity_data" v-if="item.permissions === 'activity_data_view'" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </div>
+                </section>
                 
               </el-tab-pane>
             </el-tabs>
           </el-form>
-          <div v-if="operationtype === 2" slot="footer" class="dialog-footer">
+          <section v-if="operationtype === 2" slot="footer" class="dialog-footer">
             <el-button type="primary" @click="outerVisible = false">确定</el-button>
-          </div>
-          <div v-else slot="footer" class="dialog-footer">
+          </section>
+          <section v-else slot="footer" class="dialog-footer">
             <el-button @click="outerVisible = false">取 消</el-button>
             <el-button type="primary" @click="modifyPermission">保 存</el-button>
-          </div>
+          </section>
         </el-dialog>
         <!-- dialog.信息  添加账号 结束  -->
 
-      </div>
+      </section>
       <!-- table 修改查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="userList.data" style="width: 100%">
           <el-table-column fixed prop="username" label="用户名">
           </el-table-column>
@@ -167,24 +167,24 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
-              <div v-if="authUser && authUser.type === 1">
+              <section v-if="authUser && authUser.type === 1">
                 <el-button type="text" size="medium" @click="permissionModify(scope.row, '修改')">修改</el-button>
                 <el-button @click="permissionDelete(scope.row)" type="text" size="medium">删除</el-button>
-              </div>
-              <div v-else-if="authUser && authUser.permissions && authUser.permissions.permission">
+              </section>
+              <section v-else-if="authUser && authUser.permissions && authUser.permissions.permission">
                 <el-button v-for="(item, index) in authUser.permissions.permission" type="text" :key="index" size="medium" @click="permissionModify(scope.row, item.name)">{{ item.name }}</el-button>
-              </div>
+              </section>
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block" v-if="userList.count > 0">
+      </section>
+    </section>
+    <section class="block" v-if="userList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="userList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

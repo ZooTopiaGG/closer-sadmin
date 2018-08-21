@@ -1,31 +1,31 @@
 <template>
-  <!-- <div id="permission" class="flex flex-v">
-    <div class="permission_title">线上推广落地页</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center flex-1">
-          <div class="flex flex-align-center">
+  <!-- <section id="permission" class="flex flex-v">
+    <section class="permission_title">线上推广落地页</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center flex-1">
+          <section class="flex flex-align-center">
             <span class="labelname">
               推广活动搜索：
             </span>
             <el-input class="user_phone" v-model="searchname" @keyup.enter.native="getList">
               <el-button slot="append" @click="getList" icon="el-icon-search"></el-button>
             </el-input>
-          </div>
-          <div class="flex flex-align-center">
-            <div class="block2">
+          </section>
+          <section class="flex flex-align-center">
+            <section class="block2">
               <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelectByTime" align="right"
                 unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"
                 :picker-options="pickerOptions2">
               </el-date-picker>
-            </div>
-          </div>
-        </div>
-        <div>
+            </section>
+          </section>
+        </section>
+        <section>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addSetting">新建配置</el-button>
-        </div>
-      </div>
-      <div class="permission_table_content">
+        </section>
+      </section>
+      <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
           <el-table-column fixed="left" type="index" label="序号" width="100">
           </el-table-column>
@@ -39,16 +39,16 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="160">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <el-button type="text" size="small" @click="updateSetting(scope.row)">
                   <span>修改</span>
                 </el-button>
-              </div>
+              </section>
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
+      </section>
+    </section>
     <el-dialog :title="planTitle" :visible.sync="outerVisible">
       <el-form :model="planForm" label-width="120px" class="column-form" :disabled="planDisabled">
         <el-form-item label="活动ID：" prop="planname">
@@ -64,24 +64,24 @@
           :before-remove="beforeRemove"
           :file-list="fileList">
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">尺寸：1125 * 2001；只能上传图片，且不超过800kb</div>
+          <section slot="tip" class="el-upload__tip">尺寸：1125 * 2001；只能上传图片，且不超过800kb</section>
         </el-upload>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <div>
+      <section slot="footer" class="dialog-footer">
+        <section>
           <el-button @click="outerVisible1 = false">取 消</el-button>
           <el-button type="primary" @click="sureAddSetting">确 定</el-button>
-        </div>
-      </div>
+        </section>
+      </section>
     </el-dialog>
-    <div class="block cloumn-block" v-if="res.count>0">
+    <section class="block cloumn-block" v-if="res.count>0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="res.count">
       </el-pagination>
-    </div>
-  </div> -->
-  <div class="wait">功能暂未开发，敬请期待！</div>  
+    </section>
+  </section> -->
+  <section class="wait">功能暂未开发，敬请期待！</section>  
 </template>
 <script>
 export default {

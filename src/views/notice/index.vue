@@ -1,15 +1,15 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">通知管理</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex-1"></div>
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">通知管理</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex-1"></section>
+        <section class="flex flex-align-center">
           <el-button type="primary" class="text-button" @click="setNotice">预警通知配置</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addNoticer">添加通知人</el-button>
-        </div>
-      </div>
-      <div class="permission_table_content">
+        </section>
+      </section>
+      <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
           <el-table-column prop="number" label="序号" width="60">
           </el-table-column>
@@ -29,7 +29,7 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </section>
       <el-dialog title="添加通知人" :visible.sync="dialogFormVisible">
         <el-form :model="form" label-width="80px" class="forms">
           <el-form-item label="姓名">
@@ -42,10 +42,10 @@
             <el-input v-model="form.email"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
+        <section slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-        </div>
+        </section>
       </el-dialog>
       <el-dialog title="预警设置" class="notice_set" :visible.sync="dialogSetVisible">
         <el-checkbox v-model="send_email" @change="sendEmail">发送邮件</el-checkbox>
@@ -96,13 +96,13 @@
             达到预警界限
           </section>
         </section>
-        <div slot="footer" class="dialog-footer">
+        <section slot="footer" class="dialog-footer">
           <el-button @click="dialogSetVisible = false">取 消</el-button>
           <el-button type="primary" @click="dialogSetVisible = false">确 定</el-button>
-        </div>
+        </section>
       </el-dialog>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

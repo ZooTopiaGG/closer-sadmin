@@ -1,30 +1,31 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">
       <span style="margin-right: 30px;">提现申请/近期流水</span>
-    </div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify flex-align-center">
-        <!-- <div class="flex flex-align-center">
-          <div class="block2">
+    </section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify flex-align-center">
+        <!-- <section class="flex flex-align-center">
+          <section class="block2">
             <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelect" align="right"
               unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
             </el-date-picker>
-          </div>
-        </div> -->
-        <div>
-        </div>
-        <div class="flex flex-align-center">
-          <div v-if="listRow" style="margin-right: 20px;">
+          </section>
+        </section> -->
+        <section>
+        </section>
+        <section class="flex flex-align-center">
+          <section v-if="listRow" style="margin-right: 20px;">
             <span>本次提现总额：</span>
             <span style="color: #a71616; font-weight: bold;font-size: 24px">{{ listRow.withdrawAmt }}</span><span> 元</span>
-          </div>
+          </section>
           <el-button type="primary" class="text-button" @click="showDialog('通过')">通过</el-button>
           <el-button type="primary" class="text-button" @click="showDialog('拒绝')">拒绝</el-button>
-        </div>
-      </div>
+          <el-button type="primary" class="text-button" @click="json2csv">导出数据</el-button>
+        </section>
+      </section>
       <!-- table 改政策查看操作 -->
-      <div class="permission_table_content">
+      <section class="permission_table_content">
         <el-table :data="serialList.data" style="width: 100%">
           <el-table-column fixed prop="transChannel" label="类型">
           </el-table-column>
@@ -39,25 +40,24 @@
           <el-table-column prop="transRemark" label="说明">
           </el-table-column>
         </el-table>
-      </div>
-    </div>
+      </section>
+    </section>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
       <p style="margin-bottom: 20px;">选择以下原因后拒绝：</p>
       <el-radio-group v-model="refuseLabel">
-        <el-radio label="恶意提现">恶意提现</el-radio>
-        <el-radio label="金额超限">金额超限</el-radio>
+        <el-radio label="由于您的账户存在安全风险，已暂时冻结">由于您的账户存在安全风险，已暂时冻结</el-radio>
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="sureRefuse">确 定</el-button>
       </span>
     </el-dialog>
-    <div class="block" v-if="serialList.count > 0">
+    <section class="block" v-if="serialList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="serialList.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>
@@ -112,7 +112,7 @@ export default {
       },
       dataValue: "",
       dialogVisible: false,
-      refuseLabel: "恶意提现",
+      refuseLabel: "由于您的账户存在安全风险，已暂时冻结",
       listRow: ""
     };
   },
@@ -214,6 +214,37 @@ export default {
       });
       if (res) {
         self.dialogVisible = false;
+      }
+    },
+    async exportData() {
+      let self = this,
+        newData = new Array(),
+        sd = self.serialList["data"];
+      newData = newData.concat(sd, sd);
+      console.log(newData);
+      return newData;
+    },
+    async json2csv() {
+      let self = this;
+      let newData = await self.exportData();
+      if (newData.length > 0) {
+        JSonToCSV.setDataConver({
+          data: newData,
+          fileName: "testjson2csv",
+          columns: {
+            title: ["类型", "金额", "申请时间", "说明"],
+            key: ["transChannel", "transAmt", "createTime", "transRemark"]
+            // formatter: function(n, v) {
+            //   if (n === "transAmt" && !isNaN(Number(v))) {
+            //     v = v + "";
+            //     v = v.split(".");
+            //     v[0] = v[0].replace(/(\d)(?=(?:\d{3})+$)/g, "$1,"); // 千分位的设置
+            //     return v.join(".");
+            //   }
+            //   if (n === "proportion") return v + "%";
+            // }
+          }
+        });
       }
     }
   },

@@ -1,31 +1,31 @@
 <template>
-  <div class="container">
+  <section class="container">
     <el-scrollbar class="page_container">
-      <div class="form flex flex-pack-center">
-        <div class="logo flex flex-v flex-align-center">
+      <section class="form flex flex-pack-center">
+        <section class="logo flex flex-v flex-align-center">
           <img src="@/assets/images/logo-super.png">
           <span>贴近超管后台</span>
-        </div>
-        <div class="line-split"></div>
+        </section>
+        <section class="line-split"></section>
         <el-form :model="ruleForm2" :rules="rules" status-icon ref="ruleForm2" class="login-ruleForm">
           <el-form-item class="login-title-item">
-            <div class=" flex flex-pack-justify">
-              <div class="login-title">登 录</div>
-              <div class="register-title">
+            <section class=" flex flex-pack-justify">
+              <section class="login-title">登 录</section>
+              <section class="register-title">
                 <router-link to="/register">去注册</router-link>
-              </div>
-            </div>
+              </section>
+            </section>
           </el-form-item>
           <el-form-item prop="phone">
             <el-input type="tel" maxlength="11" placeholder="请输入手机号" prefix-icon="el-icon-mobile-phone" v-model="ruleForm2.phone">
             </el-input>
           </el-form-item>
           <el-form-item prop="code">
-            <div class="flex flex-pack-justify">
+            <section class="flex flex-pack-justify">
               <el-input placeholder="请输入验证码" maxlength="6" prefix-icon="el-icon-goods" v-model="ruleForm2.code">
               </el-input>
               <el-button class="sendcode" @click="getCode({ phone: ruleForm2.phone, type: '2' })" :disabled="disabled" type="primary">{{ text }}</el-button>
-            </div>
+            </section>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" style="width:100%;margin-top:22px;" @click="submitForm('ruleForm2')">
@@ -37,9 +37,9 @@
             </el-button>
           </el-form-item>
         </el-form>
-      </div>
+      </section>
     </el-scrollbar>
-  </div>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

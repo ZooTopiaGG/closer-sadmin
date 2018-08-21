@@ -1,16 +1,16 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">
       <span style="margin-right: 30px;">提现申请</span>
       <el-radio-group v-model="radioRecord" @change="handleSelect">
         <el-radio label="/finance/withdraw/applying">申请中</el-radio>
         <el-radio label="/finance/withdraw/audited">已审核</el-radio>
       </el-radio-group>
-    </div>
-    <div class="permission_table flex-1">
+    </section>
+    <section class="permission_table flex-1">
       <router-view />
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 export default {

@@ -1,18 +1,18 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">活动数据</div>
-    <div class="permission_table">
-      <!-- <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">活动数据</section>
+    <section class="permission_table">
+      <!-- <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center">
           <span class="labelname">
             活动名称
           </span>
           <el-input v-model="inputCity" placeholder="请输入活动名称" @keyup.enter.native="searchCityByKeywords">
             <el-button slot="append" icon="el-icon-search" @click="searchCityByKeywords"></el-button>
           </el-input>
-        </div>
-      </div> -->
-      <div class="permission_table_content">
+        </section>
+      </section> -->
+      <section class="permission_table_content">
         <el-table :data="closerActivityLists.data" style="width: 100%">
           <el-table-column prop="createTime" label="活动开始日期">
           </el-table-column>
@@ -24,14 +24,14 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block" v-if="closerActivityLists.count > 0">
+      </section>
+    </section>
+    <section class="block" v-if="closerActivityLists.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="closerActivityLists.count">
       </el-pagination>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

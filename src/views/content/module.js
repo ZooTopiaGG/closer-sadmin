@@ -100,7 +100,6 @@ export default {
         });
         data.result.data = state.readList.data.concat(arr)
         state.current_payload = payload;
-        console.log('payloadsasdad===', state.current_payload)
         commit('readList', data.result)
       } else {
         $message.error(data.result);

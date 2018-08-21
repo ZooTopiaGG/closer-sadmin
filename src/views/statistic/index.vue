@@ -1,56 +1,56 @@
 <template>
-  <!-- <div id="permission" class="flex flex-v">
-    <div class="permission_title">数据统计/推广数据</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex flex-pack-justify">
-        <div class="flex flex-align-center flex-1">
-          <div class="flex flex-align-center">
+  <!-- <section id="permission" class="flex flex-v">
+    <section class="permission_title">数据统计/推广数据</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center flex-1">
+          <section class="flex flex-align-center">
             <el-select class='list-filter-select' @change="handleSelect" v-model="flitertypes" placeholder="全部">
               <el-option v-for="item in types.options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
-          </div>
-          <div class="flex flex-align-center">
+          </section>
+          <section class="flex flex-align-center">
             <span class="labelname">
               输入名称：
             </span>
             <el-input class="user_phone" v-model="searchname" placeholder="输入名称" @keyup.enter.native="getList">
               <el-button slot="append" @click="getList" icon="el-icon-search"></el-button>
             </el-input>
-          </div>
-          <div class="flex flex-align-center">
-            <div class="block2">
+          </section>
+          <section class="flex flex-align-center">
+            <section class="block2">
               <el-date-picker v-model="dataValue" type="daterange" :default-time="['00:00:00', '23:59:59']" @change="handleSelectByTime" align="right"
                 unlink-panels value-format="timestamp" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"
                 :picker-options="pickerOptions2">
               </el-date-picker>
-            </div>
-          </div>
-        </div>
-        <div v-if="authUser.type === 1 || (authUser.permissions && authUser.permissions.data[0].permissions === 'data_update')">
+            </section>
+          </section>
+        </section>
+        <section v-if="authUser.type === 1 || (authUser.permissions && authUser.permissions.data[0].permissions === 'data_update')">
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addChannel">新建渠道</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addPlan">新建推广计划</el-button>
-        </div>
-        <div v-else-if="opControlStatus">
+        </section>
+        <section v-else-if="opControlStatus">
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addChannel">新建渠道</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addPlan">新建推广计划</el-button>
-        </div>
-      </div>
-      <div class="permission_table_middle">
+        </section>
+      </section>
+      <section class="permission_table_middle">
         <el-checkbox-group v-model="checkedRecord" @change="handleSelectPlates">
           <el-checkbox v-for="plate in plates.options" :label="plate.label" :key="plate.value">{{ plate.label }}</el-checkbox>
         </el-checkbox-group>
-      </div>
-      <div class="permission_table_content">
+      </section>
+      <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
           <el-table-column fixed="left" label="名称">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <el-button type="text" size="small" v-if="scope.row.type === 0" @click="spread(scope.row)">
                   <span>{{ scope.row.name }}</span>
                 </el-button>
                 <span v-else>{{ scope.row.name }}</span>
-              </div>
+              </section>
             </template>
           </el-table-column>
           <el-table-column prop="typename" label="类型">
@@ -77,7 +77,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="160">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <el-button type="text" size="small" @click="retain">
                   <span>留存</span>
                 </el-button>
@@ -90,12 +90,12 @@
                 <el-button type="text" v-if="authUser.type === 1 || (authUser.permissions && authUser.permissions.data[0].permissions === 'data_update')" size="small" @click="deleteRow(scope.row, 'delete')">
                   <span>删除</span>
                 </el-button>
-              </div>
+              </section>
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
+      </section>
+    </section>
     <el-dialog :title="channelTitle" :visible.sync="outerVisible">
       <el-form :model="channelForm" label-width="120px" class="column-form" :disabled="channelDisabled">
         <el-form-item label="选择平台：" prop="plateform">
@@ -112,19 +112,19 @@
               </el-form-item>
         
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <div v-if="op === 'update'">
+      <section slot="footer" class="dialog-footer">
+        <section v-if="op === 'update'">
           <el-button @click="outerVisible = false">取 消</el-button>
           <el-button type="primary" @click="sureUpdated">确 定</el-button>
-        </div>
-        <div v-else-if="op === 'look'">
+        </section>
+        <section v-else-if="op === 'look'">
           <el-button type="primary" @click="outerVisible = false">确 定</el-button>
-        </div>
-        <div v-else>
+        </section>
+        <section v-else>
           <el-button @click="outerVisible = false">取 消</el-button>
           <el-button type="primary" @click="sureAddChannel">确 定</el-button>
-        </div>
-      </div>
+        </section>
+      </section>
     </el-dialog>
     <el-dialog :title="planTitle" :visible.sync="outerVisible1">
       <el-form :model="planForm" label-width="120px" class="column-form" :disabled="planDisabled">
@@ -142,27 +142,27 @@
           <el-input v-model="planForm.planid" class="channelinput"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <div v-if="op === 'update'">
+      <section slot="footer" class="dialog-footer">
+        <section v-if="op === 'update'">
           <el-button @click="outerVisible1 = false">取 消</el-button>
           <el-button type="primary" @click="sureUpdated">确 定</el-button>
-        </div>
-        <div v-else-if="op === 'look'">
+        </section>
+        <section v-else-if="op === 'look'">
           <el-button type="primary" @click="outerVisible1 = false">确 定</el-button>
-        </div>
-        <div v-else>
+        </section>
+        <section v-else>
           <el-button @click="outerVisible1 = false">取 消</el-button>
           <el-button type="primary" @click="sureAddPlan">确 定</el-button>
-        </div>
-      </div>
+        </section>
+      </section>
     </el-dialog>
-    <div class="block cloumn-block" v-if="res.count>0">
+    <section class="block cloumn-block" v-if="res.count>0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="res.count">
       </el-pagination>
-    </div>
-  </div> -->
-  <div class="wait">功能暂未开发，敬请期待！</div>
+    </section>
+  </section> -->
+  <section class="wait">功能暂未开发，敬请期待！</section>
 </template>
 <script>
 const plates = {

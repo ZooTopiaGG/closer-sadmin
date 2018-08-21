@@ -3,8 +3,8 @@ MAINTAINER lichong <lichong@umscloud.com>
 
 COPY ./*.conf /etc/nginx/conf.d/
 
-RUN mkdir /apps/closer-super-admin
-COPY ./dist/ /apps/closer-super-admin/
-WORKDIR /apps/closer-super-admin
+RUN mkdir /apps/closer-super-admin-new
+COPY ./dist/ /apps/closer-super-admin-new/
+WORKDIR /apps/closer-super-admin-new
 
-EXPOSE 4444
+EXPOSE 5555
