@@ -31,7 +31,6 @@ export default {
     sadminNav,
     sadminAside
   },
-  methods: {},
   mounted() {
     console.log("this.authUser===", this.authUser);
     console.log("this.state===", this.$store.state);

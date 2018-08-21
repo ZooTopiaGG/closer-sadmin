@@ -76,7 +76,7 @@ export default {
           createTime: user.createTime
         };
         // this.$axios.setToken(`${data.result.token}`)
-        Cookies.set('user', encodeURI(JSON.stringify(base)), {
+        Cookies.set('user', JSON.stringify(base), {
           expires: 7
         })
         Cookies.set('token', data.result.token, {
