@@ -1,8 +1,8 @@
 let api = {
   // 测试环境
-  serverDevUrl: '/command/',
+  serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
   // 正式环境
-  serverUrl: 'http://api.tiejin.cn/command/',
+  serverUrl: 'https://api.tiejin.cn/command/',
   // filepath: filePath || 'http://file-sandbox.tiejin.cn',
   file: '/file/upload/public',
   // 用户权限接口
