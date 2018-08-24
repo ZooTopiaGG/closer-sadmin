@@ -23,7 +23,6 @@ axio.interceptors.request.use(
 			config.headers.Authorization = "CloserSysAuth " + Store.state.authUser.token;
 		}
 		return config;
-
 	},
 	err => {
 		return Promise.reject(err).catch(err);
