@@ -4,18 +4,14 @@ import Store from '../store'
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
 	timeout: 15000, // 请求的超时时间
-	  //设置默认请求头，使post请求发送的是formdata格式数据// axios的header默认的Content-Type好像是'application/json;charset=UTF-8',我的项目都是用json格式传输，如果需要更改的话，可以用这种方式修改
-	  // headers: { 
-	  // "Content-Type": "application/x-www-form-urlencoded"
-	  // },
-	 withCredentials: true // 允许携带cookie
+	withCredentials: true // 允许携带cookie
 })
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
 		console.log(config.url)
 		let reqUrl = api.serverDevUrl + config.url
-		if (/s1-sandbox.tiejin/.test(window.location.href)) {
+		if (/sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverDevUrl + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
