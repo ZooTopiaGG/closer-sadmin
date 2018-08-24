@@ -1,11 +1,12 @@
-import axios from 'axios'
+import axios from 'axios';
 import api from '../utils/api';
-import Store from '../store'
+import Store from '../store';
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
 	timeout: 15000, // 请求的超时时间
 	withCredentials: true // 允许携带cookie
 })
+console.log('axio--', axio)
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
