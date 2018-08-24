@@ -1,5 +1,5 @@
 import axios from 'axios';
-import api from '../utils/api';
+import api from './api';
 import Store from '../store';
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
