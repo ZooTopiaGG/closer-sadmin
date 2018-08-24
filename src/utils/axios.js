@@ -15,9 +15,9 @@ axio.interceptors.request.use(
 	config => {
 		console.log(config.url)
 		let reqUrl = api.serverDevUrl + config.url
-		if (/sandbox.tiejin/.test(window.location.href)) {
+		if (/s1-sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverDevUrl + config.url;
-		} else if (/tiejin/.test(window.location.href)) {
+		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		}
 		config.url = reqUrl;
