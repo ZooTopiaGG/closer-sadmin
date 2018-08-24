@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store.js'
 import Permission from './views/permission/index.vue'
 
 Vue.use(Router)
