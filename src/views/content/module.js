@@ -86,8 +86,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        let arr = await data.result.data.map(x => {
-          // let arr = await data.result.result1.data.map(x => {
+        let arr = await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
           x.long_create_time = $async.getCommonTime(
             x.long_create_time,
@@ -99,11 +98,9 @@ export default {
           );
           return x;
         });
-        data.result.data = state.readList.data.concat(arr)
-        // data.result.result1.data = state.readList.data.concat(arr)
+        data.result.result1.data = state.readList.data.concat(arr)
         state.current_payload = payload;
-        commit('readList', data.result)
-        // commit('readList', data.result.result1)
+        commit('readList', data.result.result1)
       } else {
         $message.error(data.result);
       }
@@ -118,9 +115,8 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        await data.result.data.map(x => {
           // 待发布
-          // await data.result.result1.data.map(x => {
+          await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
           // 判断是否有title 没有用text替换
           if (x.int_type === 2) {
@@ -140,8 +136,7 @@ export default {
           );
           return x;
         });
-        commit('readList2', data.result)
-        // commit('readList2', data.result.result1)
+        commit('readList2', data.result.result1)
       } else {
         $message.error(data.result);
       }
