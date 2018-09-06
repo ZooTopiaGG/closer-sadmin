@@ -8,16 +8,23 @@
     </section>
     <section class="feed-details flex flex-pack-center" v-if="exist">
       <section class="feed-1">
-        <section v-if="res.blogo" class="feeder-cover">
-          <img class="access-not" :src="$com.makeFileUrl(res.blogo, 'src')" :onerror="defaultErrorImg">
-        </section>
-        <!-- 发帖者信息 -->
-        <section class="feeder-info">
-          <span v-if="res.double_latitude != -999">{{ res.className }}</span>
-          <span v-else>官方出品</span>
-          <span>@{{ res.username }}出品</span>
-          <span class="dp-text-color"> / </span>
-          <span>{{ $com.getCommonTime(res.long_create_time, 'yy-mm-dd hh:MM') }}</span>
+        <section class="flex flex-align-center flex-pack-justify">
+          <section>
+            <section class="feeder-cover">
+              <img class="access-not" v-lazy="$com.makeFileUrl(res.blogo)">
+            </section>
+            <!-- 发帖者信息 -->
+            <section class="feeder-info">
+              <span v-if="res.double_latitude != -999">{{ res.className }}</span>
+              <span v-else>官方出品</span>
+              <span>@{{ res.username }}出品</span>
+              <span class="dp-text-color"> / </span>
+              <span>{{ $com.getCommonTime(res.long_create_time, 'yy-mm-dd hh:MM') }}</span>
+            </section>
+          </section>
+          <section>
+            <el-button @click.stop="dropoff">下 架</el-button>
+          </section>
         </section>
         <!-- 帖子内容 -->
         <!-- 图片 -->
@@ -27,26 +34,26 @@
           <section>
             <section class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
               <section class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
-                <img class="feed-cover" :onerror="defaultErrorImg" :src="$com.makeFileUrl(img.link, 'src')">
+                <img class="feed-cover" v-lazy="$com.makeFileUrl(img.link)">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 2">
-              <section class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+              <section class="feeder-img-list" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" v-for="(img, index) in content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
                 :key="index">
                 <img class="feeder-cover-list">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </section>
             </section>
             <section class="feeder-img flex" v-else-if="content.images.length == 3 || content.images.length > 4">
-              <section class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+              <section class="feeder-img-list" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" v-for="(img, index) in content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                 :key="index">
                 <img class="feeder-cover-list">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </section>
             </section>
             <section class="feeder-img flex flex-pack-justify" v-else-if="content.images.length == 4">
-              <section class="feeder-img-list" v-for="(img, index) in content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%',backgroundImage:'url('+$com.makeFileUrl(img.link, 'src')+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+              <section class="feeder-img-list" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" v-for="(img, index) in content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                 :key="index">
                 <img class="feeder-cover-list">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -62,7 +69,7 @@
         <!-- res.int_type==2长图文。int_category=== 3 神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="res.int_type === 2">
           <section class="feeder-img" style="position:relative;" v-if="res.cover">
-            <img class="feed-cover" style="width: 100%; display:block;" :src="$com.makeFileUrl(res.cover)" :onerror="defaultErrorImg">
+            <img class="feed-cover" style="width: 100%; display:block;" v-lazy="$com.makeFileUrl(res.cover)">
           </section>
           <section class="feeder-content">
             <section class="feeder-title">{{ res.title }}</section>
@@ -73,7 +80,7 @@
                 <section class="flex flex-v">
                   <section style="margin-bottom: 10px" class="flex flex-pack-justify flex-align-center">
                     <section class="feeder-comment-info flex flex-align-center">
-                      <i :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.avatar, 'src')+')', backgroundSize: 'cover' }"></i>
+                      <i v-lazy:backgroundImage="$com.makeFileUrl(item.avatar)" :style="{ backgroundSize: 'cover' }"></i>
 
                       <span>{{ item.nickname }}</span>
                     </section>
@@ -89,14 +96,14 @@
                   <!-- 包含图片 -->
                   <section v-else-if="item.type === 1" class="feeder-comment">
                     <section style="position:relative;">
-                      <img class="feeder-comment-img" :src="$com.makeFileUrl(item.image.link, 'src')" :onerror="defaultErrorImg">
+                      <img class="feeder-comment-img" v-lazy="$com.makeFileUrl(item.image.link)">
                       <span class="gif" v-if="item.image.link.indexOf('.gif') > -1 || item.image.link.indexOf('.GIF') > -1">GIF图</span>
                     </section>
                   </section>
                   <!-- 包含贴子 -->
                   <section v-else-if="item.type === 3" class="feeder-comment flex flex-align-center feeder-comment-3">
                     <section class="feeder-comment-3-cover flex">
-                      <i v-if="item.feed.imageUrl" :style="{ backgroundImage: 'url('+$com.makeFileUrl(item.feed.imageUrl, 'src')+')', backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
+                      <i v-if="item.feed.imageUrl" v-lazy:backgroundImage="$com.makeFileUrl(item.feed.imageUrl)" :style="{ backgroundSize: 'cover', backgroundPosition: 'center center' }"></i>
                     </section>
                     <section style="height: 100%" class="flex-1 flex flex-v flex-pack-start">
                       <section class="feeder-comment-3-title">{{ item.feed.title }}</section>
@@ -121,7 +128,8 @@
           <ul class="message-list">
             <li class="message-list-cell" v-for="(item, index) in messagelist.data" :key="index">
               <section class="message-list-cell-userinfo flex flex-align-center">
-                <img :src="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)" alt="图片" width="38" height="38">
+                <img v-lazy="$com.makeFileUrl(item.user.attributes.roster.avatar) || $com.makeFileUrl(item.user.avatar)" alt="图片" width="38"
+                  height="38">
                 <section class="userinfo flex flex-v">
                   <span class="userinfo-name">{{ item.user.attributes.roster.name || item.user.fullname }}</span>
                   <span class="userinfo-time">{{ $com.getCommonTime(item.long_create_time, 'yy-mm-dd hh:MM') }}</span>
@@ -129,11 +137,17 @@
               </section>
               <section class="message-list-cell-message flex flex-align-start">
                 <span>{{ item.content }}</span>
-                <span class="del-parent flex" @click="sure_del_message(item.commentid, index, -1, 'parent')"><span class="del"></span></span>
+                <span class="del-parent flex" @click="sure_del_message(item.commentid, index, -1, 'parent')">
+                  <span class="del"></span>
+                </span>
               </section>
               <section class="message-list-cell-reply" v-if="item.sonList.length > 0">
                 <section class="flex flex-align-start" v-for="(item1, index1) in item.sonList" :key="index1">
-                  <span>{{ item1.user.fullname }}：</span> <span>{{ item1.content }}</span> <span class="del-parent flex" @click="sure_del_message(item1.commentid, index,index1, 'child')"><span class="del"></span></span>
+                  <span>{{ item1.user.fullname }}：</span>
+                  <span>{{ item1.content }}</span>
+                  <span class="del-parent flex" @click="sure_del_message(item1.commentid, index,index1, 'child')">
+                    <span class="del"></span>
+                  </span>
                 </section>
               </section>
             </li>
@@ -141,6 +155,26 @@
         </section>
       </section>
     </section>
+    <!-- dialog -->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <section>
+        <p>选择以下原因后下架：</p>
+        <el-checkbox-group v-model="checkList" class="dropreason flex">
+          <el-checkbox label="垃圾营销"></el-checkbox>
+          <el-checkbox label="不实信息"></el-checkbox>
+          <el-checkbox label="有害信息"></el-checkbox>
+          <el-checkbox label="违法信息"></el-checkbox>
+          <el-checkbox label="淫秽色情"></el-checkbox>
+          <el-checkbox label="人身攻击"></el-checkbox>
+          <el-checkbox label="抄袭我的内容"></el-checkbox>
+          <el-checkbox label="违规有奖活动"></el-checkbox>
+        </el-checkbox-group>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateVerify">确 定</el-button>
+      </span>
+    </el-dialog>
   </section>
 </template>
 <script>
@@ -180,8 +214,8 @@ export default {
       showpara: {
         subjectid: null
       },
-      defaultErrorImg:
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
+      dialogVisible: false,
+      checkList: [],
       exist: true
       // 投稿类型
     };
@@ -195,7 +229,8 @@ export default {
       "feedShow",
       "feedComments",
       "deleteComment",
-      "createVideos"
+      "createVideos",
+      "setUpdateVerify"
     ]),
     // int_type
     // 0-图片,1-视频,2-长图文 （判断贴子类型）
@@ -238,6 +273,29 @@ export default {
             message: "已取消操作"
           });
         });
+    },
+    async dropoff() {
+      let self = this;
+      self.dialogVisible = true;
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    // 更新上墙 下架状态
+    async updateVerify() {
+      let self = this;
+      let res = await self.setUpdateVerify({
+        subjectid: self.$route.params.id,
+        flag: -1, // -1 下架 1 上墙
+        drop_reason: self.checkList // 举报信息
+      });
+      if (res) {
+        self.dialogVisible = false;
+      }
     }
   },
   mounted() {
@@ -253,26 +311,24 @@ export default {
           cover: self.content.videos[0].imageUrl
         });
       }
-      if (self.res.int_type === 2) {
-        let r = await self.compile();
-        if (r) {
-          let v = document.querySelectorAll("video");
-          if (v && v.length > 0) {
-            Array.prototype.forEach.call(v, (x, i) => {
-              self.createVideos({
-                vid: x.getAttribute("vid"),
-                cover: x.getAttribute("cover") || x.getAttribute("poster")
-              });
-            });
-          }
-        }
-      }
+      // if (self.res.int_type === 2) {
+      //   let v = document.querySelectorAll("video");
+      //   if (v && v.length > 0) {
+      //     Array.prototype.forEach.call(v, (x, i) => {
+      //       self.createVideos({
+      //         vid: x.getAttribute("vid"),
+      //         cover: x.getAttribute("cover") || x.getAttribute("poster")
+      //       });
+      //     });
+      //   }
+      // }
     }, 1000);
   }
 };
 </script>
 <style>
 /*播放器 样式调整*/
+
 p:empty {
   margin: 0;
   padding: 0;
@@ -294,6 +350,14 @@ p:empty {
   font-size: 16px;
   letter-spacing: 0.5px;
   line-height: 1.8;
+}
+
+.summary img,
+.summary video {
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
 }
 
 .prism-volume {
@@ -400,6 +464,10 @@ p:empty {
 .videos-feed {
   width: 100%;
 }
+.dropreason {
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
 .feed-details {
   background: #fff;
   padding-top: 30px;
@@ -419,6 +487,7 @@ p:empty {
   margin: 20px 0;
   font-weight: bold;
 }
+
 .feeder-title-2 {
   font-weight: 400;
 }
@@ -449,10 +518,11 @@ p:empty {
   border-radius: 100%;
   margin-right: 10px;
 }
-
-.feeder-info,
-.prism-player {
-  margin: 20px 0;
+.feed-1 img {
+  box-shadow: 1px 0px 3px #eee;
+}
+.feeder-info {
+  margin: 10px 0 20px;
 }
 
 .feed-messagebord {
@@ -596,32 +666,40 @@ p:empty {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
 .message-board {
   background: #fff;
 }
+
 .message-board-title {
   margin-bottom: 20px;
 }
+
 .message-list-cell {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #f4f4f4;
 }
+
 .message-list-cell-userinfo {
   margin-bottom: 10px;
 }
+
 .message-list-cell-userinfo img {
   border-radius: 100%;
   margin-right: 10px;
 }
+
 .message-list-cell-userinfo .userinfo-time {
   color: #808080;
   font-size: 12px;
 }
+
 .del-parent {
   margin-left: 20px;
   padding: 3px 10px 6px;
 }
+
 .del {
   width: 16px;
   height: 16px;
@@ -629,6 +707,7 @@ p:empty {
     no-repeat;
   background-size: cover;
 }
+
 .message-list-cell-reply {
   padding: 5px 10px;
   background: #f4f4f4;

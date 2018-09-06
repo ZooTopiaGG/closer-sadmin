@@ -49,7 +49,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("activity", ["waterList"]),
+    ...mapState("activity_taijibing", ["waterList"]),
     headers() {
       return {
         Authorization: `CloserSysAuth ${this.$store.state.token}`
@@ -116,7 +116,7 @@ export default {
     this.activityWaterList(this.tjbpara);
   },
   methods: {
-    ...mapActions("activity", ["activityWaterList"]),
+    ...mapActions("activity_taijibing", ["activityWaterList"]),
     handleCurrentChange(val) {
       this.pagenum = val;
       this.getList();

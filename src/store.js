@@ -9,6 +9,9 @@ import column from '@/views/column/module'
 import finance from '@/views/finance/module'
 import log from '@/views/log/module'
 import activity from '@/views/activity/module'
+import activity_taijibing from '@/views/activity/data/taijibing/module'
+import activity_tuzhu from '@/views/activity/data/tuzhu/module'
+import notice from '@/views/notice/module'
 
 Vue.use(Vuex)
 
@@ -28,6 +31,9 @@ export default new Vuex.Store({
     column,
     finance,
     log,
-    activity
+    activity,
+    activity_taijibing,
+    activity_tuzhu,
+    notice
   }
 })

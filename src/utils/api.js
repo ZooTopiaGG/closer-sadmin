@@ -1,6 +1,8 @@
 let api = {
-  // 测试环境
-  serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
+  // 测试环境api-dev.tiejin.cn
+  serverDevUrl: 'https://api-dev.tiejin.cn/command/',
+  // serverDevUrl: 'http://10.0.3.94:8080/command/',
+
   // 正式环境
   serverUrl: 'https://api.tiejin.cn/command/',
   // filepath: filePath || 'http://file-sandbox.tiejin.cn',
@@ -132,7 +134,15 @@ let api = {
     // 获取活动数据列表
     closer_activity_list: 'closer_activity.list',
     // 获取活动详情列表
-    activity_water_list: 'activity_water.list'
+    activity_water_list: 'activity_water.list',
+    tuzhu: {
+      // 上传题目
+      upload_questions: 'closer_sadmin_tuzhu.upload_questions',
+      // 获取题目列表
+      get_question_list: 'closer_sadmin_tuzhu.get_question_list',
+      // 土著活动统计
+      get_tuzhu_statistics: 'closer_sadmin_tuzhu.get_tuzhu_statistics'
+    }
   },
   promotion: {
     // 获取推广计划或渠道列表
@@ -163,6 +173,17 @@ let api = {
     activity_config_list: 'closer_promotion_activity_config.list',
     // 新建/修改 推广活动配置
     activity_config_add: 'closer_promotion_activity_config.add'
+  },
+  notify: {
+    update_rules: 'closer_admin_notify.update_rules',
+    get_notify_rules: 'closer_admin_notify.get_notify_rules',
+    add_user: 'closer_admin_notify.add_user',
+    update_user: 'closer_admin_notify.update_user',
+    delete_user: 'closer_admin_notify.delete_user',
+    all_user: 'closer_admin_notify.all_user',
+    user_byphone: 'closer_admin_notify.user_byphone',
+    user_bymail: 'closer_admin_notify.user_bymail',
+    judge_user: 'closer_admin_notify.judge_user',
   }
 };
 export default api

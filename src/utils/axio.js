@@ -6,11 +6,9 @@ const axio = axios.create({ 
 	timeout: 15000, // 请求的超时时间
 	withCredentials: true // 允许携带cookie
 })
-console.log('axio--', axio)
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
-		console.log(config.url)
 		let reqUrl = api.serverDevUrl + config.url
 		if (/sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverDevUrl + config.url;
@@ -18,7 +16,6 @@ axio.interceptors.request.use(
 			reqUrl = api.serverUrl + config.url;
 		}
 		config.url = reqUrl;
-		console.log('config.url===', config.url)
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1) {
 			config.headers.Authorization = "CloserSysAuth " + Store.state.authUser.token;
 		}

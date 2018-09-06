@@ -21,6 +21,7 @@
           <el-table-column fixed="right" label="操作" width="280">
             <template slot-scope="scope">
              <el-button type="text" size="medium" v-if="scope.row.activityId !=1" @click="look(scope.row)">查看</el-button>
+             <el-button type="text" size="medium" v-if="scope.row.activityId == 2" @click="goConfig(scope.row)">上传配置</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -61,8 +62,27 @@ export default {
     ...mapActions("activity", ["closerActivityList"]),
     handleCurrentChange() {},
     searchCityByKeywords() {},
-    look() {
-      this.$router.push({ path: "/activity/data/taijibing" });
+    look(row) {
+      switch (row.activityId) {
+        case 2:
+          this.$router.push({
+            path: `/activity/data/tuzhu?id=${row.activityId}`
+          });
+          break;
+        case 3:
+          this.$router.push({
+            path: `/activity/data/taijibing?id=${row.activityId}`
+          });
+          break;
+        default:
+          return;
+          break;
+      }
+    },
+    goConfig(row) {
+      this.$router.push({
+        path: `/activity/data/tuzhu/config?id=${row.activityId}`
+      });
     }
   }
 };

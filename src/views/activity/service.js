@@ -25,9 +25,3 @@ export async function updateActivityStatus(payload) {
 export async function closerActivityList() {
   return await Axios.get(`${api.activity.closer_activity_list}`)
 }
-/**
- * activity_water_list 太极兵活动数据
- */
-export async function activityWaterList(payload) {
-  return await Axios.post(`${api.activity.activity_water_list}`, payload)
-}

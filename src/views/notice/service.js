@@ -1,41 +1,48 @@
 /**
- * getUserList 获取权限列表
+ * getAllUser 获取用户列表
  */
-export async function getUserList(payload) {
-  return await Axios.post(`${api.admin.list}`, payload)
+export async function getAllUser() {
+  return await Axios.get(`${api.notify.all_user}`)
 }
-
 /**
- * deleteUser 删除用户
+ * get_notify_rules 获取预警配置
+ */
+export async function getNotifyRules(payload) {
+  return await Axios.post(`${api.notify.get_notify_rules}`, payload)
+}
+/**
+ * update_rules 修改预警配置
+ */
+export async function updateRules() {
+  return await Axios.get(`${api.notify.update_rules}`)
+}
+/**
+ * add_user
+ */
+export async function addUser(payload) {
+  return await Axios.post(`${api.notify.add_user}`, payload)
+}
+/**
+ * update_user
+ */
+export async function updateUser(payload) {
+  return await Axios.post(`${api.notify.update_user}`, payload)
+}
+/**
+ * delete_user 
  */
 export async function deleteUser(payload) {
-  return await Axios.post(`${api.admin.delete}`, payload)
+  return await Axios.post(`${api.notify.delete_user}`, payload)
 }
-
 /**
- * getPermissionList 获取权限列表
+ * user_byphone
  */
-export async function getPermissionList(payload) {
-  return await Axios.post(`${api.admin.menulist}`, payload)
+export async function userByPhone(payload) {
+  return await Axios.post(`${api.notify.user_byphone}`, payload)
 }
-
 /**
- * getRegionList 获取权限列表
+ * user_bymail t
  */
-export async function getRegionList(payload) {
-  return await Axios.post(`${api.region.regions}`, payload)
-}
-
-/**
- * modifyPermission 确认修改权限
- */
-export async function modifyPermission(payload) {
-  return await Axios.post(`${api.admin.update}`, payload)
-}
-
-/**
- * searchUser 查找用户
- */
-export async function searchUser(payload) {
-  return await Axios.post(`${api.admin.searchuser}`, payload)
+export async function userByMail(payload) {
+  return await Axios.post(`${api.notify.user_bymail}`, payload)
 }

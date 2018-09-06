@@ -49,11 +49,11 @@
               </section>
             </section>
             <!-- 权限信息 根据权限设置可用与不可用 查看只显示拥有的权限-->
-            <el-tabs v-model="activeName" class="tabs-manage" @tab-click="handleClick1">
+            <el-tabs v-model="activeName" class="tabs-manage">
               <el-tab-pane label="Boss" name="Boss" v-if="authUser && authUser.type === 1">
                 <section class="role-manage manage flex">
                   <span class="manage-label">角色管理权限：</span>
-                  <el-checkbox-group @change="handleSelect2" v-model="checkListPermission">
+                  <el-checkbox-group :max="1" v-model="checkListPermission">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.permission" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -61,7 +61,7 @@
                 </section>
                 <section class="city-manage manage flex">
                   <span class="manage-label">城市管理权限：</span>
-                  <el-checkbox-group v-model="checkListCity" @change="handleSelect">
+                  <el-checkbox-group v-model="checkListCity" :max="1">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.city" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -81,7 +81,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">财务管理：</span>
-                  <el-checkbox-group @change="handleSelect3" v-model="checkListFinance">
+                  <el-checkbox-group :max="1" v-model="checkListFinance">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.finance" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -89,7 +89,7 @@
                 </section>
                 <section class="logo-manage manage flex">
                   <span class="manage-label">操作日志：</span>
-                  <el-checkbox-group v-model="checkListLog" @change="handleSelect">
+                  <el-checkbox-group v-model="checkListLog" :max="1">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.log" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -97,8 +97,16 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">数据统计：</span>
-                  <el-checkbox-group @change="handleSelect4" v-model="checkListData">
+                  <el-checkbox-group :max="1" v-model="checkListData">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.data" :key="item.id">
+                      {{ item.name }}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </section>
+                <section class="role-manage manage flex">
+                  <span class="manage-label">产品管理员权限：</span>
+                  <el-checkbox-group :max="1" v-model="checkListNotice">
+                    <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
@@ -116,7 +124,7 @@
                       :value="item.region_id">
                     </el-option>
                   </el-select>
-                  <el-checkbox-group v-model="checkContent" @change="handleSelect" v-show="blurCheckRegion">
+                  <el-checkbox-group v-model="checkContent" :max="1" v-show="blurCheckRegion">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -125,7 +133,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">活动管理：</span>
-                  <el-checkbox-group @change="handleSelect5" v-model="checkListActivity">
+                  <el-checkbox-group :max="1" v-model="checkListActivity">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.activity" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -133,13 +141,20 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">活动数据：</span>
-                  <el-checkbox-group @change="handleSelect6" v-model="checkListActivityData">
+                  <el-checkbox-group v-model="checkListActivityData">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.activity_data" v-if="item.permissions === 'activity_data_view'" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
                 </section>
-                
+                <section class="role-manage manage flex">
+                  <span class="manage-label">通知管理：</span>
+                  <el-checkbox-group :max="1" v-model="checkListNotice">
+                    <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
+                      {{ item.name }}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </section>
               </el-tab-pane>
             </el-tabs>
           </el-form>
@@ -243,6 +258,7 @@ export default {
       checkListData: [],
       checkListActivity: [],
       checkListActivityData: [],
+      checkListNotice: [],
       contentChecked: false,
       // 表单禁用
       disabled: false
@@ -277,46 +293,8 @@ export default {
       this.getuserlist["phone"] = "";
       this.getUserList(this.getuserlist);
     },
-    // table操作
-    handleClick1(tab, event) {
-      // console.log(tab, event);
-    },
-    handleSelect2(val) {
-      this.checkListPermission = [];
-      if (val && val.length > 0) {
-        this.checkListPermission[0] = val[val.length - 1];
-      }
-      // console.log("this.checkListPermission===", this.checkListPermission);
-    },
-    handleSelect4(val) {
-      this.checkListData = [];
-      if (val && val.length > 0) {
-        this.checkListData[0] = val[val.length - 1];
-      }
-    },
-    handleSelect5(val) {
-      this.checkListActivity = [];
-      if (val && val.length > 0) {
-        this.checkListActivity[0] = val[val.length - 1];
-      }
-    },
-    handleSelect6(val) {
-      this.checkListActivityData = [];
-      if (val && val.length > 0) {
-        this.checkListActivityData[0] = val[val.length - 1];
-      }
-    },
-    handleSelect3(val) {
-      this.checkListFinance = [];
-      if (val && val.length > 0) {
-        this.checkListFinance[0] = val[val.length - 1];
-      }
-    },
     handleSelect1() {
       this.blurCheckRegion = this.checkListColumn2.length > 0 ? true : false;
-    },
-    handleSelect(item) {
-      // console.log(item);
     },
     // 点击删除操作
     permissionDelete(row) {
@@ -371,6 +349,7 @@ export default {
       self.checkListData = [];
       self.checkListActivity = [];
       self.checkListActivityData = [];
+      self.checkListNotice = [];
       self.checkListLog = [];
       self.checkListCity = [];
       self.checkContent = [];
@@ -393,11 +372,16 @@ export default {
             return x.id;
           });
         }
-        // 内容审核
-        if (row.permissions.content) {
-          self.checkContent = row.permissions.content.map(x => {
-            return x.id;
-          });
+        if (self.checkListColumn2.length > 0) {
+          // 内容审核
+          if (row.permissions.content) {
+            self.checkContent = row.permissions.content.map(x => {
+              return x.id;
+            });
+          }
+        } else {
+          // 没有城市权限， 是没有审核或者工作量查看权限
+          self.checkContent = [];
         }
         // 城市栏目
         if (row.columnCity) {
@@ -433,7 +417,12 @@ export default {
             return x.id;
           });
         }
-        // console.log('self.checkContent====', self.checkContent)
+        // 通知管理
+        if (row.permissions.notice) {
+          self.checkListNotice = row.permissions.notice.map(x => {
+            return x.id;
+          });
+        }
       }
       if (textType === "修改") {
         self.title = "修改账号";
@@ -457,9 +446,9 @@ export default {
         self.checkListData,
         self.checkListActivity,
         self.checkListActivityData,
+        self.checkListNotice,
         self.checkContent
       );
-      console.log("persarr-====", arr);
       if (!$async.isPhoneNum(self.u_phone)) {
         self.$message.error("手机号格式错误！");
         return;
@@ -469,7 +458,8 @@ export default {
         phone: self.u_phone,
         username: self.u_username,
         columnCity: self.checkListColumn,
-        permissions: arr
+        permissions: arr,
+        citys: self.checkListColumn2
       });
       if (res) {
         self.outerVisible = false;
@@ -512,7 +502,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.userList);
     this.activeName =
       this.authUser && this.authUser.type === 1 ? "Boss" : "其他";
   }

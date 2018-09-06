@@ -5,6 +5,7 @@ import axios from '@/utils/axio'
 import store from './store'
 import router from './router'
 import ElementUI from 'element-ui'
+import VueLazyload from 'vue-lazyload'
 import {
   Message,
   MessageBox,
@@ -25,6 +26,14 @@ import '@/utils/json2csv'
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(ElementUI)
 Vue.use(infiniteScroll)
+Vue.use(VueLazyload, {
+  lazyComponent: true,
+  preLoad: 1.3,
+  error: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
+  loading: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
+  attempt: 3,
+  // listenEvents: ['scroll']
+})
 window.$message = Message
 window.$msgbox = MessageBox
 window.$confirm = MessageBox.confirm

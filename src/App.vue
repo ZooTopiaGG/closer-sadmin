@@ -7,7 +7,12 @@
     }">
       <sadmin-nav v-if="!isLoginPage"></sadmin-nav>
       <el-scrollbar class="page_container">
-        <router-view/>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" />
+          <!-- 这里是会被缓存的视图组件，比如 Home！ -->
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" />
+        <!-- 这里是不被缓存的视图组件，比如 Edit！ -->
       </el-scrollbar>
     </section>
   </section>

@@ -95,7 +95,7 @@ export default {
       if (data.code === 0) {
         await data.result.data.map(x => {
           x.create_time = $async.createTime(
-            x.create_time,
+            x.long_create_time,
             "yy-mm-dd hh:MM"
           );
           return x;
@@ -273,7 +273,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.create_time = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
+          x.create_time = $async.createTime(x.long_create_time, "yy-mm-dd hh:MM");
           return x;
         });
         commit('communityRecordsList', data.result)
