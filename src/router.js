@@ -170,14 +170,6 @@ const router = new Router({
       keepAlive: true
     }
   }, {
-    path: '/finance/withdrawsetting',
-    name: 'withdraw_setting',
-    component: () =>
-      import ('./views/finance/withdrawsetting/index.vue'),
-    meta: {
-      keepAlive: true
-    }
-  }, {
     path: '/closer/classify',
     name: 'closer_classify',
     component: () =>
@@ -266,6 +258,16 @@ const router = new Router({
       keepAlive: true
     }
   }, {
+    path: '/config',
+    name: 'config',
+    component: () =>
+      import ('./views/config/index.vue')
+  }, {
+    path: '/config/details',
+    name: 'config_details',
+    component: () =>
+      import ('./views/config/details.vue'),
+  }, {
     path: '/general',
     name: 'general',
     component: () =>
@@ -344,8 +346,11 @@ router.beforeEach((to, from, next) => {
     case "records_apply":
       store.state.activeIndex = '财务记录';
       break;
-    case "withdraw_setting":
-      store.state.activeIndex = '提现设置';
+    case "config":
+      store.state.activeIndex = '配置管理';
+      break;
+    case "config_details":
+      store.state.activeIndex = '配置管理';
       break;
     case "closer_classify":
       store.state.activeIndex = '贴近号分类';

@@ -208,3 +208,7 @@ body .el-dropdown-menu {
   color: #303133 !important;
   background: #FDDB00 !important;
 }
+
+.labelname {
+  min-width: 60px;
+}

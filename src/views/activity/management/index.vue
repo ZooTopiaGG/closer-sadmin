@@ -1,7 +1,21 @@
 <template>
   <section id="permission" class="flex flex-v">
     <section class="permission_title">活动管理</section>
-    <section class="permission_table">
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex flex-pack-justify">
+        <section class="flex flex-align-center flex-1">
+          <span class="labelname">
+            城市名称
+          </span>
+          <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="请选择城市">
+            <el-option v-for="item in searchregion" :key="item.region_id" :label="item.region_name" :value="item.region_id">
+            </el-option>
+          </el-select>
+        </section>
+        <section class="flex flex-align-center" v-if="authUser.permissions && authUser.permissions.activity && authUser.permissions.activity[0].permissions === 'activity_update'">
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addActivity">添加活动</el-button>
+        </section>
+      </section>
       <section class="permission_table_content">
         <el-table :data="activityLists.data" style="width: 100%">
           <el-table-column prop="activityName" label="活动名称">
@@ -64,6 +78,14 @@
                   <el-input type="url" v-model="displaypage" placeholder="输入链接"></el-input>
                 </section>
               </el-form-item>
+              <el-form-item label="城市名称：">
+                <section class="flex flex-align-center">
+                  <el-select class='list-filter-select' @change="handleSelectRegion2" v-model="fliterregion2" placeholder="请选择城市">
+                    <el-option v-for="item in searchregion" :key="item.region_id" :label="item.region_name" :value="item.region_id">
+                    </el-option>
+                  </el-select>
+                </section>
+              </el-form-item>
               <el-form-item v-loading.body="loadingAvatarUpload" label="展示图：">
                 <section class="activity-cell flex flex-align-start">
                   <el-upload class="avatar-uploader" 
@@ -103,10 +125,11 @@
   </section>
 </template>
 <script>
+import options2 from "@/utils/city";
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("activity", ["activityLists"]),
+    ...mapState("activity", ["activityLists", "searchregion"]),
     headers() {
       return {
         Authorization: `CloserSysAuth ${this.$store.state.token}`
@@ -118,6 +141,10 @@ export default {
   },
   data() {
     return {
+      activitypara: {
+        pagenum: 1,
+        pagesize: 10
+      },
       isdisabled: false,
       verDisabled: false,
       rules: {},
@@ -141,24 +168,56 @@ export default {
       buildVer: "",
       displaystatus: "",
       displaypage: "",
-      displaysize: "246 * 246"
+      displaysize: "246 * 246",
+      fliterregion: "",
+      fliterregion2: "小宇宙",
+      obj: {}
     };
   },
   created() {
-    this.getAllActivity({
-      pagenum: 1,
-      pagesize: 10
+    this.getAllActivity(this.activitypara);
+    this.getCityList({
+      pagesize: 100
     });
   },
   methods: {
     ...mapActions("activity", [
       "getAllActivity",
       "updateActivity",
-      "updateActivityStatus"
+      "newActivity",
+      "updateActivityStatus",
+      "getCityList"
     ]),
     handleError(err) {
       this.$message.error("Network Error!");
       this.loadingAvatarUpload = false;
+    },
+    // 区域查找
+    handleSelectRegion(item) {
+      this.pagenum = 1;
+      let obj = {};
+      this.searchregion.map(x => {
+        if (x.region_id === item) {
+          obj = {
+            regionName: x.region_name,
+            regionId: x.region_id
+          };
+          return obj;
+        }
+      });
+      this.getAllActivity(Object.assign(this.activitypara, obj));
+    },
+    handleSelectRegion2(item) {
+      this.searchregion.map(x => {
+        if (x.region_id === item) {
+          this.obj = {
+            regionName: x.region_name,
+            regionId: x.region_id
+          };
+          return this.obj;
+        }
+      });
+      console.log(this.obj);
     },
     // 上传 图片
     handleAvatarSuccess(res, file) {
@@ -193,7 +252,9 @@ export default {
     },
     // 保存修改
     async save() {
-      let self = this;
+      let self = this,
+        para,
+        res;
       if (!self.displayname) {
         self.$message.warning("活动名称不能为空！");
         return;
@@ -214,15 +275,23 @@ export default {
         self.$message.warning("版本号不能为空！");
         return;
       }
-      let res = await self.updateActivity({
+      if (!self.fliterregion2) {
+        self.$message.warning("活动城市不能为空！");
+        return;
+      }
+      para = {
         activityId: self.row.activityId,
         name: self.displayname,
         buildVer: self.buildVer,
         size: self.displaysize,
         logo: self.imageUrl,
         url: self.displaypage
-      });
-      // console.log("data====", data);
+      };
+      if (self.operationtype === "add") {
+        res = await self.newActivity(Object.assign(para, self.obj));
+      } else {
+        res = await self.updateActivity(Object.assign(para, self.obj));
+      }
       if (res) {
         self.outerVisible = false;
         await self.activityList();
@@ -230,6 +299,18 @@ export default {
     },
     look() {
       this.outerVisible1 = true;
+    },
+    addActivity() {
+      // 上传活动列表
+      let self = this;
+      self.displayname = "";
+      self.buildVer = "";
+      self.displaystatus = "活动添加成功后，请在活动面板启用活动";
+      self.displaypage = "";
+      self.imageUrl = "";
+      self.fliterregion2 = "小宇宙";
+      self.operationtype = "add";
+      self.outerVisible = true;
     },
     edit(row) {
       let self = this;
@@ -240,6 +321,8 @@ export default {
       self.displaystatus = row.status;
       self.displaypage = row.url;
       self.imageUrl = row.logo;
+      self.fliterregion2 = row.regionName;
+      self.operationtype = "update";
       self.verDisabled = row.status === "已停用" ? true : false;
     },
     // 活动列表
@@ -263,7 +346,6 @@ export default {
     },
     async start(row) {
       let self = this;
-      console.log(row);
       let confirm =
         row.status === "已启用"
           ? `此操作将关闭“${row.activityName}”, 是否继续?`
@@ -297,9 +379,7 @@ export default {
   width: 164px;
   height: 164px;
 }
-.permission_table .permission_table_content {
-  margin-top: 0;
-}
+
 .dialog-label {
   max-width: 300px;
 }
@@ -311,5 +391,8 @@ export default {
 }
 .table_logo {
   max-height: 60px;
+}
+.labelname {
+  width: 80px;
 }
 </style>

@@ -4,6 +4,19 @@
 export async function getAllActivity(payload) {
   return await Axios.post(`${api.activity.getAllActivity}`, payload)
 }
+/**
+ * citylist 获取城市列表
+ */
+export async function getCityList(payload) {
+  return await Axios.post(`${api.region.regions}`, payload)
+}
+
+/**
+ * newActivity 新建活动
+ */
+export async function newActivity(payload) {
+  return await Axios.post(`${api.activity.newActivity}`, payload)
+}
 
 /**
  * updateActivity 编辑活动

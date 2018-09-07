@@ -3,6 +3,8 @@ import {
   updateActivity,
   updateActivityStatus,
   closerActivityList,
+  getCityList,
+  newActivity
 } from './service'
 
 export default {
@@ -15,7 +17,8 @@ export default {
     closerActivityLists: {
       data: [],
       count: 0
-    }
+    },
+    searchregion: []
   },
   mutations: {
     activityLists(state, para) {
@@ -26,9 +29,26 @@ export default {
     },
     waterList(state, para) {
       state.waterList = para
+    },
+    searchregion(state, para) {
+      state.searchregion = para
     }
   },
   actions: {
+    async getCityList({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await getCityList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        commit('searchregion', data.result.data)
+      } else {
+        $message.error(data.result)
+      }
+    },
     async getAllActivity({
       commit,
       state
@@ -44,6 +64,21 @@ export default {
           return x;
         });
         commit('activityLists', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async newActivity({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await newActivity(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success("操作成功！");
+        return true
       } else {
         $message.error(data.result)
       }

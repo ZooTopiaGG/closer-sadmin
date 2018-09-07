@@ -111,6 +111,14 @@
                     </el-checkbox>
                   </el-checkbox-group>
                 </section>
+                <section class="role-manage manage flex">
+                  <span class="manage-label">配置管理权限：</span>
+                  <el-checkbox-group :max="1" v-model="checkListConfig">
+                    <el-checkbox :label="item.id" v-for="item in permissionlist.config" :key="item.id">
+                      {{ item.name }}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </section>
               </el-tab-pane>
               <el-tab-pane label="其他" name="其他">
                 <section class="content-manage manage flex flex-align-center">
@@ -259,6 +267,7 @@ export default {
       checkListActivity: [],
       checkListActivityData: [],
       checkListNotice: [],
+      checkListConfig: [],
       contentChecked: false,
       // 表单禁用
       disabled: false
@@ -350,6 +359,7 @@ export default {
       self.checkListActivity = [];
       self.checkListActivityData = [];
       self.checkListNotice = [];
+      self.checkListConfig = [];
       self.checkListLog = [];
       self.checkListCity = [];
       self.checkContent = [];
@@ -423,6 +433,12 @@ export default {
             return x.id;
           });
         }
+        // 配置管理
+        if (row.permissions.config) {
+          self.checkListConfig = row.permissions.config.map(x => {
+            return x.id;
+          });
+        }
       }
       if (textType === "修改") {
         self.title = "修改账号";
@@ -447,6 +463,7 @@ export default {
         self.checkListActivity,
         self.checkListActivityData,
         self.checkListNotice,
+        self.checkListConfig,
         self.checkContent
       );
       if (!$async.isPhoneNum(self.u_phone)) {

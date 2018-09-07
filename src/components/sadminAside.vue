@@ -42,7 +42,6 @@
             <el-menu-item index="财务审核">财务审核</el-menu-item>
             <el-menu-item index="提现审核">提现审核</el-menu-item>
             <el-menu-item index="财务记录">财务记录</el-menu-item>
-            <el-menu-item index="提现设置">提现设置</el-menu-item>
           </el-submenu>
           <el-menu-item index="活动管理">
             <i class="el-icon-setting"></i>
@@ -79,6 +78,10 @@
             </template>
             <el-menu-item index="群消息智能提示设置">群消息智能提示设置</el-menu-item>
           </el-submenu>
+          <el-menu-item index="配置管理">
+            <i class="el-icon-setting"></i>
+            <span slot="title">配置管理</span>
+          </el-menu-item>
           <el-menu-item index="/log">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>
@@ -114,12 +117,7 @@
             <el-menu-item :index="item.name" v-for="(item, index) in authUser.permissions.finance"
                 :key="index">{{ item.name }}</el-menu-item>
               <el-menu-item index="财务记录">财务记录</el-menu-item>
-              <el-menu-item index="提现设置">提现设置</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/log" v-if="authUser.permissions && authUser.permissions.log">
-            <i class="el-icon-setting"></i>
-            <span slot="title">操作日志</span>
-          </el-menu-item>
           <el-menu-item index="活动管理" v-if="authUser.permissions && authUser.permissions.activity">
             <i class="el-icon-setting"></i>
             <span slot="title">活动管理</span>
@@ -139,6 +137,22 @@
             </template>
             <el-menu-item index="群消息智能提示设置">群消息智能提示设置</el-menu-item>
           </el-submenu>
+          <!-- <el-submenu index="7">
+            <template slot="title">
+              <i class="icon iconfont icon-computer"></i>
+              <span slot="title">贴近号管理</span>
+            </template>
+            <el-menu-item index="贴近号分类">贴近号分类</el-menu-item>
+            <el-menu-item index="菜单管理">菜单管理</el-menu-item>
+          </el-submenu> -->
+          <el-menu-item index="配置管理" v-if="authUser.permissions && authUser.permissions.config">
+            <i class="el-icon-setting"></i>
+            <span slot="title">配置管理</span>
+          </el-menu-item>
+          <el-menu-item index="/log" v-if="authUser.permissions && authUser.permissions.log">
+            <i class="el-icon-setting"></i>
+            <span slot="title">操作日志</span>
+          </el-menu-item>
           <!-- <el-menu-item index="/setting" v-if="authUser.permissions && authUser.permissions.setting">
             <i class="el-icon-setting"></i>
             <span slot="title">线上活动落地页</span>
@@ -222,11 +236,6 @@ export default {
             path: "/finance/records/column"
           });
           break;
-        case "提现设置":
-          this.$router.push({
-            path: "/finance/withdrawsetting"
-          });
-          break;
         case "贴近号分类":
           this.$router.push({
             path: "/closer/classify"
@@ -270,6 +279,11 @@ export default {
         case "群消息智能提示设置":
           this.$router.push({
             path: "/product/group_message_remind"
+          });
+          break;
+        case "配置管理":
+          this.$router.push({
+            path: "/config"
           });
           break;
         default:

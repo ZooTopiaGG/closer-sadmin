@@ -1,6 +1,7 @@
 let api = {
   // 测试环境api-dev.tiejin.cn
   serverDevUrl: 'https://api-dev.tiejin.cn/command/',
+  // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
   // serverDevUrl: 'http://10.0.3.94:8080/command/',
 
   // 正式环境
@@ -143,6 +144,10 @@ let api = {
       // 土著活动统计
       get_tuzhu_statistics: 'closer_sadmin_tuzhu.get_tuzhu_statistics'
     }
+  },
+  config: {
+    config_list: 'closer_super_admin_config.get_system_configs',
+    reset_config: 'closer_super_admin_config.reset_config'
   },
   promotion: {
     // 获取推广计划或渠道列表

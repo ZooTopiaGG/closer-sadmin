@@ -12,6 +12,7 @@ import activity from '@/views/activity/module'
 import activity_taijibing from '@/views/activity/data/taijibing/module'
 import activity_tuzhu from '@/views/activity/data/tuzhu/module'
 import notice from '@/views/notice/module'
+import config from '@/views/config/module'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     activity,
     activity_taijibing,
     activity_tuzhu,
-    notice
+    notice,
+    config
   }
 })
