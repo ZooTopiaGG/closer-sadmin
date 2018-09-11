@@ -16,11 +16,15 @@ export default {
     closerList: {
       data: [],
       count: 0
-    }
+    },
+    zeroList: []
   },
   mutations: {
     closerList(state, para) {
       state.closerList = para
+    },
+    zeroList(state, para) {
+      state.zeroList = para
     }
   },
   actions: {
@@ -42,8 +46,7 @@ export default {
           }
           return x;
         });
-        console.log(data.result)
-        console.log('na====', na)
+        commit('zeroList', na)
         commit('closerList', data.result)
       } else {
         $message.error(data.result)
@@ -183,11 +186,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        await data.result.data.map(x => {
-          x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
-          return x;
-        });
-        commit('logList', data.result)
+        $message.success('发布成功！')
       } else {
         $message.error(data.result)
       }
