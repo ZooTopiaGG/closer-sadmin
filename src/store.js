@@ -13,6 +13,7 @@ import activity_taijibing from '@/views/activity/data/taijibing/module'
 import activity_tuzhu from '@/views/activity/data/tuzhu/module'
 import notice from '@/views/notice/module'
 import config from '@/views/config/module'
+import closer from '@/views/closer/module'
 
 Vue.use(Vuex)
 
@@ -36,6 +37,7 @@ export default new Vuex.Store({
     activity_taijibing,
     activity_tuzhu,
     notice,
-    config
+    config,
+    closer
   }
 })

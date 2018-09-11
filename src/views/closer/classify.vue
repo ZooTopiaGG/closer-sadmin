@@ -7,45 +7,56 @@
           <span class="labelname">
             分类名称
           </span>
-          <el-input v-model="user_phone" placeholder="请输入分类名称" @keyup.enter.native="searchLog">
-            <el-button slot="append" @click="searchLog" icon="el-icon-search"></el-button>
+          <el-input v-model="closer_name" placeholder="请输入分类名称" @keyup.enter.native="searchCloser">
+            <el-button slot="append" @click="searchCloser" icon="el-icon-search"></el-button>
           </el-input>
         </section>
         <section class="flex flex-align-center">
-          <el-button type="primary" icon="el-icon-circle-plus-outline">新增分类</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addCloser">新增分类</el-button>
         </section>
       </section>
       <section class="permission_table_content">
-        <el-table :data="logList.data" style="width: 100%">
-          <el-table-column fixed prop="username" label="序号">
+        <el-table :data="closerList.data" style="width: 100%">
+          <el-table-column type="index" label="序号">
           </el-table-column>
-          <el-table-column prop="phone" label="分类名称">
+          <el-table-column prop="class_name" label="分类名称">
           </el-table-column>
-          <el-table-column prop="createTime" label="栏目数量">
+          <el-table-column prop="community_count" label="栏目数量">
           </el-table-column>
-          <el-table-column prop="description" label="更新时间">
+          <el-table-column prop="updateTime" label="更新时间">
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
-              <el-button type="text" size="medium">编辑</el-button>
-              <el-button type="text" size="medium">删除</el-button>
+              <el-button type="text" size="medium" @click="updateCloser(scope.row)">编辑</el-button>
+              <el-button type="text" size="medium" @click="delCloser(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </section>
     </section>
-    <section class="block cloumn-block" v-if="logList.count > 0">
+    <!-- <section class="block cloumn-block" v-if="closerList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="logList.count">
+        :total="closerList.count">
       </el-pagination>
-    </section>
+    </section> -->
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="分类名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off" style="width: 200px"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("log", ["logList"])
+    ...mapState("closer", ["closerList"])
   },
   data() {
     return {
@@ -56,73 +67,102 @@ export default {
         startTime: null,
         endTime: null
       },
-      user_phone: "",
+      closer_name: "",
       // 分页
       pagenum: 1,
       pagesize: 10,
-      // 日期选择
-      pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+      dialogFormVisible: false,
+      formLabelWidth: "120px",
+      form: {
+        name: ""
       },
-      // 绑定选择到的日期 数组
-      dataValue: ""
+      title: "新增分类",
+      optype: 0,
+      updateRow: {}
     };
   },
   created() {
-    this.getLog(this.logpara);
+    this.selectAll();
   },
   methods: {
-    ...mapActions("log", ["getLog"]),
-    // 分页
-    handleCurrentChange(val) {
-      this.pagenum = val;
-      this.getLogList();
+    ...mapActions("closer", [
+      "selectAll",
+      "insertClass",
+      "updateClass",
+      "deleteClass",
+      "selectClass"
+    ]),
+    searchCloser() {
+      if (this.closer_name) {
+        this.selectClass(this.closer_name);
+      } else {
+        return;
+      }
     },
-    handleSelect() {
-      this.getLogList();
+    addCloser() {
+      this.title = "新增分类";
+      this.optype = 0;
+      this.form["name"] = "";
+      this.dialogFormVisible = true;
     },
-    searchLog() {
-      this.pagenum = 1;
-      this.getLogList();
+    updateCloser(row) {
+      this.title = "编辑分类";
+      this.optype = 1;
+      this.updateRow = row;
+      this.form["name"] = row.class_name;
+      this.dialogFormVisible = true;
     },
-    async getLogList() {
+    async save() {
+      let self = this,
+        res;
+      if (!self.form.name) {
+        self.$message.warnning("分类名称不能为空！");
+        return;
+      }
+      if (self.optype === 0) {
+        // 新增
+        res = await self.insertClass({
+          class_name: self.form["name"]
+        });
+      } else {
+        // 修改
+        res = await self.updateClass({
+          class_name: self.form["name"],
+          class_id: self.updateRow.id
+        });
+      }
+      if (res) {
+        await self.selectAll();
+        self.dialogFormVisible = false;
+      }
+    },
+    async delCloser(row) {
       let self = this;
-      self.logpara["page"] = self.pagenum;
-      self.logpara["phone"] = self.user_phone || "";
-      self.logpara["startTime"] = self.dataValue[0] || null;
-      self.logpara["endTime"] = self.dataValue[1] || null;
-      await self.getLog(self.logpara);
+      if (row.community_count > 0) {
+        self.$message.warnning("该分类下已经有栏目了，不能删除！");
+        return;
+      }
+      self
+        .$confirm(`此操作将删除${row.class_name}分类，是否继续？`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          await self.del(row);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作"
+          });
+        });
+    },
+    async del(row) {
+      await this.deleteClass({
+        class_id: row.id
+      });
+      await this.selectAll();
     }
   },
   mounted() {}

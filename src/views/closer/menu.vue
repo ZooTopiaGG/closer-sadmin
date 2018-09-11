@@ -4,48 +4,74 @@
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
-          <span class="labelname">
-            分类名称
-          </span>
-          <el-input v-model="user_phone" placeholder="请输入分类名称" @keyup.enter.native="searchLog">
-            <el-button slot="append" @click="searchLog" icon="el-icon-search"></el-button>
-          </el-input>
+          <grid
+            style="height: 30px;"
+            :draggable="true"
+            :sortable="true"
+            :items="classifies"
+            @sort="sort">
+            <template slot="cell" scope="props">
+              <!-- <div>{{props.item}}</div> -->
+              <el-tag type="success" style="width: 70px;padding: 0;box-sizing: initial;text-align:center;" closable @close="handleClose(props.item)">{{props.item}}</el-tag>
+            </template>
+          </grid>
         </section>
         <section class="flex flex-align-center">
-          <el-button type="primary" icon="el-icon-circle-plus-outline">新增分类</el-button>
+          <el-button type="primary" @click="addCloser">发 布</el-button>
         </section>
       </section>
       <section class="permission_table_content">
-        <el-table :data="logList.data" style="width: 100%">
-          <el-table-column fixed prop="username" label="序号">
-          </el-table-column>
-          <el-table-column prop="phone" label="分类名称">
-          </el-table-column>
-          <el-table-column prop="createTime" label="栏目数量">
-          </el-table-column>
-          <el-table-column prop="description" label="更新时间">
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" size="medium">编辑</el-button>
-              <el-button type="text" size="medium">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <!-- <section class="flex flex-align-center" style="margin-bottom: 20px;">
+          <span class="labelname">
+            分类名称
+          </span>
+          <el-input v-model="closer_name" placeholder="请输入分类名称" @keyup.enter.native="searchCloser" style="width: 200px;">
+            <el-button slot="append" @click="searchCloser" icon="el-icon-search"></el-button>
+          </el-input>
+        </section> -->
+        <el-checkbox-group 
+          @change="handleChange"
+          v-model="classifies">
+          <el-checkbox  style="width: 33.33%;margin: 0 0px 10px 0" v-for="cl in closerList.data" :label="cl.class_name" :key="cl.id">{{cl.class_name}} <span style="margin-left: 40px">{{ cl.community_count }}个栏目</span></el-checkbox>
+        </el-checkbox-group>
+        <section class="flex flex-align-center">
+          <div class="flex-1"></div>
+          <el-button type="primary" @click="addCloser">确 定</el-button>
+        </section>
       </section>
     </section>
-    <section class="block cloumn-block" v-if="logList.count > 0">
+    <!-- <section class="block cloumn-block" v-if="closerList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="logList.count">
+        :total="closerList.count">
       </el-pagination>
-    </section>
+    </section> -->
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="分类名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off" style="width: 200px"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("log", ["logList"])
+    ...mapState("closer", ["closerList"]),
+    statusZero() {
+      let arr = this.closerList.data.map(x => {
+        if (x.status === 0) {
+          return x;
+        }
+      });
+      console.log("arr===", arr);
+      return arr;
+    }
   },
   data() {
     return {
@@ -56,78 +82,125 @@ export default {
         startTime: null,
         endTime: null
       },
-      user_phone: "",
+      closer_name: "",
+      classifies: [],
+      items: [],
       // 分页
       pagenum: 1,
       pagesize: 10,
-      // 日期选择
-      pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+      dialogFormVisible: false,
+      formLabelWidth: "120px",
+      form: {
+        name: ""
       },
-      // 绑定选择到的日期 数组
-      dataValue: ""
+      title: "新增分类",
+      optype: 0,
+      updateRow: {}
     };
   },
   created() {
-    this.getLog(this.logpara);
+    this.selectAll();
   },
   methods: {
-    ...mapActions("log", ["getLog"]),
-    // 分页
-    handleCurrentChange(val) {
-      this.pagenum = val;
-      this.getLogList();
+    ...mapActions("closer", [
+      "selectAll",
+      "insertClass",
+      "updateClass",
+      "deleteClass",
+      "selectClass"
+    ]),
+    handleChange() {
+      console.log(this.classifies);
     },
-    handleSelect() {
-      this.getLogList();
+    handleClose(item) {
+      console.log(item);
     },
-    searchLog() {
-      this.pagenum = 1;
-      this.getLogList();
+    sort(event) {
+      console.log("sort", event);
     },
-    async getLogList() {
+    searchCloser() {
+      if (this.closer_name) {
+        this.selectClass(this.closer_name);
+      } else {
+        return;
+      }
+    },
+    addCloser() {
+      this.title = "新增分类";
+      this.optype = 0;
+      this.form["name"] = "";
+      this.dialogFormVisible = true;
+    },
+    updateCloser(row) {
+      this.title = "编辑分类";
+      this.optype = 1;
+      this.updateRow = row;
+      this.form["name"] = row.class_name;
+      this.dialogFormVisible = true;
+    },
+    async save() {
+      let self = this,
+        res;
+      if (!self.form.name) {
+        self.$message.warnning("分类名称不能为空！");
+        return;
+      }
+      if (self.optype === 0) {
+        // 新增
+        res = await self.insertClass({
+          class_name: self.form["name"]
+        });
+      } else {
+        // 修改
+        res = await self.updateClass({
+          class_name: self.form["name"],
+          class_id: self.updateRow.id
+        });
+      }
+      if (res) {
+        await self.selectAll();
+        self.dialogFormVisible = false;
+      }
+    },
+    async delCloser(row) {
       let self = this;
-      self.logpara["page"] = self.pagenum;
-      self.logpara["phone"] = self.user_phone || "";
-      self.logpara["startTime"] = self.dataValue[0] || null;
-      self.logpara["endTime"] = self.dataValue[1] || null;
-      await self.getLog(self.logpara);
+      self
+        .$confirm(`此操作将删除${row.class_name}分类，是否继续？`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+        .then(async () => {
+          await self.del(row);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作"
+          });
+        });
+    },
+    async del(row) {
+      await this.deleteClass({
+        class_id: row.id
+      });
+      await this.selectAll();
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.statusZero);
+  }
 };
 </script>
+<style>
+.v-grid-item-wrapper.v-grid-item-animate,
+.v-grid-item-wrapper.v-grid-item-animate {
+  width: auto !important;
+  height: auto !important;
+  margin-right: 20px;
+}
+</style>
+
 <style scoped="scoped">
 .labelname {
   margin-right: 10px;

@@ -13,11 +13,11 @@
       <el-scrollbar class='page_container'>
         <el-menu v-if="authUser && authUser.type === 1" :default-active="activeIndex" class="el-menu-vertical" background-color="#464646"
           text-color="#fff" active-text-color="#FDDB00" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
-          <el-menu-item index="/permission">
+          <el-menu-item index="权限设置">
             <i class="el-icon-setting"></i>
             <span slot="title">权限设置</span>
           </el-menu-item>
-          <el-menu-item index="/city">
+          <el-menu-item index="城市管理">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">城市管理</span>
           </el-menu-item>
@@ -26,10 +26,11 @@
               <i class="el-icon-document"></i>
               <span slot="title">内容管理</span>
             </template>
-            <el-menu-item index="/content">审核</el-menu-item>
-            <el-menu-item index="/content/workload">工作量查看</el-menu-item>
+            <el-menu-item index="审核">审核</el-menu-item>
+            <el-menu-item index="封面文章">封面文章</el-menu-item>
+            <el-menu-item index="工作量查看">工作量查看</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/column">
+          <el-menu-item index="栏目管理">
             <i class="el-icon-menu"></i>
             <span slot="title">城市栏目管理</span>
           </el-menu-item>
@@ -55,11 +56,11 @@
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
           </el-menu-item>
-          <!-- <el-menu-item index="/setting">
+          <!-- <el-menu-item index="活动落地页">
             <i class="el-icon-setting"></i>
             <span slot="title">线上活动落地页</span>
           </el-menu-item> -->
-          <!-- <el-menu-item index="/statistic">
+          <!-- <el-menu-item index="数据统计">
             <i class="el-icon-setting"></i>
             <span slot="title">数据统计</span>
           </el-menu-item> -->
@@ -82,18 +83,18 @@
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
           </el-menu-item>
-          <el-menu-item index="/log">
+          <el-menu-item index="操作日志">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>
           </el-menu-item>
         </el-menu>
         <el-menu v-else-if="authUser" :default-active="$route.path" class="el-menu-vertical" background-color="#464646" text-color="#fff"
           active-text-color="#FDDB00" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
-          <el-menu-item index="/permission" v-if="authUser.permissions && authUser.permissions.permission">
+          <el-menu-item index="权限设置" v-if="authUser.permissions && authUser.permissions.permission">
             <i class="el-icon-setting"></i>
             <span slot="title">权限设置</span>
           </el-menu-item>
-          <el-menu-item index="/city" v-if="authUser.permissions && authUser.permissions.city">
+          <el-menu-item index="城市管理" v-if="authUser.permissions && authUser.permissions.city">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">城市管理</span>
           </el-menu-item>
@@ -102,10 +103,10 @@
               <i class="el-icon-document"></i>
               <span slot="title">内容管理</span>
             </template>
-            <el-menu-item :index="item.name ==='审核' ? '/content' : '/content/workload'" v-for="(item, index) in authUser.permissions.content"
+            <el-menu-item :index="item.name" v-for="(item, index) in authUser.permissions.content"
                 :key="index">{{ item.name }}</el-menu-item>
           </el-submenu>
-          <el-menu-item index="/column" v-if="authUser.columnCity && JSON.parse(authUser.columnCity).length > 0">
+          <el-menu-item index="栏目管理" v-if="authUser.columnCity && JSON.parse(authUser.columnCity).length > 0">
             <i class="el-icon-menu"></i>
             <span slot="title">城市栏目管理</span>
           </el-menu-item>
@@ -149,15 +150,15 @@
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
           </el-menu-item>
-          <el-menu-item index="/log" v-if="authUser.permissions && authUser.permissions.log">
+          <el-menu-item index="操作日志" v-if="authUser.permissions && authUser.permissions.log">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>
           </el-menu-item>
-          <!-- <el-menu-item index="/setting" v-if="authUser.permissions && authUser.permissions.setting">
+          <!-- <el-menu-item index="活动落地页" v-if="authUser.permissions && authUser.permissions.setting">
             <i class="el-icon-setting"></i>
             <span slot="title">线上活动落地页</span>
           </el-menu-item>
-          <el-menu-item index="/statistic" v-if="authUser.permissions && authUser.permissions.data">
+          <el-menu-item index="数据统计" v-if="authUser.permissions && authUser.permissions.data">
             <i class="el-icon-setting"></i>
             <span slot="title">数据统计</span>
           </el-menu-item> -->
@@ -186,36 +187,41 @@ export default {
     handleSelect(key, keyPath) {
       console.log("key==", key);
       switch (key) {
-        case "/permission":
+        case "权限设置":
           this.$router.push({
             path: "/permission"
           });
           break;
-        case "/city":
+        case "城市管理":
           this.$router.push({
             path: "/city"
           });
           break;
-        case "/content":
+        case "审核":
           this.$router.push({
             path: "/content"
           });
           break;
-        case "/content/workload":
+        case "封面文章":
+          this.$router.push({
+            path: "/content/cover"
+          });
+          break;
+        case "工作量查看":
           this.$router.push({
             path: "/content/workload"
           });
           break;
-        case "/column":
+        case "栏目管理":
           this.$router.push({
             path: "/column"
           });
           break;
-        case "/finance":
-          this.$router.push({
-            path: "/finance"
-          });
-          break;
+        // case "/finance":
+        //   this.$router.push({
+        //     path: "/finance"
+        //   });
+        //   break;
         case "财务申请":
           this.$router.push({
             path: "/finance/manage/update"
@@ -246,7 +252,7 @@ export default {
             path: "/closer/menu"
           });
           break;
-        case "/log":
+        case "操作日志":
           this.$router.push({
             path: "/log"
           });
@@ -261,12 +267,12 @@ export default {
             path: "/activity/management"
           });
           break;
-        case "/setting":
+        case "活动落地页":
           this.$router.push({
             path: "/setting"
           });
           break;
-        case "/statistic":
+        case "数据统计":
           this.$router.push({
             path: "/statistic"
           });

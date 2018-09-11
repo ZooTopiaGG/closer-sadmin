@@ -6407,6 +6407,10 @@ vue-infinite-scroll@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/vue-infinite-scroll/-/vue-infinite-scroll-2.0.2.tgz#ca37a91fe92ee0ad3b74acf8682c00917144b711"
 
+vue-js-grid@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-js-grid/-/vue-js-grid-1.0.1.tgz#3d09314d7e8108a5a585ff02bea8ef5a7aefd1ec"
+
 vue-lazyload@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.6.tgz#baa04c172d52a812608eb12c7a6bfb14f5c91079"

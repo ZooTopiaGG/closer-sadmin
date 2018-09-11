@@ -73,7 +73,7 @@
         </section>
         <section class="dialog-content">
           <el-form label-width="140px" class="column-ruleForm" :disabled="isdisabled">
-            <el-form-item label="修改前">
+            <el-form-item label="修改后">
             </el-form-item>
             <el-form-item label="栏目归属地">
               <label v-if="modifyRow.update.regionName">

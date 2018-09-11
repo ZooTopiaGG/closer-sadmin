@@ -8,7 +8,10 @@ import {
   feedShow,
   feedComments,
   deleteComment,
-  createVideos
+  createVideos,
+  adminSearch,
+  coverSetting,
+  getRegionsList
 } from './service'
 
 export default {
@@ -43,7 +46,12 @@ export default {
       data: [],
       count: 0
     },
-    videosInfo: {}
+    videosInfo: {},
+    coverList: {
+      data: [],
+      count: 0
+    },
+    regionsList: [],
   },
   mutations: {
     readList(state, para) {
@@ -72,6 +80,12 @@ export default {
     },
     messagelist(state, para) {
       state.messagelist = para
+    },
+    coverList(state, para) {
+      state.coverList = para
+    },
+    regionsList(state, para) {
+      state.regionsList = para
     }
   },
   actions: {
@@ -115,8 +129,8 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-          // 待发布
-          await data.result.result1.data.map(x => {
+        // 待发布
+        await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
           // 判断是否有title 没有用text替换
           if (x.int_type === 2) {
@@ -332,6 +346,50 @@ export default {
             console.log("播放器创建好了。");
           }
         )
+      }
+    },
+    async getRegionsList({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await getRegionsList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        commit('regionsList', data.result.data)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async adminSearch({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await adminSearch(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      console.log(data)
+      if (data.code === 0) {
+        let res = {
+          data: data.result.parameter,
+          count: data.result.count
+        };
+        commit('coverList', res)
+      }
+    },
+    async coverSetting({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await coverSetting(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success("操作成功！");
+        return true
       }
     },
   }

@@ -48,6 +48,14 @@ const router = new Router({
       keepAlive: true
     }
   }, {
+    path: '/content/cover',
+    name: 'cover',
+    component: () =>
+      import ('./views/content/cover.vue'),
+    meta: {
+      keepAlive: true
+    }
+  }, {
     path: '/content/recover',
     name: 'recover',
     component: () =>
@@ -302,28 +310,34 @@ router.beforeEach((to, from, next) => {
   }
   switch (to.name) {
     case 'permission':
-      store.state.activeIndex = '/permission';
+      store.state.activeIndex = '权限设置';
       break;
     case 'city':
-      store.state.activeIndex = '/city';
+      store.state.activeIndex = '城市管理';
       break;
     case 'content':
-      store.state.activeIndex = '/content';
+      store.state.activeIndex = '审核';
       break;
     case 'recover':
-      store.state.activeIndex = '/content';
+      store.state.activeIndex = '审核';
+      break;
+    case 'feed':
+      store.state.activeIndex = '审核';
       break;
     case 'workload':
-      store.state.activeIndex = '/content/workload';
+      store.state.activeIndex = '工作量查看';
       break;
     case 'read':
-      store.state.activeIndex = '/content/workload';
+      store.state.activeIndex = '工作量查看';
+      break;
+    case 'cover':
+      store.state.activeIndex = '封面文章';
       break;
     case 'column':
-      store.state.activeIndex = '/column';
+      store.state.activeIndex = '栏目管理';
       break;
     case 'finance':
-      store.state.activeIndex = '/finance';
+      store.state.activeIndex = '财务管理';
       break;
     case 'manage_update':
       store.state.activeIndex = '财务申请';
@@ -359,7 +373,7 @@ router.beforeEach((to, from, next) => {
       store.state.activeIndex = '菜单管理';
       break;
     case "log":
-      store.state.activeIndex = '/log';
+      store.state.activeIndex = '操作日志';
       break;
     case "activity_data":
       store.state.activeIndex = '活动数据';
@@ -377,16 +391,13 @@ router.beforeEach((to, from, next) => {
       store.state.activeIndex = '活动数据';
       break;
     case "setting":
-      store.state.activeIndex = '/setting';
+      store.state.activeIndex = '活动落地页';
       break;
     case "statistic":
-      store.state.activeIndex = '/statistic';
+      store.state.activeIndex = '数据统计';
       break;
     case "notice":
       store.state.activeIndex = '通知管理';
-      break;
-    case 'feed':
-      store.state.activeIndex = '/content';
       break;
     case 'serial':
       store.state.activeIndex = '提现审核';
@@ -395,7 +406,7 @@ router.beforeEach((to, from, next) => {
       store.state.activeIndex = '群消息智能提示设置';
       break;
     default:
-      store.state.activeIndex = '/permission'
+      store.state.activeIndex = '权限设置'
   }
   next()
 })

@@ -6,6 +6,7 @@ import store from './store'
 import router from './router'
 import ElementUI from 'element-ui'
 import VueLazyload from 'vue-lazyload'
+import Grid from 'vue-js-grid'
 import {
   Message,
   MessageBox,
@@ -25,6 +26,7 @@ import api from '@/utils/api'
 import '@/utils/json2csv'
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(ElementUI)
+Vue.use(Grid)
 Vue.use(infiniteScroll)
 Vue.use(VueLazyload, {
   lazyComponent: true,

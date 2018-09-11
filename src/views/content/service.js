@@ -64,3 +64,23 @@ export async function deleteComment(payload) {
 export async function createVideos(payload) {
   return await Axios.get(`${api.subject.videos}`, payload)
 }
+
+/**
+ * adminSearch 查询封面栏目列表
+ */
+export async function adminSearch(payload) {
+  return await Axios.post(`${api.subject.adminSearch}`, payload)
+}
+/**
+ * coverSetting 设置封面
+ */
+export async function coverSetting(payload) {
+  return await Axios.get(`${api.subject.coverSetting}`, payload)
+}
+
+/**
+ * getRegionsList 获取城市列表
+ */
+export async function getRegionsList(payload) {
+  return await Axios.post(`${api.region.regions}`, payload)
+}

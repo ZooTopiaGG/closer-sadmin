@@ -78,7 +78,11 @@ let api = {
     // 获取已读条数
     read_count: 'closer_subject_sadmin.read_count',
     comments: 'closer_subject_sadmin.comments',
-    delete_comment: 'closer_subject_sadmin.delete_comment'
+    delete_comment: 'closer_subject_sadmin.delete_comment',
+    // 通过帖子名称和栏目名称搜索
+    adminSearch: 'closer_subject_admin.adminSearch',
+    // 上封面图
+    coverSetting: 'closer_subject_admin.coverSetting',
   },
   // 财务管理 接口
   finance: {
@@ -189,6 +193,26 @@ let api = {
     user_byphone: 'closer_admin_notify.user_byphone',
     user_bymail: 'closer_admin_notify.user_bymail',
     judge_user: 'closer_admin_notify.judge_user',
+  },
+  closer: {
+    // 查询所有分类
+    select_all: '/community_class.select_all',
+    // 更新栏目对应的类别
+    update_classref: '/community_class.update_classref',
+    // 根据communityid获取属于的所有分类
+    getclass_by_communityId: '/community_class.getclass_by_communityId',
+    // 增加栏目分类
+    insert_class: '/community_class.insert_class',
+    // del栏目分类
+    delete_class: '/community_class.delete_class',
+    // update栏目分类
+    update_class: '/community_class.update_class',
+    // 查找栏目分类根据分类名称
+    select_class: '/community_class.select_class',
+    // 模糊查询所有，包括status=1和0的和
+    select_class_like: '/community_class.select_class_like',
+    // 修改栏目类别状态
+    update_class_status: '/community_class.update_class_status'
   }
 };
 export default api
