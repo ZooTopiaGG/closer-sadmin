@@ -171,7 +171,10 @@ export default {
       displaysize: "246 * 246",
       fliterregion: "",
       fliterregion2: "小宇宙",
-      obj: {}
+      obj: {
+        regionName: "小宇宙",
+        regionId: "0"
+      }
     };
   },
   created() {
@@ -217,7 +220,6 @@ export default {
           return this.obj;
         }
       });
-      console.log(this.obj);
     },
     // 上传 图片
     handleAvatarSuccess(res, file) {
@@ -254,6 +256,7 @@ export default {
     async save() {
       let self = this,
         para,
+        obj = {},
         res;
       if (!self.displayname) {
         self.$message.warning("活动名称不能为空！");
@@ -279,6 +282,15 @@ export default {
         self.$message.warning("活动城市不能为空！");
         return;
       }
+      await self.searchregion.map(x => {
+        if (x.region_id === self.fliterregion2) {
+          self.obj = {
+            regionName: x.region_name,
+            regionId: x.region_id
+          };
+          return self.obj;
+        }
+      });
       para = {
         activityId: self.row.activityId,
         name: self.displayname,
@@ -321,7 +333,7 @@ export default {
       self.displaystatus = row.status;
       self.displaypage = row.url;
       self.imageUrl = row.logo;
-      self.fliterregion2 = row.regionName;
+      self.fliterregion2 = row.regionId;
       self.operationtype = "update";
       self.verDisabled = row.status === "已停用" ? true : false;
     },
