@@ -3,9 +3,9 @@
     timeUserFun: 'timeUserFun',
     st: 'st'
   }
-  var init = 0,
-    changeInit = 0;
   $[funObj.timeUserFun] = function (time, cb, type) {
+    var init = 0,
+      changeInit = 0;
     var time = time || 2;
     var userTime = time * 60;
     var objTime = {
@@ -35,7 +35,7 @@
     body.addEventListener("mousemove", objTime.eventFun);
     body.addEventListener("mousewheel", objTime.eventFun);
   }
-  $[funObj.st] = function () {
-    return [changeInit, init]
-  }
+  // $[funObj.st] = function () {
+  //   return [changeInit, init]
+  // }
 })(window)

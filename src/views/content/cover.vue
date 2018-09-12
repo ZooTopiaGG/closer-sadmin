@@ -19,11 +19,11 @@
         </div>
       </div>
       <div class="permission_table_content">
-        <el-table :data="res.data" style="width: 100%">
+        <el-table :data="coverList.data" style="width: 100%">
           <el-table-column fixed label="缩略图" width="120">
             <template slot-scope="scope">
               <div>
-                <img :src="cover" alt="" class="table_logo">       
+                <img :src="$com.makeFileUrl(scope.row.cover)" alt="" class="table_logo">       
               </div>
             </template>
           </el-table-column>
@@ -63,7 +63,7 @@
     </div>
     <div class="block cloumn-block">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="res.count">
+        :total="coverList.count">
       </el-pagination>
     </div>
     <el-dialog title="手机预览" class="preview" :visible.sync="dialogVisible" width="375px">
@@ -90,13 +90,13 @@ export default {
         count: 0
       },
       cover_value: "",
-      fliterregion: "",
+      fliterregion: "wfXYXEpsBEyN",
       // 分页
       pagenum: 1,
       pagesize: 10,
       coverpara: {
         communityName: "",
-        region_id: "",
+        region_id: "wfXYXEpsBEyN",
         pagesize: 10,
         pagenum: 1
       },

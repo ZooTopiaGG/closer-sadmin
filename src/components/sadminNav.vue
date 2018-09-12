@@ -80,9 +80,7 @@ export default {
             closeOnClickModal: false,
             type: "warning",
             callback: action => {
-              self.$router.push({
-                path: "/login"
-              });
+              location.href = "/login";
             }
           });
         } else {
@@ -105,20 +103,22 @@ export default {
     timeUserFun(30, async () => {
       await self.fnlogout("timeout");
     });
-    self.timer = setInterval(async () => {
-      // 设定时间段区间 一分钟检测一次
-      let t = st();
-      if (t[1] >= 1740) {
-        console.log("30分钟时间到了，用户没有操作");
-        clearInterval(self.timer);
-      } else if (t[1] < 1740 && t[0] >= 1740 && t[0] - t[1] > 10) {
-        console.log("30分钟时间到了用户还在操作，需要更新token");
-        clearInterval(self.timer);
-        // 更新token
-      } else {
-        console.log("正在等待。。。。");
-      }
-    }, 60000);
+    // self.timer = setInterval(async () => {
+    //   // 设定时间段区间 一分钟检测一次
+    //   let t = st();
+    //   console.log(t);
+    //   if (t[1] >= 120) {
+    //     console.log("30分钟时间到了，用户没有操作");
+    //     clearInterval(self.timer);
+    //   } else {
+    //     //  else if (t[1] < 1740 && t[0] >= 1740 && t[0] - t[1] > 10) {
+    //     //   console.log("30分钟时间到了用户还在操作，需要更新token");
+    //     //   clearInterval(self.timer);
+    //     //   // 更新token
+    //     // }
+    //     console.log("正在等待。。。。");
+    //   }
+    // }, 1000);
   },
   destroyed() {
     clearInterval(this.timer);

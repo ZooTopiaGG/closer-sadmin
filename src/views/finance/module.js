@@ -94,10 +94,9 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.create_time = $async.createTime(
-            x.long_create_time,
-            "yy-mm-dd hh:MM"
-          );
+          x.create_time = x.long_create_time ?
+            $async.createTime(x.long_create_time, "yy-mm-dd hh:MM") :
+            $async.createTime(x.create_time, "yy-mm-dd hh:MM");
           return x;
         });
         commit('communityList', data.result)
@@ -232,6 +231,14 @@ export default {
             x.withdraw && x.withdraw.withdrawRemark ?
             x.withdraw.withdrawRemark :
             "-";
+          x.withdrawApply =
+            x.withdraw && x.withdraw.withdrawApply ?
+            x.withdraw.withdrawApply / 100 :
+            0;
+          x.withdrawTax =
+            x.withdraw && x.withdraw.withdrawTax ?
+            x.withdraw.withdrawTax / 100 :
+            0;
           x.auditUser =
             x.withdraw && x.withdraw.auditUser ? x.withdraw.auditUser : "-";
           if (x.withdraw.auditStatus === "success") {
@@ -273,7 +280,9 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.create_time = $async.createTime(x.long_create_time, "yy-mm-dd hh:MM");
+          x.create_time = x.long_create_time ?
+            $async.createTime(x.long_create_time, "yy-mm-dd hh:MM") :
+            $async.createTime(x.create_time, "yy-mm-dd hh:MM");
           return x;
         });
         commit('communityRecordsList', data.result)

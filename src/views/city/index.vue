@@ -251,11 +251,10 @@ export default {
       }
     },
     // 分页
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
+    handleSizeChange(val) {},
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.regionslist["pagenum"] = val;
+      this.getRegionsList(this.regionslist);
     },
     // 上传异常
     handleError(err) {

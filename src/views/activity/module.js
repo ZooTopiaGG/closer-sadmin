@@ -44,6 +44,10 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
+        data.result.data.push({
+          region_id: 'china',
+          region_name: '全国'
+        })
         commit('searchregion', data.result.data)
       } else {
         $message.error(data.result)

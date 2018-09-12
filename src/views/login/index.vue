@@ -158,6 +158,30 @@ export default {
                   self.$router.push({
                     path: "/log"
                   });
+                } else if (permissions.config) {
+                  self.$router.push({
+                    path: "/config"
+                  });
+                } else if (permissions.closer) {
+                  self.$router.push({
+                    path: "/closer"
+                  });
+                } else if (permissions.notice) {
+                  self.$router.push({
+                    path: "/notice"
+                  });
+                } else if (permissions.acitivity) {
+                  self.$router.push({
+                    path: "/acitivity/management"
+                  });
+                } else if (permissions.acitivity_data) {
+                  self.$router.push({
+                    path: "/acitivity/data"
+                  });
+                } else if (permissions.product) {
+                  self.$router.push({
+                    path: "/product"
+                  });
                 }
               } else if (
                 self.authUser.columnCity &&

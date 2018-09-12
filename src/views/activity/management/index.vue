@@ -20,6 +20,8 @@
         <el-table :data="activityLists.data" style="width: 100%">
           <el-table-column prop="activityName" label="活动名称">
           </el-table-column>
+          <el-table-column prop="regionName" label="活动城市">
+          </el-table-column>
           <el-table-column prop="size" label="尺寸（px）">
           </el-table-column>
           <el-table-column prop="url" width="280" label="关联页面">
@@ -165,7 +167,7 @@ export default {
         ]
       },
       displayname: "",
-      buildVer: "",
+      buildVer: 0,
       displaystatus: "",
       displaypage: "",
       displaysize: "246 * 246",
@@ -274,10 +276,10 @@ export default {
         self.$message.warning("活动logo不能为空！");
         return;
       }
-      if (!self.buildVer) {
-        self.$message.warning("版本号不能为空！");
-        return;
-      }
+      // if (!self.buildVer) {
+      //   self.$message.warning("版本号不能为空！");
+      //   return;
+      // }
       if (!self.fliterregion2) {
         self.$message.warning("活动城市不能为空！");
         return;
@@ -294,7 +296,7 @@ export default {
       para = {
         activityId: self.row.activityId,
         name: self.displayname,
-        buildVer: self.buildVer,
+        buildVer: self.buildVer || 0,
         size: self.displaysize,
         logo: self.imageUrl,
         url: self.displaypage
@@ -320,7 +322,7 @@ export default {
       self.displaystatus = "活动添加成功后，请在活动面板启用活动";
       self.displaypage = "";
       self.imageUrl = "";
-      self.fliterregion2 = "小宇宙";
+      self.fliterregion2 = "china";
       self.operationtype = "add";
       self.outerVisible = true;
     },

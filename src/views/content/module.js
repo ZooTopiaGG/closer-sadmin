@@ -370,10 +370,17 @@ export default {
       } = await adminSearch(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data)
+      console.log(data.result.data)
       if (data.code === 0) {
+        let arr = await data.result.data.map(x => {
+          x.long_publish_time = $async.createTime(
+            x.long_publish_time,
+            "yy-mm-dd hh:MM"
+          );
+          return x;
+        });
         let res = {
-          data: data.result.parameter,
+          data: arr,
           count: data.result.count
         };
         commit('coverList', res)

@@ -10,10 +10,6 @@
         </section>
       </section>
     </section>
-    <!-- <section class="fixedBottom flex flex-align-center flex-pack-center">
-      <el-button size="small" type="primary">保 存</el-button>
-      <el-button size="small">返 回</el-button>
-    </section> -->
   </section>
 </template>
 <script>
@@ -37,13 +33,25 @@ export default {
   },
   created() {
     let s = JSON.parse;
-    console.log(s(sessionStorage.getItem("row")));
     this.rowData = s(sessionStorage.getItem("row"));
   },
   methods: {
     ...mapActions("config", ["resetConfig"]),
     save(index, item) {
       let self = this;
+      if (item.name === "withdrawAuditAmt") {
+        if (
+          !self.$com.isInteger(Number(item.value)) ||
+          Number(item.value) < 100
+        ) {
+          self.$message.warning("提现审核金额只能是大于等于100的正整数!");
+          return;
+        }
+        if (item.value.length > 9) {
+          self.$message.warning("提现审核金额长度不能超过9位数字!");
+          return;
+        }
+      }
       self
         .$confirm("此操作将更改此设置, 是否继续", "提示", {
           confirmButtonText: "确定",

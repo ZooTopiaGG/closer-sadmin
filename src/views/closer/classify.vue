@@ -116,7 +116,7 @@ export default {
       let self = this,
         res;
       if (!self.form.name) {
-        self.$message.warnning("分类名称不能为空！");
+        self.$meesage.warning("分类名称不能为空！");
         return;
       }
       if (self.optype === 0) {
@@ -139,7 +139,7 @@ export default {
     async delCloser(row) {
       let self = this;
       if (row.community_count > 0) {
-        self.$message.warnning("该分类下已经有栏目了，不能删除！");
+        self.$meesage.warning("该分类下已经有栏目了，不能删除！");
         return;
       }
       self
