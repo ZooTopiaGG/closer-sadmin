@@ -11,6 +11,9 @@
             <el-option v-for="item in searchregion" :key="item.region_id" :label="item.region_name" :value="item.region_id">
             </el-option>
           </el-select>
+          <section class="flex flex-align-center" style="margin-left: 10px">
+            <el-button type="text" @click="clearSearch">清除搜索</el-button>
+          </section>
         </section>
         <section class="flex flex-align-center" v-if="authUser.permissions && authUser.permissions.activity && authUser.permissions.activity[0].permissions === 'activity_update'">
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addActivity">添加活动</el-button>
@@ -379,6 +382,14 @@ export default {
             message: "已取消操作"
           });
         });
+    },
+    clearSearch() {
+      this.fliterregion = "";
+      let obj = {
+        regionName: "",
+        regionId: ""
+      };
+      this.getAllActivity(Object.assign(this.activitypara, obj));
     }
   }
 };

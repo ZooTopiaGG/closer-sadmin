@@ -10,6 +10,9 @@
           <el-input v-model="closer_name" placeholder="请输入分类名称" @keyup.enter.native="searchCloser">
             <el-button slot="append" @click="searchCloser" icon="el-icon-search"></el-button>
           </el-input>
+          <section class="flex flex-align-center" style="margin-left: 10px">
+            <el-button type="text" @click="clearSearch">清除搜索</el-button>
+          </section>
         </section>
         <section class="flex flex-align-center">
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addCloser">新增分类</el-button>
@@ -88,11 +91,13 @@ export default {
       "insertClass",
       "updateClass",
       "deleteClass",
-      "selectClass"
+      "selectClassLike"
     ]),
     searchCloser() {
       if (this.closer_name) {
-        this.selectClass(this.closer_name);
+        this.selectClassLike({
+          class_name: this.closer_name
+        });
       } else {
         return;
       }
@@ -114,7 +119,11 @@ export default {
       let self = this,
         res;
       if (!self.form.name) {
-        self.$meesage.warning("分类名称不能为空！");
+        self.$message.warning("分类名称不能为空！");
+        return;
+      }
+      if (self.form.name.length > 5) {
+        self.$message.warning("分类名称不能超过5个字！");
         return;
       }
       if (self.optype === 0) {
@@ -137,7 +146,7 @@ export default {
     async delCloser(row) {
       let self = this;
       if (row.community_count > 0) {
-        self.$meesage.warning("该分类下已经有栏目了，不能删除！");
+        self.$message.warning("该分类下已经有栏目了，不能删除！");
         return;
       }
       self
@@ -161,6 +170,12 @@ export default {
         class_id: row.id
       });
       await this.selectAll(this.selectpara);
+    },
+    clearSearch() {
+      this.closer_name = "";
+      this.selectAll({
+        isAll: 1
+      });
     }
   },
   mounted() {}

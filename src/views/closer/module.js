@@ -167,11 +167,16 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
+        let na = []
         await data.result.data.map(x => {
-          x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.update_time = $async.createTime(x.update_time, "yy-mm-dd hh:MM");
+          if (x.status == 0) {
+            na.push(x.class_name)
+          }
           return x;
         });
-        commit('logList', data.result)
+        commit('zeroList', na)
+        commit('closerList', data.result)
       } else {
         $message.error(data.result)
       }
