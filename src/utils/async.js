@@ -7,6 +7,7 @@ let options = {
 }
 export default {
   createTime(milliseconds, type) {
+    milliseconds = Number(milliseconds);
     let time = new Date(milliseconds);
     //tt.replace(/Date\([\d+]+\)/, function(a) { eval('d = new '+a) });
     let y = time.getFullYear();

@@ -69,3 +69,10 @@ export async function setSelfCommunity(payload) {
 export async function ban(payload) {
   return await Axios.post(`${api.community.ban}`, payload)
 }
+
+/**
+ * select_all 
+ */
+export async function selectAll(payload) {
+  return await Axios.post(`${api.closer.select_all}`, payload)
+}

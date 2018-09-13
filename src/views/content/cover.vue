@@ -1,39 +1,39 @@
 <template>
-  <div id="permission" class="flex flex-v">
-    <div class="permission_title">封面文章</div>
-    <div class="permission_table flex-1">
-      <div class="permission_table_top flex">
-        <div class="flex flex-align-center">
+  <section id="permission" class="flex flex-v">
+    <section class="permission_title">封面文章</section>
+    <section class="permission_table flex-1">
+      <section class="permission_table_top flex">
+        <section class="flex flex-align-center">
           <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="所属区域">
               <el-option v-for="item in searchregion" :key="item.region_name" :label="item.region_name" :value="item.region_id">
               </el-option>
             </el-select>
-        </div>
-        <div class="flex flex-align-center" style="margin-left: 30px;margin-right: 10px">
+        </section>
+        <section class="flex flex-align-center" style="margin-left: 30px;margin-right: 10px">
           <el-input v-model="cover_value" placeholder="请输入栏目名称" @keyup.enter.native="searchCover">
             <el-button slot="append" @click="searchCover" icon="el-icon-search"></el-button>
           </el-input>
-        </div>
-        <div class="flex flex-align-center">
+        </section>
+        <section class="flex flex-align-center">
           <el-button type="text" @click="clearSearch">清除搜索</el-button>
-        </div>
-      </div>
-      <div class="permission_table_content">
-        <el-table :data="coverList.data" style="width: 100%">
+        </section>
+      </section>
+      <section class="permission_table_content">
+        <el-table :data="coverList.data" style="width: 100%" id="cover">
           <el-table-column fixed label="缩略图" width="120">
             <template slot-scope="scope">
-              <div>
+              <section>
                 <img :src="$com.makeFileUrl(scope.row.cover)" alt="" class="table_logo">       
-              </div>
+              </section>
             </template>
           </el-table-column>
           <el-table-column prop="title" label="标题">
           </el-table-column>
           <el-table-column prop="long_publish_time" label="发布时间">
           </el-table-column>
-          <el-table-column prop="communityid" label="来源">
+          <el-table-column prop="communityName" label="来源">
           </el-table-column>
-          <el-table-column prop="authorsString" label="投稿人">
+          <el-table-column prop="username" label="投稿人">
           </el-table-column>
           <el-table-column prop="userid" label="投稿人ID">
           </el-table-column>
@@ -59,17 +59,17 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-    </div>
-    <div class="block cloumn-block">
+      </section>
+    </section>
+    <section class="block cloumn-block">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
         :total="coverList.count">
       </el-pagination>
-    </div>
+    </section>
     <el-dialog title="手机预览" class="preview" :visible.sync="dialogVisible" width="375px">
        <iframe :src="pre_src" frameborder="0" width="375px" height="667px"></iframe>
     </el-dialog>
-  </div>
+  </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";

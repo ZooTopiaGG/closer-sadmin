@@ -75,7 +75,7 @@ export async function adminSearch(payload) {
  * coverSetting 设置封面
  */
 export async function coverSetting(payload) {
-  return await Axios.get(`${api.subject.coverSetting}`, payload)
+  return await Axios.post(`${api.subject.coverSetting}`, payload)
 }
 
 /**

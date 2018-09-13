@@ -47,8 +47,8 @@ export default {
           self.$message.warning("提现审核金额只能是大于等于100的正整数!");
           return;
         }
-        if (item.value.length > 9) {
-          self.$message.warning("提现审核金额长度不能超过9位数字!");
+        if (item.value.length > 7) {
+          self.$message.warning("提现审核金额长度不能超过7位数字!");
           return;
         }
       }

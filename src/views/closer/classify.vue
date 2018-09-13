@@ -23,7 +23,7 @@
           </el-table-column>
           <el-table-column prop="community_count" label="栏目数量">
           </el-table-column>
-          <el-table-column prop="updateTime" label="更新时间">
+          <el-table-column prop="update_time" label="更新时间">
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
@@ -45,10 +45,10 @@
           <el-input v-model="form.name" auto-complete="off" style="width: 200px"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <section slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="save">确 定</el-button>
-      </div>
+      </section>
     </el-dialog>
   </section>
 </template>
@@ -60,12 +60,8 @@ export default {
   },
   data() {
     return {
-      logpara: {
-        page: 1,
-        count: 10,
-        phone: "",
-        startTime: null,
-        endTime: null
+      selectpara: {
+        isAll: 1
       },
       closer_name: "",
       // 分页
@@ -82,7 +78,9 @@ export default {
     };
   },
   created() {
-    this.selectAll();
+    this.selectAll({
+      isAll: 1
+    });
   },
   methods: {
     ...mapActions("closer", [
@@ -132,7 +130,7 @@ export default {
         });
       }
       if (res) {
-        await self.selectAll();
+        await self.selectAll(self.selectpara);
         self.dialogFormVisible = false;
       }
     },
@@ -162,7 +160,7 @@ export default {
       await this.deleteClass({
         class_id: row.id
       });
-      await this.selectAll();
+      await this.selectAll(this.selectpara);
     }
   },
   mounted() {}

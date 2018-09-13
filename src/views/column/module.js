@@ -9,7 +9,8 @@ import {
   updateCommunity,
   inviteCode,
   setSelfCommunity,
-  ban
+  ban,
+  selectAll
 } from './service'
 import store from '@/store'
 
@@ -20,6 +21,11 @@ export default {
     allregion: [],
     searchregion: [],
     _fliterregion: "",
+    closerList: {
+      data: [],
+      count: 0
+    },
+    zeroList: []
   },
   mutations: {
     res(state, para) {
@@ -33,6 +39,12 @@ export default {
     },
     _fliterregion(state, para) {
       state._fliterregion = para
+    },
+    closerList(state, para) {
+      state.closerList = para
+    },
+    zeroList(state, para) {
+      state.zeroList = para
     },
   },
   actions: {
@@ -174,6 +186,21 @@ export default {
         $message.error(data.result);
       }
     },
+    async updateCommunity({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await updateCommunity(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success('操作成功！');
+        return true
+      } else {
+        $message.error(data.result);
+      }
+    },
     async ban({
       commit
     }, payload) {
@@ -288,7 +315,7 @@ export default {
       })
       if (data.code === 0) {
         $message.success("操作成功!");
-        return true
+        return data.result
       } else {
         $message.error(data.result);
       }
@@ -305,6 +332,31 @@ export default {
         return true
       } else {
         $message.error(data.result);
+      }
+    },
+    async selectAll({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await selectAll(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        let na = []
+        await data.result.data.map(x => {
+          x.update_time = $async.createTime(x.update_time, "yy-mm-dd hh:MM");
+          if (x.status == 0) {
+            na.push(x.class_name)
+          }
+          return x;
+        });
+        commit('zeroList', na)
+        console.log(data)
+        commit('closerList', data.result)
+      } else {
+        $message.error(data.result)
       }
     },
   },

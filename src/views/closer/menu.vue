@@ -11,8 +11,8 @@
             :items="classifies"
             @sort="sort">
             <template slot="cell" scope="props">
-              <!-- <div>{{props.item}}</div> -->
-              <el-tag type="success" style="width: 70px;padding: 0;box-sizing: initial;text-align:center;" closable @close="handleClose(props.item)">{{props.item}}</el-tag>
+              <!-- <section>{{props.item}}</section> -->
+              <el-tag type="success" class="tags" style="width: 65px;padding: 0;box-sizing: initial;text-align:center;" closable @close="handleClose(props.item)">{{props.item}}</el-tag>
             </template>
           </grid>
         </section>
@@ -38,12 +38,8 @@ export default {
   },
   data() {
     return {
-      logpara: {
-        page: 1,
-        count: 10,
-        phone: "",
-        startTime: null,
-        endTime: null
+      selectpara: {
+        isAll: 1
       },
       closer_name: "",
       classifies: [],
@@ -63,7 +59,9 @@ export default {
     };
   },
   created() {
-    this.selectAll();
+    this.selectAll({
+      isAll: 1
+    });
   },
   methods: {
     ...mapActions("closer", ["selectAll", "updateClassStatus", "selectClass"]),
@@ -116,6 +114,11 @@ export default {
   width: auto !important;
   height: auto !important;
   margin-right: 20px;
+}
+.tags .el-tag__close {
+  position: absolute;
+  top: -7px;
+  right: -6px;
 }
 </style>
 

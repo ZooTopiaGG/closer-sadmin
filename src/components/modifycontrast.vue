@@ -32,6 +32,12 @@
             <el-form-item label="栏目类别" prop="category">
               <el-input v-model="modifyRow.current.int_type"></el-input>
             </el-form-item>
+            <el-form-item label="贴近号分类" prop="class_list">
+              <el-select v-model="class_list" placeholder="" multiple>
+                <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="身份证号" prop="idcard">
               <el-input v-model="modifyRow.current.id_card"></el-input>
             </el-form-item>
@@ -109,6 +115,19 @@
             <el-form-item label="栏目类别" prop="category">
               <el-input v-model="modifyRow.current.int_type"></el-input>
             </el-form-item>
+            <el-form-item label="贴近号分类" prop="class_list">
+              <label v-if="modifyRow.update.class">
+                <el-select v-model="update_class_list" placeholder="" multiple>
+                  <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
+                  </el-option>
+                </el-select>
+                <i class="el-icon-info" style="color: red; margin-left: 5px;"></i>
+              </label>
+              <el-select v-else v-model="modifyRow.current.own_class" placeholder="" multiple>
+                <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="身份证号" prop="idcard">
               <el-input v-model="modifyRow.current.id_card"></el-input>
             </el-form-item>
@@ -170,7 +189,20 @@
 import { mapState, mapActions } from "vuex";
 export default {
   // 获取栏目 并对比
-  props: ["modifyRow", "selfRow"],
+  props: ["modifyRow", "selfRow", "closerList"],
+  computed: {
+    class_list() {
+      let arr = this.modifyRow.current.class_list.map(x => {
+        return x.class_id;
+      });
+      return arr;
+    },
+    update_class_list() {
+      return (
+        this.modifyRow.update.class && this.modifyRow.update.class.split(",")
+      );
+    }
+  },
   data() {
     return {
       dialogVisible2: false,
@@ -189,125 +221,8 @@ export default {
       isdisabled: true,
       cateisdisabled: false,
       // 局部加载
-      loadingAvatarUpload: false,
-      // 栏目管理区域选择
-      fliterregion: "0",
-      region: [
-        {
-          value: "0",
-          label: "小宇宙"
-        },
-        {
-          value: "1",
-          label: "成都"
-        }
-      ],
-      // 操作邀请栏目表单
-      ruleForm: {
-        columntype: "个人", // 栏目类型 个人 企业
-        name: "", // 法人姓名
-        city: "", // 归属地
-        idcard: "", // 身份证号
-        blogo: "", // blogo
-        blogoOnlineUrl: "",
-        columnname: "", // 栏目名称
-        frontCredUrl: "", // 身份证正面z
-        frontCredOnlineUrl: "", // 线上
-        frontHandCredUrl: "", // 手持身份证正面照
-        frontHandCredOnlineUrl: "",
-        backCredUrl: "", // // 身份证反面照
-        backCredOnlineUrl: "",
-        frontLicenseUrl: "", //执照正面照
-        frontLicenseOnlineUrl: "",
-        licenseCode: "", //执照编号
-        // exp: '', // 示例
-        inviter: "", // 邀请人
-        createtime: "", // 栏目创建时间
-        logo: "", //栏目logo
-        phone: "" // 手机号
-      },
-      rules: {
-        name: [
-          {
-            required: true,
-            message: "请输入姓名",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 10,
-            message: "长度在 2 到 10 个字符",
-            trigger: "blur"
-          }
-        ],
-        city: [
-          {
-            required: true,
-            message: "请选择归属地",
-            trigger: "change"
-          }
-        ],
-        columnname: [
-          {
-            required: true,
-            message: "请输入栏目名称",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            message: "栏目名称必须大于2个字符",
-            trigger: "blur"
-          }
-        ],
-        idcard: [
-          {
-            required: true,
-            message: "请输入身份证号",
-            trigger: "blur"
-          },
-          {
-            min: 18,
-            max: 18,
-            message: "请输入18位身份证号",
-            trigger: "blur"
-          }
-        ],
-        frontCredUrl: [
-          {
-            required: true,
-            message: "请上传身份证正面照",
-            trigger: "change"
-          }
-        ],
-        backCredUrl: [
-          {
-            required: true,
-            message: "请上传身份证反面照",
-            trigger: "change"
-          }
-        ],
-        frontHandCredUrl: [
-          {
-            required: true,
-            message: "请上传手持身份证正面照",
-            trigger: "change"
-          }
-        ],
-        frontLicenseUrl: [
-          {
-            required: true,
-            message: "请上传营业执照正面照",
-            trigger: "change"
-          }
-        ],
-        licenseCode: [
-          {
-            required: true,
-            message: "请输入营业执照编号",
-            trigger: "blur"
-          }
-        ]
-      }
+      loadingAvatarUpload: false
+      // 栏目管理区域选
     };
   },
   methods: {
@@ -362,7 +277,12 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {
+    console.log("m0dify", this.modifyRow);
+    console.log("self", this.selfRow);
+    console.log("closerlist", this.closerList);
+    console.log("class_list", this.class_list);
+  }
 };
 </script>
 <style>

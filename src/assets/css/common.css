@@ -186,6 +186,10 @@ a {
   flex: 2;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 /*交叉轴对齐方向 */
 
 .flex-align-center {

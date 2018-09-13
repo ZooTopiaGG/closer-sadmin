@@ -130,6 +130,12 @@
               <el-form-item v-if="operationtype === 2" label="栏目类别" prop="category">
                 <el-input v-model="ruleForm.columntype" :disabled="cateisdisabled"></el-input>
               </el-form-item>
+              <el-form-item label="贴近号分类" prop="class_list">
+                <el-select v-model="ruleForm.classes" @change="handleSelectClass" placeholder="请选择分类" multiple :disabled="authUser.type != 1 && operationtype === 2">
+                  <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item v-if="ruleForm.columntype==='企业'" label="法人姓名" prop="name">
                 <el-input v-model="ruleForm.name"></el-input>
               </el-form-item>
@@ -149,35 +155,32 @@
                 <el-input v-model="ruleForm.inviter" disabled></el-input>
               </el-form-item>
 
-              <el-form-item label="身份证正面照" required>
+              <el-form-item label="身份证正面照">
                 <el-upload class="avatar-uploader" :headers="headers" :action="uploadUrl" :show-file-list="false" :on-error="handleError"
                   :on-success="handleFrontSuccess" :before-upload="beforeAvatarUpload">
                   <img v-if="ruleForm.frontCredUrl" :src="ruleForm.frontCredUrl" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
-              <el-form-item label="身份证反面照" required>
+              <el-form-item label="身份证反面照">
                 <el-upload class="avatar-uploader" :headers="headers" :action="uploadUrl" :show-file-list="false" :on-error="handleError"
                   :on-success="handleBackSuccess" :before-upload="beforeAvatarUpload">
                   <img v-if="ruleForm.backCredUrl" :src="ruleForm.backCredUrl" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
-              <el-form-item label="手持身份证正面照" required>
+              <el-form-item label="手持身份证正面照">
                 <el-upload class="avatar-uploader" :headers="headers" :action="uploadUrl" :show-file-list="false" :on-error="handleError"
                   :on-success="handleFrontHandSuccess" :before-upload="beforeAvatarUpload">
                   <img v-if="ruleForm.frontHandCredUrl" :src="ruleForm.frontHandCredUrl" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
-              <!-- <el-form-item v-if="operationtype != 2" label="示例" prop="exp">
-                        <el-input v-model="ruleForm.exp"></el-input>
-                      </el-form-item> -->
               <el-form-item v-if="ruleForm.columntype==='企业'" label="社会信用代码" prop="licenseCode">
                 <el-input v-if="operationtype == 2" disabled v-model="ruleForm.licenseCode"></el-input>
                 <el-input v-else v-model="ruleForm.licenseCode"></el-input>
               </el-form-item>
-              <el-form-item v-if="ruleForm.columntype==='企业'" label="营业执照正面" required>
+              <el-form-item v-if="ruleForm.columntype==='企业'" label="营业执照正面">
                 <el-upload class="avatar-uploader" :headers="headers" :action="uploadUrl" :show-file-list="false" :on-error="handleError"
                   :on-success="handleLicenseSuccess" :before-upload="beforeAvatarUpload">
                   <img v-if="ruleForm.frontLicenseUrl" :src="ruleForm.frontLicenseUrl" class="avatar">
@@ -214,11 +217,11 @@
           </el-table-column>
           <el-table-column prop="regionName" label="所属区域">
           </el-table-column>
-          <!-- <el-table-column
-                      prop="blogo"
-                      label="栏目logo"
-                      >
-                    </el-table-column> -->
+          <el-table-column label="栏目logo" width="100">
+            <template slot-scope="scope">
+              <img v-lazy="$com.makeFileUrl(scope.row.blogo)" alt="logo" srcset="" style="height: auto; width: 90px;">
+            </template>
+          </el-table-column>
           <el-table-column prop="name" label="栏目名称">
           </el-table-column>
           <el-table-column prop="active" label="激活状态">
@@ -284,7 +287,7 @@
       </el-pagination>
     </section>
     <section class="modify-dialog" v-if="modifyDialogVisible">
-      <Modify :modifyRow="modifyRow" :selfRow="selfRow"></Modify>
+      <Modify :modifyRow="modifyRow" :selfRow="selfRow" :closerList="closerList"></Modify>
     </section>
   </section>
 </template>
@@ -297,7 +300,8 @@ export default {
       "res",
       "allregion",
       "searchregion",
-      "_fliterregion"
+      "_fliterregion",
+      "closerList"
     ]),
     // 上传文件 请求头设置
     headers() {
@@ -398,6 +402,7 @@ export default {
       loadingAvatarUpload: false,
       // 操作邀请栏目表单
       ruleForm: {
+        classes: [],
         columntype: "个人", // 栏目类型 个人 企业
         companyname: "", // 公司名称
         name: "", // 法人姓名
@@ -521,6 +526,7 @@ export default {
     self.getCommunitiesList(self.communitypara);
     self.regionspara["columnCity"] = columnCity;
     self.getRegionList(self.regionspara);
+    self.selectAll();
   },
   methods: {
     ...mapActions("column", [
@@ -535,7 +541,8 @@ export default {
       "inviteCode",
       "setSelfCommunity",
       "ban",
-      "fnVerifyCommunity"
+      "fnVerifyCommunity",
+      "selectAll"
     ]),
     bindSearch() {
       this.pagenum = 1;
@@ -554,6 +561,7 @@ export default {
       this.getCommunityList();
     },
     handleSelectColumuCity() {},
+    handleSelectClass() {},
     // 选择框 查找
     handleSelect(item) {
       this.pagenum = 1;
@@ -742,6 +750,7 @@ export default {
     // 表单操作
     resetForm() {
       this.ruleForm = {
+        classes: [],
         companyname: "",
         columntype: "个人", // 栏目类型 个人 企业
         name: "", // 法人姓名
@@ -970,6 +979,10 @@ export default {
           res.long_create_time,
           "yy-mm-dd hh:MM"
         );
+        self.ruleForm.classes = await res.class_list.map(x => {
+          return x.class_id;
+        });
+        console.log(self.ruleForm.classes);
         if (res.int_type === 1) {
           self.cateisdisabled = true;
         } else {
@@ -1004,7 +1017,9 @@ export default {
         idCardFrontByHandIMG: self.ruleForm.frontHandCredOnlineUrl,
         businessLicense: licenseCode,
         businessLicenseIMG: frontLicenseOnlineUrl,
-        companyname: self.ruleForm.companyname
+        companyname: self.ruleForm.companyname,
+        // 分类id
+        classSet: self.ruleForm.classes.join(",")
       });
       if (res) {
         // 隐藏dialog
@@ -1032,7 +1047,9 @@ export default {
         idcardfrontbyhandimg: self.ruleForm.frontHandCredOnlineUrl,
         businesslicense: licenseCode,
         businesslicenseimg: frontLicenseOnlineUrl,
-        companyname: self.ruleForm.companyname
+        companyname: self.ruleForm.companyname,
+        // class分类id
+        classSet: self.ruleForm.classes.join(",")
       });
       if (res) {
         self.copyInviteValue = res.invite_code;
