@@ -131,7 +131,7 @@
                 <el-input v-model="ruleForm.columntype" :disabled="cateisdisabled"></el-input>
               </el-form-item>
               <el-form-item label="贴近号分类" prop="class_list">
-                <el-select v-model="ruleForm.classes" @change="handleSelectClass" placeholder="请选择分类" multiple :disabled="authUser.type != 1 && operationtype === 2">
+                <el-select v-model="ruleForm.classes" :multiple-limit="3" @change="handleSelectClass" placeholder="请选择分类" multiple :disabled="authUser.type != 1 && operationtype === 2">
                   <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
                   </el-option>
                 </el-select>
@@ -219,7 +219,7 @@
           </el-table-column>
           <el-table-column label="栏目logo" width="100">
             <template slot-scope="scope">
-              <img v-lazy="$com.makeFileUrl(scope.row.blogo)" alt="logo" srcset="" style="height: auto; width: 90px;">
+              <img :src="scope.row.blogo || defImg" alt="logo" srcset="" style="height: auto; width: 90px;">
             </template>
           </el-table-column>
           <el-table-column prop="name" label="栏目名称">
@@ -332,6 +332,8 @@ export default {
       }
     };
     return {
+      defImg:
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
       communitypara: {
         regionid: "0",
         phone: "",

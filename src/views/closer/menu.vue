@@ -11,7 +11,6 @@
             :items="classifies"
             @sort="sort">
             <template slot="cell" scope="props">
-              <!-- <section>{{props.item}}</section> -->
               <el-tag type="success" class="tags" style="width: 65px;padding: 0;box-sizing: initial;text-align:center;" closable @close="handleClose(props.item)">{{props.item}}</el-tag>
             </template>
           </grid>
@@ -72,6 +71,7 @@ export default {
       this.classifies.splice(this.classifies.indexOf(item), 1);
     },
     async sort(event) {
+      console.log(event);
       let arr = await event.items.map(x => {
         return x.item;
       });
@@ -115,10 +115,16 @@ export default {
   height: auto !important;
   margin-right: 20px;
 }
+.tags {
+  position: relative;
+}
 .tags .el-tag__close {
   position: absolute;
   top: -7px;
   right: -6px;
+}
+.tags.el-tag--success .el-tag__close {
+  border: 1px solid #67c23a;
 }
 </style>
 
