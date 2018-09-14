@@ -37,11 +37,11 @@
         </el-table>
       </section>
     </section>
-    <!-- <section class="block cloumn-block" v-if="closerList.count > 0">
+    <section class="block cloumn-block" v-if="closerList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="closerList.count">
+        :total="closerList.data.length">
       </el-pagination>
-    </section> -->
+    </section>
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="分类名称" :label-width="formLabelWidth">

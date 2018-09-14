@@ -53,7 +53,7 @@
               <el-tab-pane label="Boss" name="Boss" v-if="authUser && authUser.type === 1">
                 <section class="role-manage manage flex">
                   <span class="manage-label">角色管理权限：</span>
-                  <el-checkbox-group :max="1" v-model="checkListPermission">
+                  <el-checkbox-group v-model="checkListPermission">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.permission" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -61,7 +61,7 @@
                 </section>
                 <section class="city-manage manage flex">
                   <span class="manage-label">城市管理权限：</span>
-                  <el-checkbox-group v-model="checkListCity" :max="1">
+                  <el-checkbox-group v-model="checkListCity">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.city" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -81,7 +81,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">财务管理：</span>
-                  <el-checkbox-group :max="1" v-model="checkListFinance">
+                  <el-checkbox-group v-model="checkListFinance">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.finance" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -89,7 +89,7 @@
                 </section>
                 <section class="logo-manage manage flex">
                   <span class="manage-label">操作日志：</span>
-                  <el-checkbox-group v-model="checkListLog" :max="1">
+                  <el-checkbox-group v-model="checkListLog">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.log" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -97,7 +97,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">数据统计：</span>
-                  <el-checkbox-group :max="1" v-model="checkListData">
+                  <el-checkbox-group v-model="checkListData">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.data" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -105,7 +105,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">产品管理员权限：</span>
-                  <el-checkbox-group :max="1" v-model="checkListNotice">
+                  <el-checkbox-group v-model="checkListNotice">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -113,7 +113,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">配置管理权限：</span>
-                  <el-checkbox-group :max="1" v-model="checkListConfig">
+                  <el-checkbox-group v-model="checkListConfig">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.config" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -132,7 +132,7 @@
                       :value="item.region_id">
                     </el-option>
                   </el-select>
-                  <el-checkbox-group v-model="checkContent" :max="1" v-show="blurCheckRegion">
+                  <el-checkbox-group v-model="checkContent" v-show="blurCheckRegion">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -141,7 +141,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">活动管理：</span>
-                  <el-checkbox-group :max="1" v-model="checkListActivity">
+                  <el-checkbox-group v-model="checkListActivity">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.activity" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
@@ -157,7 +157,7 @@
                 </section>
                 <section class="role-manage manage flex">
                   <span class="manage-label">通知管理：</span>
-                  <el-checkbox-group :max="1" v-model="checkListNotice">
+                  <el-checkbox-group v-model="checkListNotice">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>

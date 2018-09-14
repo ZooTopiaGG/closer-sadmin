@@ -76,13 +76,13 @@ export default {
           createTime: user.createTime
         };
         // this.$axios.setToken(`${data.result.token}`)
+        // var in30Minutes = 1 / 48;
         Cookies.set('user', JSON.stringify(base), {
           expires: 7
         })
         Cookies.set('token', data.result.token, {
           expires: 7
         })
-        console.log('store===', store.state)
         store.state.authUser = base
         store.state.token = data.result.token
         return true

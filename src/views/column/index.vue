@@ -219,7 +219,7 @@
           </el-table-column>
           <el-table-column label="栏目logo" width="100">
             <template slot-scope="scope">
-              <img :src="scope.row.blogo || defImg" alt="logo" srcset="" style="height: auto; width: 90px;">
+              <img v-lazy="scope.row.blogo" alt="logo" srcset="" style="height: auto; width: 90px;">
             </template>
           </el-table-column>
           <el-table-column prop="name" label="栏目名称">
@@ -332,8 +332,6 @@ export default {
       }
     };
     return {
-      defImg:
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
       communitypara: {
         regionid: "0",
         phone: "",
