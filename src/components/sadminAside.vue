@@ -72,13 +72,13 @@
             <el-menu-item index="贴近号分类">贴近号分类</el-menu-item>
             <el-menu-item index="菜单管理">菜单管理</el-menu-item>
           </el-submenu>
-          <el-submenu index="6">
+          <!-- <el-submenu index="6">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
               <span slot="title">产品管理</span>
             </template>
             <el-menu-item index="群消息智能提示设置">群消息智能提示设置</el-menu-item>
-          </el-submenu>
+          </el-submenu> -->
           <el-menu-item index="配置管理">
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
@@ -131,21 +131,21 @@
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
           </el-menu-item>
-          <el-submenu index="6" v-if="authUser.permissions && authUser.permissions.product">
+          <!-- <el-submenu index="6" v-if="authUser.permissions && authUser.permissions.product">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
               <span slot="title">产品管理</span>
             </template>
             <el-menu-item index="群消息智能提示设置">群消息智能提示设置</el-menu-item>
-          </el-submenu>
-          <!-- <el-submenu index="7">
+          </el-submenu> -->
+          <el-submenu index="7" v-if="authUser.permissions && authUser.permissions.closer">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
               <span slot="title">贴近号管理</span>
             </template>
             <el-menu-item index="贴近号分类">贴近号分类</el-menu-item>
             <el-menu-item index="菜单管理">菜单管理</el-menu-item>
-          </el-submenu> -->
+          </el-submenu>
           <el-menu-item index="配置管理" v-if="authUser.permissions && authUser.permissions.config">
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>

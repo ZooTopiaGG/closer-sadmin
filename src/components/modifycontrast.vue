@@ -6,7 +6,10 @@
       <section class="flex">
         <section class="dialog-content">
           <el-form label-width="140px" class="column-ruleForm" :disabled="isdisabled">
-            <el-form-item label="修改前">
+            <el-form-item>
+              <template slot-scope="scope">
+                <span style="font-size: 20px;color:#1f2f3d">修改前</span>
+              </template>
             </el-form-item>
             <el-form-item label="栏目归属地">
               <el-input v-model="modifyRow.current.regionName"></el-input>
@@ -79,12 +82,15 @@
         </section>
         <section class="dialog-content">
           <el-form label-width="140px" class="column-ruleForm" :disabled="isdisabled">
-            <el-form-item label="修改后">
+            <el-form-item>
+              <template slot-scope="scope">
+                <span style="font-size: 20px;color:#1f2f3d">修改后</span>
+              </template>
             </el-form-item>
             <el-form-item label="栏目归属地">
               <label v-if="modifyRow.update.regionName">
                 <el-input v-model="modifyRow.update.regionName"></el-input>
-                <i class="el-icon-info" style="color: red; margin-left: 5px;"></i>
+                <i class="el-icon-info" style="color: #E6A23C; margin-left: 5px;"></i>
               </label>
               <el-input v-else v-model="modifyRow.current.regionName">
               </el-input>
@@ -101,7 +107,7 @@
             <el-form-item label="栏目名称" prop="columnname">
               <label v-if="modifyRow.update.name">
                 <el-input v-model="modifyRow.update.name"></el-input>
-                <i class="el-icon-info" style="color: red; margin-left: 5px;"></i>
+                <i class="el-icon-info" style="color: #E6A23C; margin-left: 5px;"></i>
               </label>
               <el-input v-else v-model="modifyRow.current.name">
               </el-input>
@@ -121,7 +127,7 @@
                   <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
                   </el-option>
                 </el-select>
-                <i class="el-icon-info" style="color: red; margin-left: 5px;"></i>
+                <i class="el-icon-info" style="color: #E6A23C; margin-left: 5px;"></i>
               </label>
               <el-select v-else v-model="modifyRow.current.own_class" placeholder="" multiple>
                 <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">

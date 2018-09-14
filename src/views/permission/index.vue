@@ -103,14 +103,14 @@
                     </el-checkbox>
                   </el-checkbox-group>
                 </section>
-                <section class="role-manage manage flex">
+                <!-- <section class="role-manage manage flex">
                   <span class="manage-label">产品管理员权限：</span>
                   <el-checkbox-group v-model="checkListNotice">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </section>
+                </section> -->
                 <section class="role-manage manage flex">
                   <span class="manage-label">配置管理权限：</span>
                   <el-checkbox-group v-model="checkListConfig">
