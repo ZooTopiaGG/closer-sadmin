@@ -1,14 +1,51 @@
 import axios from 'axios';
 import api from './api';
 import Store from '../store';
+import {
+	Loading
+} from 'element-ui';
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
 	timeout: 15000, // 请求的超时时间
 	withCredentials: true // 允许携带cookie
 })
+let loading //定义loading变量
+function startLoading() { //使用Element loading-start 方法
+	loading = Loading.service({
+		lock: true,
+		text: '加载中……',
+		target: document.getElementById('loadingMain')
+	})
+}
+
+function endLoading() { //使用Element loading-close 方法
+	loading.close()
+}
+//那么 showFullScreenLoading() tryHideFullScreenLoading() 要干的事儿就是将同一时刻的请求合并。
+//声明一个变量 needLoadingRequestCount，每次调用showFullScreenLoading方法 needLoadingRequestCount + 1。
+//调用tryHideFullScreenLoading()方法，needLoadingRequestCount - 1。needLoadingRequestCount为 0 时，结束 loading。
+let needLoadingRequestCount = 0
+export function showFullScreenLoading() {
+	if (needLoadingRequestCount === 0) {
+		startLoading()
+	}
+	needLoadingRequestCount++
+}
+
+export function tryHideFullScreenLoading() {
+	if (needLoadingRequestCount <= 0) return
+	needLoadingRequestCount--
+	if (needLoadingRequestCount === 0) {
+		endLoading()
+	}
+}
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
+		// loadingInstance = Loading.service({
+		// 	target: document.getElementById('loadingMain')
+		// });
+		showFullScreenLoading()
 		let reqUrl = api.serverDevUrl + config.url
 		if (/sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverDevUrl + config.url;
@@ -22,11 +59,13 @@ axio.interceptors.request.use(
 		return config;
 	},
 	err => {
+		tryHideFullScreenLoading();
 		return Promise.reject(err).catch(err);
 	});
 // http response 拦截器 
 axio.interceptors.response.use(
 	response => {
+		tryHideFullScreenLoading();
 		return response;
 	},
 	(err) => {
@@ -85,6 +124,7 @@ axio.interceptors.response.use(
 				default:
 			}
 		} else {
+			tryHideFullScreenLoading();
 			err.message = '网络错误，请稍后再试！'
 		}
 		if (err && err.response && err.response.data && err.response.data.message) {
@@ -92,6 +132,7 @@ axio.interceptors.response.use(
 		} else {
 			console.warn(err.message)
 		}
+		tryHideFullScreenLoading();
 		return Promise.reject(err).catch(err)
 	});
 export default axio

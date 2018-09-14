@@ -5,6 +5,12 @@ export async function selectAll(payload) {
   return await Axios.post(`${api.closer.select_all}`, payload)
 }
 /**
+ * select_by_page 
+ */
+export async function selectByPage(payload) {
+  return await Axios.post(`${api.closer.select_by_page}`, payload)
+}
+/**
  * update_classref 
  */
 export async function updateClassref(payload) {

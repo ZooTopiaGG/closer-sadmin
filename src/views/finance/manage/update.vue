@@ -117,13 +117,13 @@ export default {
     return {
       financepara: {
         page: 1,
-        count: 7,
+        count: 10,
         id: null
       },
       columnid: "",
       loading: false,
       pagenum: 1,
-      pagesize: 7,
+      pagesize: 10,
       dialogTableVisible: false,
       operationType: 0, //0 改政策 1 查看
       disabled: false,

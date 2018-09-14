@@ -8,7 +8,7 @@
           </el-table-column>
           <el-table-column prop="dataSetDesc" label="配置名称">
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="400">
+          <el-table-column fixed="right" label="操作" width="400" v-if="authUser.permissions && authUser.permissions.config.length>0">
             <template slot-scope="scope">
               <el-button v-for="(item, index) in authUser.permissions.config" type="text" :key="index" size="medium" @click="gotonext(item.name, scope.row)">{{ item.name }}</el-button>
             </template>

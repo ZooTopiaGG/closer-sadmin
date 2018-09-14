@@ -163,6 +163,14 @@
                     </el-checkbox>
                   </el-checkbox-group>
                 </section>
+                <section class="role-manage manage flex">
+                  <span class="manage-label">贴近号管理：</span>
+                  <el-checkbox-group v-model="checkListCommunity">
+                    <el-checkbox :label="item.id" v-for="item in permissionlist.community" :key="item.id">
+                      {{ item.name }}
+                    </el-checkbox>
+                  </el-checkbox-group>
+                </section>
               </el-tab-pane>
             </el-tabs>
           </el-form>
@@ -267,6 +275,7 @@ export default {
       checkListActivity: [],
       checkListActivityData: [],
       checkListNotice: [],
+      checkListCommunity: [],
       checkListConfig: [],
       contentChecked: false,
       // 表单禁用
@@ -359,6 +368,7 @@ export default {
       self.checkListActivity = [];
       self.checkListActivityData = [];
       self.checkListNotice = [];
+      self.checkListCommunity = [];
       self.checkListConfig = [];
       self.checkListLog = [];
       self.checkListCity = [];
@@ -439,6 +449,12 @@ export default {
             return x.id;
           });
         }
+        // 贴近号管理
+        if (row.permissions.community) {
+          self.checkListCommunity = row.permissions.community.map(x => {
+            return x.id;
+          });
+        }
       }
       if (textType === "修改") {
         self.title = "修改账号";
@@ -463,6 +479,7 @@ export default {
         self.checkListActivity,
         self.checkListActivityData,
         self.checkListNotice,
+        self.checkListCommunity,
         self.checkListConfig,
         self.checkContent
       );

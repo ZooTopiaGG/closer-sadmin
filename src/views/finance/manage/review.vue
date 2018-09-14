@@ -125,12 +125,12 @@ export default {
     return {
       financepara: {
         page: 1,
-        count: 7
+        count: 10
       },
       radioRecord: "充额度",
       columnid: "",
       pagenum: 1,
-      pagesize: 7,
+      pagesize: 10,
       dialogTableVisible: false,
       innerVisible: false,
       isSuccess: false,

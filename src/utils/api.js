@@ -197,6 +197,8 @@ let api = {
   closer: {
     // 查询所有分类
     select_all: 'community_class.select_all',
+    // select_by_page 查询所有分类
+    select_by_page: 'community_class.select_by_page',
     // 更新栏目对应的类别
     update_classref: 'community_class.update_classref',
     // 根据communityid获取属于的所有分类

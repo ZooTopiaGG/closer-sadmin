@@ -7,7 +7,8 @@ import {
   updateClass,
   selectClass,
   selectClassLike,
-  updateClassStatus
+  updateClassStatus,
+  selectByPage
 } from './service'
 
 export default {
@@ -17,11 +18,18 @@ export default {
       data: [],
       count: 0
     },
+    searchCloserList: {
+      data: [],
+      count: 0
+    },
     zeroList: []
   },
   mutations: {
     closerList(state, para) {
       state.closerList = para
+    },
+    searchCloserList(state, para) {
+      state.searchCloserList = para
     },
     zeroList(state, para) {
       state.zeroList = para
@@ -47,6 +55,30 @@ export default {
           return x;
         });
         commit('zeroList', na)
+        let res = {
+          data: data.result.data,
+          count: data.result.count
+        }
+        commit('closerList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async selectByPage({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await selectByPage(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.update_time = $async.createTime(x.update_time, "yy-mm-dd hh:MM");
+          return x;
+        });
+        console.log(data.result)
         commit('closerList', data.result)
       } else {
         $message.error(data.result)
@@ -177,6 +209,28 @@ export default {
         });
         commit('zeroList', na)
         commit('closerList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async selectClassLike2({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await selectClassLike(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        let arr = []
+        await data.result.data.map(x => {
+          if (x.status === 0) {
+            arr.push(x.class_name)
+          }
+        })
+        commit('searchCloserList', data.result)
+        return arr
       } else {
         $message.error(data.result)
       }

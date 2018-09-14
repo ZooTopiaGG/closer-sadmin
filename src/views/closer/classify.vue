@@ -38,8 +38,8 @@
       </section>
     </section>
     <section class="block cloumn-block" v-if="closerList.count > 0">
-      <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="closerList.data.length">
+      <el-pagination @current-change="handleCurrentChange" :current-page="selectpara.pagenum" :page-size="selectpara.pagesize" layout="total, prev, pager, next, jumper"
+        :total="closerList.count">
       </el-pagination>
     </section>
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
@@ -64,12 +64,10 @@ export default {
   data() {
     return {
       selectpara: {
-        isAll: 1
+        pagesize: 15,
+        pagenum: 1
       },
       closer_name: "",
-      // 分页
-      pagenum: 1,
-      pagesize: 10,
       dialogFormVisible: false,
       formLabelWidth: "120px",
       form: {
@@ -81,9 +79,7 @@ export default {
     };
   },
   created() {
-    this.selectAll({
-      isAll: 1
-    });
+    this.selectByPage(this.selectpara);
   },
   methods: {
     ...mapActions("closer", [
@@ -91,8 +87,13 @@ export default {
       "insertClass",
       "updateClass",
       "deleteClass",
-      "selectClassLike"
+      "selectClassLike",
+      "selectByPage"
     ]),
+    handleCurrentChange(val) {
+      this.selectpara["pagenum"] = val;
+      this.selectByPage(this.selectpara);
+    },
     searchCloser() {
       if (this.closer_name) {
         this.selectClassLike({
@@ -139,7 +140,8 @@ export default {
         });
       }
       if (res) {
-        await self.selectAll(self.selectpara);
+        self.selectpara["pagenum"] = 1;
+        await self.selectByPage(self.selectpara);
         self.dialogFormVisible = false;
       }
     },
@@ -169,12 +171,13 @@ export default {
       await this.deleteClass({
         class_id: row.id
       });
-      await this.selectAll(this.selectpara);
+      await this.selectByPage(this.selectpara);
     },
     clearSearch() {
       this.closer_name = "";
-      this.selectAll({
-        isAll: 1
+      this.selectByPage({
+        pagesize: 15,
+        pagenum: 1
       });
     }
   },

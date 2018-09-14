@@ -20,6 +20,25 @@
         </section>
       </section>
       <section class="permission_table_content">
+        <section class="flex flex-align-center" style="width: 400px;margin-bottom:20px;">
+          <span class="labelname">
+            分类名称
+          </span>
+          <el-input v-model="closer_name" placeholder="请输入分类名称" @keyup.enter.native="searchCloser">
+            <el-button slot="append" @click="searchCloser" icon="el-icon-search"></el-button>
+          </el-input>
+          <section class="flex flex-align-center" style="margin-left: 10px">
+            <el-button type="text" @click="clearSearch">清除搜索</el-button>
+          </section>
+        </section>
+        <el-checkbox-group 
+          @change="handleChange2" 
+          class="br"
+          v-if="searchCloserList.data.length > 0 && isSearch"
+          v-model="searchClassifies">
+          <el-checkbox  style="width: 33.33%;margin: 0 0px 10px 0" v-for="cl in searchCloserList.data" :label="cl.class_name" :key="cl.id">{{cl.class_name}} <span style="margin-left: 40px">{{ cl.community_count }}个栏目</span></el-checkbox>
+        </el-checkbox-group>
+        <section v-else-if="isSearch" class="br">暂无数据</section>
         <el-checkbox-group 
           @change="handleChange"
           v-model="classifies">
@@ -33,7 +52,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("closer", ["closerList", "zeroList"])
+    ...mapState("closer", ["closerList", "zeroList", "searchCloserList"])
   },
   data() {
     return {
@@ -42,6 +61,8 @@ export default {
       },
       closer_name: "",
       classifies: [],
+      searchClassifies: [],
+      isSearch: false,
       items: [],
       // 分页
       pagenum: 1,
@@ -54,7 +75,9 @@ export default {
       title: "新增分类",
       optype: 0,
       updateRow: {},
-      publishArr: []
+      publishArr: [],
+      _search: [],
+      _classSearch: []
     };
   },
   created() {
@@ -63,30 +86,100 @@ export default {
     });
   },
   methods: {
-    ...mapActions("closer", ["selectAll", "updateClassStatus", "selectClass"]),
-    handleChange() {
-      this.publishArr = this.classifies;
+    ...mapActions("closer", [
+      "selectAll",
+      "updateClassStatus",
+      "selectClass",
+      "selectClassLike2"
+    ]),
+    differenceWith(arr, arr2, comp) {
+      return arr.filter(a => !arr2.find(b => comp(a, b)));
+    },
+    // 这个逻辑自己都看不懂～～～～～
+    async handleChange(val) {
+      var _diff = [],
+        self = this;
+      // 当下面部分的checkbox 变化的时候 监听 ，如果上一次的值的长度大于这次的，说明是在删除分类
+      if (self._classSearch && self._classSearch.length > val.length) {
+        // 通过数组比对 找出变化的哪一个值
+        _diff = await self.differenceWith(
+          self._classSearch,
+          val,
+          (a, b) => a == b
+        );
+        // 在另外的一个列表 进行同步更新
+        self.searchClassifies.splice(
+          self.searchClassifies.indexOf(_diff[0]),
+          1
+        );
+        self._search = self.searchClassifies;
+      } else {
+        val.map(x => {
+          self.searchCloserList.data.map(y => {
+            if (x === y.class_name) {
+              self.searchClassifies.push(y.class_name);
+              // 数组去重
+              self.searchClassifies = [...new Set(self.searchClassifies)];
+              self._search = self.searchClassifies;
+            }
+          });
+        });
+      }
+      self._classSearch = val;
+      self.publishArr = self.classifies;
+    },
+    async handleChange2(val) {
+      var _diff = [],
+        self = this;
+      if (self._search && self._search.length > val.length) {
+        _diff = await self.differenceWith(self._search, val, (a, b) => a == b);
+        self.classifies.splice(self.classifies.indexOf(_diff[0]), 1);
+        self._classSearch = self.classifies;
+      } else {
+        self.classifies = self.classifies.concat(self.searchClassifies);
+        self.classifies = [...new Set(self.classifies)];
+        self._classSearch = self.classifies;
+      }
+      self._search = val;
+      self.publishArr = self.classifies;
     },
     handleClose(item) {
-      this.classifies.splice(this.classifies.indexOf(item), 1);
+      // console.log("sort==", item);
+      // return;
+      let self = this;
+      self.classifies.splice(self.classifies.indexOf(item), 1);
+      self.searchClassifies.splice(self.searchClassifies.indexOf(item), 1);
+    },
+    clearSearch() {
+      let self = this;
+      self.closer_name = "";
+      self.isSearch = false;
     },
     async sort(event) {
-      console.log(event);
       let arr = await event.items.map(x => {
         return x.item;
       });
       this.publishArr = arr;
     },
-    searchCloser() {
-      if (this.closer_name) {
-        this.selectClass(this.closer_name);
+    async searchCloser() {
+      let self = this;
+      if (self.closer_name) {
+        self.isSearch = true;
+        let res = await self.selectClassLike2({
+          class_name: self.closer_name
+        });
+        if (res.length > 0) {
+          self.searchClassifies = res;
+          self._search = res;
+        }
       } else {
         return;
       }
     },
     async publishCloser() {
-      let arr = await this.publishArr.map(x => {
-        this.closerList.data.map(y => {
+      let self = this;
+      let arr = await self.publishArr.map(x => {
+        self.closerList.data.map(y => {
           if (x === y.class_name) {
             x = y.id;
           }
@@ -94,7 +187,7 @@ export default {
         return x;
       });
       let newarr = await arr.join(",");
-      await this.updateClassStatus({
+      await self.updateClassStatus({
         class_ids: newarr,
         status: 0
       });
@@ -120,15 +213,15 @@ export default {
 }
 .tags .el-tag__close {
   position: absolute;
-  top: -7px;
-  right: -6px;
-}
-.tags.el-tag--success .el-tag__close {
-  border: 1px solid #67c23a;
+  top: -8px;
+  right: -8px;
 }
 </style>
 
 <style scoped="scoped">
+.br {
+  margin-bottom: 20px;
+}
 .labelname {
   margin-right: 10px;
   min-width: 60px;

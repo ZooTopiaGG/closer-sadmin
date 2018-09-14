@@ -2,7 +2,7 @@
   <section id="app">
     <section class="flex">
     <sadmin-aside v-if="!isLoginPage"></sadmin-aside>
-    <section :class="{
+    <section id="loadingMain" :class="{
       main:true, 'flex-1': true, container: true, loginpage: isLoginPage
     }">
       <sadmin-nav v-if="!isLoginPage"></sadmin-nav>
@@ -43,6 +43,9 @@ export default {
 };
 </script>
 <style>
+#loadingMain {
+  position: relative;
+}
 .info-ruleForm .el-input {
   width: 200px;
 }

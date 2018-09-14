@@ -56,10 +56,6 @@
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
           </el-menu-item>
-          <!-- <el-menu-item index="活动落地页">
-            <i class="el-icon-setting"></i>
-            <span slot="title">线上活动落地页</span>
-          </el-menu-item> -->
           <!-- <el-menu-item index="数据统计">
             <i class="el-icon-setting"></i>
             <span slot="title">数据统计</span>
@@ -138,13 +134,12 @@
             </template>
             <el-menu-item index="群消息智能提示设置">群消息智能提示设置</el-menu-item>
           </el-submenu> -->
-          <el-submenu index="7" v-if="authUser.permissions && authUser.permissions.closer">
+          <el-submenu index="7" v-if="authUser.permissions && authUser.permissions.community">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
               <span slot="title">贴近号管理</span>
             </template>
-            <el-menu-item index="贴近号分类">贴近号分类</el-menu-item>
-            <el-menu-item index="菜单管理">菜单管理</el-menu-item>
+            <el-menu-item :index="item.name" v-for="(item, index) in authUser.permissions.community" :key="index">{{ item.name }}</el-menu-item>
           </el-submenu>
           <el-menu-item index="配置管理" v-if="authUser.permissions && authUser.permissions.config">
             <i class="el-icon-setting"></i>

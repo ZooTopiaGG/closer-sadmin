@@ -277,7 +277,6 @@ export default {
             var discuss = content.discuss;
           }
         }
-        console.log(data.result)
         // 返回在渲染页面之前得结果
         commit('res', data.result);
         commit('content', content);
@@ -370,7 +369,6 @@ export default {
       } = await adminSearch(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data.result.data)
       if (data.code === 0) {
         let arr = await data.result.data.map(x => {
           x.long_publish_time = $async.createTime(

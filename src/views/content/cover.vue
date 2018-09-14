@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column label="封面贴">
             <template slot-scope="scope">
-              <span v-if="scope.row.Is_bigCover_card" style="color:#85c976">是</span>
+              <span v-if="scope.row.is_bigCover_card" style="color:#85c976">是</span>
               <span v-else>否</span>
             </template>
           </el-table-column>
@@ -49,7 +49,7 @@
           </el-table-column>
           <el-table-column label="上封面">
             <template slot-scope="scope">
-              <el-button type="primary" v-if="scope.row.Is_bigCover_card" disabled="disabled" size="medium">上封面</el-button>
+              <el-button type="info" v-if="scope.row.is_bigCover_card" disabled="disabled" size="medium">上封面</el-button>
               <el-button type="primary" v-else size="medium" @click="sureGotoCover(scope.row)">上封面</el-button>
             </template>
           </el-table-column>
@@ -62,7 +62,7 @@
       </section>
     </section>
     <section class="block cloumn-block">
-      <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
+      <el-pagination @current-change="handleCurrentChange" :current-page="coverpara.pagenum" :page-size="coverpara.pagesize" layout="total, prev, pager, next, jumper"
         :total="coverList.count">
       </el-pagination>
     </section>
@@ -172,9 +172,7 @@ export default {
         region_id: self.fliterregion || "0"
       });
       if (res) {
-        self.coverpara["pagenum"] = 1;
-        self.coverpara["communityName"] = "";
-        self.coverpara["region_id"] = "";
+        // self.coverpara["pagenum"] = 1;
         await self.getCoverList();
       }
     }
@@ -184,6 +182,8 @@ export default {
 <style>
 .preview .el-dialog {
   min-width: 375px !important;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px #333;
 }
 .preview .el-dialog__body {
   padding: 10px 0;
