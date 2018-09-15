@@ -180,8 +180,7 @@ export default {
         pagenum: 1
       });
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped="scoped">
