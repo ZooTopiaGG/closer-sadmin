@@ -173,6 +173,12 @@
   </section>
 </template>
 <script>
+//单独的组件里面使用
+import Vue from "vue";
+import infiniteScroll from "vue-infinite-scroll";
+new Vue({
+  directives: { infiniteScroll }
+});
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {

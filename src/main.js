@@ -13,7 +13,6 @@ import {
   Notification,
   Loading
 } from 'element-ui'
-import infiniteScroll from 'vue-infinite-scroll'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import '@/assets/css/element-variables.scss'
 import '@/assets/css/common.css'
@@ -27,7 +26,6 @@ import '@/utils/json2csv'
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(ElementUI)
 Vue.use(Grid)
-Vue.use(infiniteScroll)
 Vue.use(VueLazyload, {
   lazyComponent: true,
   preLoad: 1.3,
