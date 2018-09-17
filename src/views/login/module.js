@@ -72,9 +72,7 @@ export default {
         };
         store.state.authUser = base
         store.state.token = data.result.token
-        Cookies.set('_ucloser', JSON.stringify(base), {
-          expires: 7
-        })
+        localStorage.setItem('_ucloser', JSON.stringify(base))
         Cookies.set('_tcloser', data.result.token, {
           expires: 7
         })
@@ -110,10 +108,10 @@ export default {
       if (data.code != 0) {
         throw new Error(data.result)
       } else {
-        Cookies.remove('_ucloser')
-        Cookies.remove('_tcloser')
-        store.state.token = ''
-        store.state.authUser = {}
+        localStorage.removeItem('_ucloser');
+        Cookies.remove('_tcloser');
+        store.state.token = '';
+        store.state.authUser = {};
       }
     }
   },

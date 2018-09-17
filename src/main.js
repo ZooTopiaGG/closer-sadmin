@@ -56,7 +56,7 @@ window.Cookies = Cookies;
 window.$async = async;
 window.api = api;
 let t = Cookies.get('_tcloser'),
-  u = Cookies.get('_ucloser');
+  u = localStorage.getItem('_ucloser');
 store.state.authUser = u ? JSON.parse(u) : '';
 store.state.token = t ? t : '';
 if (/sandbox.tiejin/.test(window.location.href) || /localhost/.test(window.location.href) || /10.3.0.27/.test(window.location.href)) {
