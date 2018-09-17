@@ -176,9 +176,9 @@
 //单独的组件里面使用
 import Vue from "vue";
 import infiniteScroll from "vue-infinite-scroll";
-new Vue({
-  directives: { infiniteScroll }
-});
+// 有问题 还是影响
+Vue.use(infiniteScroll);
+console.log(infiniteScroll);
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {

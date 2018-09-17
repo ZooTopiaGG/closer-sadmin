@@ -118,84 +118,9 @@ export default {
           });
           if (res) {
             self.ruleForm2.code = "";
-            if (self.authUser.type === 1) {
-              self.$router.push({
-                path: "/permission"
-              });
-            } else {
-              if (JSON.stringify(self.authUser.permissions) != "{}") {
-                // 去权限设置页面
-                // 去城市管理页面
-                // 去栏目管理 审核页面
-                // 去栏目管理 工作量查看页面
-                // 去操作日志页面
-                // 去财务管理页面
-                let permissions = self.authUser.permissions;
-                if (permissions.permission) {
-                  self.$router.push({
-                    path: "/permission"
-                  });
-                } else if (permissions.city) {
-                  self.$router.push({
-                    path: "/city"
-                  });
-                } else if (permissions.content) {
-                  self.$router.push({
-                    path: "/content"
-                  });
-                } else if (
-                  self.authUser.columnCity &&
-                  JSON.parse(self.authUser.columnCity).length > 0
-                ) {
-                  self.$router.push({
-                    path: "/column"
-                  });
-                } else if (permissions.finance) {
-                  self.$router.push({
-                    path: "/finance/records/column"
-                  });
-                } else if (permissions.log) {
-                  self.$router.push({
-                    path: "/log"
-                  });
-                } else if (permissions.config) {
-                  self.$router.push({
-                    path: "/config"
-                  });
-                } else if (permissions.closer) {
-                  self.$router.push({
-                    path: "/closer"
-                  });
-                } else if (permissions.notice) {
-                  self.$router.push({
-                    path: "/notice"
-                  });
-                } else if (permissions.acitivity) {
-                  self.$router.push({
-                    path: "/acitivity/management"
-                  });
-                } else if (permissions.acitivity_data) {
-                  self.$router.push({
-                    path: "/acitivity/data"
-                  });
-                } else if (permissions.product) {
-                  self.$router.push({
-                    path: "/product"
-                  });
-                }
-              } else if (
-                self.authUser.columnCity &&
-                JSON.parse(self.authUser.columnCity).length > 0
-              ) {
-                self.$router.push({
-                  path: "/column"
-                });
-              } else {
-                self.$router.push({
-                  path: "/general"
-                });
-              }
-            }
+            self.$router.push({
+              path: "/"
+            });
           }
           self.loading = false;
         } else {

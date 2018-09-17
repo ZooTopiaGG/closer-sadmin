@@ -124,19 +124,20 @@
                 <section class="content-manage manage flex flex-align-center">
                   <span class="manage-label">内容审核权限：</span>
                   <section class="flex flex-v">
-                    <el-select v-model="checkListColumn2" multiple placeholder="请选择" @change="handleSelect1">
-                    <el-option
-                      v-for="item in regionlist"
-                      :key="item.region_id"
-                      :label="item.region_name"
-                      :value="item.region_id">
-                    </el-option>
-                  </el-select>
-                  <el-checkbox-group v-model="checkContent" v-show="blurCheckRegion">
-                    <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
-                      {{ item.name }}
-                    </el-checkbox>
-                  </el-checkbox-group>
+                    <!-- <el-select v-model="checkListColumn2" multiple placeholder="请选择" @change="handleSelect1">
+                      <el-option
+                        v-for="item in regionlist"
+                        :key="item.region_id"
+                        :label="item.region_name"
+                        :value="item.region_id">
+                      </el-option>
+                    </el-select> -->
+                    <!-- <el-checkbox-group v-model="checkContent" v-show="blurCheckRegion"> -->
+                    <el-checkbox-group v-model="checkContent">
+                      <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
+                        {{ item.name }}
+                      </el-checkbox>
+                    </el-checkbox-group>
                   </section>
                 </section>
                 <section class="role-manage manage flex">
@@ -155,14 +156,14 @@
                     </el-checkbox>
                   </el-checkbox-group>
                 </section>
-                <section class="role-manage manage flex">
+                <!-- <section class="role-manage manage flex">
                   <span class="manage-label">通知管理：</span>
                   <el-checkbox-group v-model="checkListNotice">
                     <el-checkbox :label="item.id" v-for="item in permissionlist.notice" :key="item.id">
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
-                </section>
+                </section> -->
                 <section class="role-manage manage flex">
                   <span class="manage-label">贴近号管理：</span>
                   <el-checkbox-group v-model="checkListCommunity">
@@ -392,16 +393,22 @@ export default {
             return x.id;
           });
         }
-        if (self.checkListColumn2.length > 0) {
-          // 内容审核
-          if (row.permissions.content) {
-            self.checkContent = row.permissions.content.map(x => {
-              return x.id;
-            });
-          }
-        } else {
-          // 没有城市权限， 是没有审核或者工作量查看权限
-          self.checkContent = [];
+        // if (self.checkListColumn2.length > 0) {
+        //   // 内容审核
+        //   if (row.permissions.content) {
+        //     self.checkContent = row.permissions.content.map(x => {
+        //       return x.id;
+        //     });
+        //   }
+        // } else {
+        //   // 没有城市权限， 是没有审核或者工作量查看权限
+        //   self.checkContent = [];
+        // }
+        // 内容审核
+        if (row.permissions.content) {
+          self.checkContent = row.permissions.content.map(x => {
+            return x.id;
+          });
         }
         // 城市栏目
         if (row.columnCity) {
@@ -492,8 +499,8 @@ export default {
         phone: self.u_phone,
         username: self.u_username,
         columnCity: self.checkListColumn,
-        permissions: arr,
-        citys: self.checkListColumn2
+        permissions: arr
+        // citys: self.checkListColumn2
       });
       if (res) {
         self.outerVisible = false;

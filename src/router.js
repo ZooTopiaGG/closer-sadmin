@@ -301,7 +301,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   console.log(to)
   store.state.isLoginPage = to.path === '/login' || to.path === '/register';
-  if (!Cookies.get('token')) {
+  if (!(Cookies.get('_tcloser') && Cookies.get('_ucloser'))) {
     if (to.path != '/login') {
       next({
         path: '/login'
@@ -406,7 +406,7 @@ router.beforeEach((to, from, next) => {
       store.state.activeIndex = '群消息智能提示设置';
       break;
     default:
-      store.state.activeIndex = '权限设置'
+      store.state.activeIndex = '/'
   }
   next()
 })

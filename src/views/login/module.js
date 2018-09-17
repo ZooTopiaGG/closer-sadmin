@@ -63,28 +63,21 @@ export default {
         // 存cookie
         let user = data.result.sysUser
         let base = {
-          token: data.result.token,
           uid: user.id,
           username: user.username,
           type: user.type,
-          code: data.code,
-          // avatar: data.result.user.avatar,
           columnCity: user.columnCity, // 城市权限 
           permissions: user.permissions, // 权限列表
           phone: user.phone,
-          lastLoginTime: user.lastLoginTime,
-          createTime: user.createTime
         };
-        // this.$axios.setToken(`${data.result.token}`)
-        // var in30Minutes = 1 / 48;
-        Cookies.set('user', JSON.stringify(base), {
-          expires: 7
-        })
-        Cookies.set('token', data.result.token, {
-          expires: 7
-        })
         store.state.authUser = base
         store.state.token = data.result.token
+        Cookies.set('_ucloser', JSON.stringify(base), {
+          expires: 7
+        })
+        Cookies.set('_tcloser', data.result.token, {
+          expires: 7
+        })
         return true
       } else {
         $message.error(data.result)
@@ -116,11 +109,12 @@ export default {
       })
       if (data.code != 0) {
         throw new Error(data.result)
+      } else {
+        Cookies.remove('_ucloser')
+        Cookies.remove('_tcloser')
+        store.state.token = ''
+        store.state.authUser = {}
       }
-      Cookies.remove('user')
-      Cookies.remove('token')
-      store.state.token = ''
-      store.state.authUser = {}
     }
   },
 };

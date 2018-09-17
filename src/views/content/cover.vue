@@ -11,8 +11,14 @@
         </section>
         <section class="flex flex-align-center" style="margin-left: 30px;margin-right: 10px">
           <el-input v-model="cover_value" placeholder="请输入栏目名称" @keyup.enter.native="searchCover">
-            <el-button slot="append" @click="searchCover" icon="el-icon-search"></el-button>
           </el-input>
+        </section>
+        <section class="flex flex-align-center" style="margin-left: 30px;margin-right: 10px">
+          <el-input v-model="title_value" placeholder="请输入标题（关键词语，常用词语）" @keyup.enter.native="searchCover">
+          </el-input>
+        </section>
+        <section class="flex flex-align-center" style="margin-left: 30px;margin-right: 10px" >
+          <el-button @click="searchCover" icon="el-icon-search">立即搜索</el-button>
         </section>
         <section class="flex flex-align-center">
           <el-button type="text" @click="clearSearch">清除搜索</el-button>
@@ -77,7 +83,8 @@ export default {
   computed: {
     ...mapState("content", {
       coverList: state => state.coverList,
-      searchregion: state => state.regionsList
+      searchregion: state => state.regionsList,
+      defaultRegion: state => state.defaultRegion
     })
   },
   data() {
@@ -90,13 +97,14 @@ export default {
         count: 0
       },
       cover_value: "",
-      fliterregion: "wfXYXEpsBEyN",
+      title_value: "",
+      fliterregion: "",
       // 分页
       pagenum: 1,
       pagesize: 10,
       coverpara: {
         communityName: "",
-        region_id: "wfXYXEpsBEyN",
+        region_id: "",
         pagesize: 10,
         pagenum: 1
       },
@@ -108,8 +116,8 @@ export default {
     };
   },
   created() {
-    this.adminSearch(this.coverpara);
-    this.getRegionsList(this.cityregions);
+    // this.getRegionsList(this.cityregions);
+    // this.adminSearch(this.coverpara);
   },
   methods: {
     ...mapActions("content", ["adminSearch", "coverSetting", "getRegionsList"]),
@@ -131,17 +139,24 @@ export default {
       this.getCoverList();
     },
     searchCover() {
-      this.coverpara["pagenum"] = 1;
-      this.coverpara["communityName"] = this.cover_value;
-      this.getCoverList();
+      let self = this;
+      self.coverpara = {
+        communityName: self.cover_value,
+        title: self.title_value,
+        region_id: self.fliterregion,
+        pagesize: 10,
+        pagenum: 1
+      };
+      self.getCoverList();
     },
     clearSearch() {
-      this.cover_value = "";
-      this.fliterregion = "";
-      this.coverpara["communityName"] = "";
-      this.coverpara["region_id"] = "";
-      this.coverpara["pagenum"] = 1;
-      this.getCoverList();
+      let self = this;
+      self.cover_value = "";
+      self.title_value = "";
+      self.coverpara["pagenum"] = 1;
+      self.coverpara["communityName"] = "";
+      self.coverpara["title"] = "";
+      self.getCoverList();
     },
     async sureGotoCover(row) {
       let self = this;
@@ -172,10 +187,27 @@ export default {
         region_id: self.fliterregion || "0"
       });
       if (res) {
-        // self.coverpara["pagenum"] = 1;
         await self.getCoverList();
       }
     }
+  },
+  mounted() {
+    let self = this;
+    self.$nextTick(async () => {
+      let defaultRegion = await self.getRegionsList(self.cityregions);
+      if (defaultRegion) {
+        self.fliterregion = defaultRegion;
+        self.coverpara = {
+          communityName: "",
+          region_id: self.fliterregion,
+          pagesize: 10,
+          pagenum: 1
+        };
+        self.adminSearch(self.coverpara);
+      } else {
+        self.$message.error("分配城市异常！");
+      }
+    });
   }
 };
 </script>

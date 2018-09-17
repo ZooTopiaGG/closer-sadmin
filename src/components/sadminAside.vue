@@ -52,10 +52,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">活动数据</span>
           </el-menu-item>
-          <el-menu-item index="通知管理">
+          <!-- <el-menu-item index="通知管理">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <!-- <el-menu-item index="数据统计">
             <i class="el-icon-setting"></i>
             <span slot="title">数据统计</span>
@@ -84,7 +84,7 @@
             <span slot="title">操作日志</span>
           </el-menu-item>
         </el-menu>
-        <el-menu v-else-if="authUser" :default-active="$route.path" class="el-menu-vertical" background-color="#464646" text-color="#fff"
+        <el-menu v-else-if="authUser" :default-active="activeIndex" class="el-menu-vertical" background-color="#464646" text-color="#fff"
           active-text-color="#FDDB00" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-menu-item index="权限设置" v-if="authUser.permissions && authUser.permissions.permission">
             <i class="el-icon-setting"></i>
@@ -123,10 +123,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">活动数据</span>
           </el-menu-item>
-          <el-menu-item index="通知管理" v-if="authUser.permissions && authUser.permissions.notice">
+          <!-- <el-menu-item index="通知管理" v-if="authUser.permissions && authUser.permissions.notice">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
-          </el-menu-item>
+          </el-menu-item> -->
           <!-- <el-submenu index="6" v-if="authUser.permissions && authUser.permissions.product">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
@@ -180,7 +180,6 @@ export default {
     handleOpen(key, keyPath) {},
     handleClose(key, keyPath) {},
     handleSelect(key, keyPath) {
-      console.log("key==", key);
       switch (key) {
         case "权限设置":
           this.$router.push({

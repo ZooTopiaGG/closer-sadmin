@@ -155,9 +155,9 @@ export default {
           arr2 = arr1;
           _fliterregion = "0";
         } else {
-          columnCity.forEach((x, i) => {
+          payload['columnCity'].forEach((x, i) => {
             arr1.forEach((y, j) => {
-              if (y.value === columnCity[i]) {
+              if (y.value === payload['columnCity'][i]) {
                 arr2.push({
                   value: y.value,
                   label: y.label

@@ -54,7 +54,12 @@ axio.interceptors.request.use(
 		}
 		config.url = reqUrl;
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1) {
-			config.headers.Authorization = "CloserSysAuth " + Store.state.authUser.token;
+			try {
+				let t = Cookies.get('_tcloser') || Store.state.token;
+				config.headers.Authorization = "CloserSysAuth " + t;
+			} catch (e) {
+				console.log(e)
+			}
 		}
 		return config;
 	},

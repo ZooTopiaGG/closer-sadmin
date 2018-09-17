@@ -52,6 +52,7 @@ export default {
       count: 0
     },
     regionsList: [],
+    defaultRegion: ''
   },
   mutations: {
     readList(state, para) {
@@ -86,6 +87,9 @@ export default {
     },
     regionsList(state, para) {
       state.regionsList = para
+    },
+    defaultRegion(state, para) {
+      state.defaultRegion = para
     }
   },
   actions: {
@@ -100,7 +104,8 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        let arr = await data.result.result1.data.map(x => {
+        let arr = await data.result.data.map(x => {
+          // let arr = await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
           x.long_create_time = $async.getCommonTime(
             x.long_create_time,
@@ -112,9 +117,11 @@ export default {
           );
           return x;
         });
-        data.result.result1.data = state.readList.data.concat(arr)
+        // data.result.result1.data = state.readList.data.concat(arr)
+        data.result.data = state.readList.data.concat(arr)
         state.current_payload = payload;
-        commit('readList', data.result.result1)
+        // commit('readList', data.result.result1)
+        commit('readList', data.result)
       } else {
         $message.error(data.result);
       }
@@ -130,7 +137,8 @@ export default {
       })
       if (data.code === 0) {
         // 待发布
-        await data.result.result1.data.map(x => {
+        await data.result.data.map(x => {
+          // await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
           // 判断是否有title 没有用text替换
           if (x.int_type === 2) {
@@ -150,7 +158,8 @@ export default {
           );
           return x;
         });
-        commit('readList2', data.result.result1)
+        // commit('readList2', data.result.result1)
+        commit('readList2', data.result)
       } else {
         $message.error(data.result);
       }
@@ -217,7 +226,6 @@ export default {
         $message.error(data.result);
       }
     },
-
     async recycleBin({
       commit,
       state
@@ -356,7 +364,31 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        commit('regionsList', data.result.data)
+        commit('regionsList', data.result.data);
+        if (data.result.data.length > 0) {
+          let defaultRegion;
+          let arr = await data.result.data.map(x => {
+            return x.region_id;
+          });
+          if (arr.includes("wfXYXEpsBEyN")) {
+            defaultRegion = "wfXYXEpsBEyN";
+          } else if (arr.includes("0")) {
+            defaultRegion = "0";
+          } else if (arr.includes("wsJK3jZqhgxR")) {
+            defaultRegion = "wsJK3jZqhgxR";
+          } else if (arr.includes("wghHCWxHxgYV")) {
+            defaultRegion = "wghHCWxHxgYV";
+          } else if (arr.includes("wg2JligjGo3a")) {
+            defaultRegion = "wg2JligjGo3a";
+          } else {
+            defaultRegion = arr[0].region_id;
+          }
+          commit('defaultRegion', defaultRegion)
+          return defaultRegion
+        } else {
+          return false
+        }
+
       } else {
         $message.error(data.result)
       }
@@ -393,8 +425,13 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        $message.success("操作成功！");
-        return true
+        if (data.result) {
+          $message.success("操作成功！");
+          return true
+        } else {
+          $message.error("操作失败！贴子不存在或者已经通过其他方式下线了。")
+          return false
+        }
       }
     },
   }

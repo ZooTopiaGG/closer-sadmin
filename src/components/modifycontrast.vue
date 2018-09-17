@@ -284,10 +284,10 @@ export default {
     }
   },
   mounted() {
-    console.log("m0dify", this.modifyRow);
-    console.log("self", this.selfRow);
-    console.log("closerlist", this.closerList);
-    console.log("class_list", this.class_list);
+    // console.log("m0dify", this.modifyRow);
+    // console.log("self", this.selfRow);
+    // console.log("closerlist", this.closerList);
+    // console.log("class_list", this.class_list);
   }
 };
 </script>
