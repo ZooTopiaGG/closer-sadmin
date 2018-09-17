@@ -302,12 +302,16 @@ router.beforeEach((to, from, next) => {
   console.log('now===', to.path)
   store.state.isLoginPage = to.path === '/login' || to.path === '/register';
   store.state.loadingMain = to.path != '/content';
-  if (!(Cookies.get('_tcloser') && localStorage.getItem('_ucloser'))) {
-    if (to.path != '/login') {
-      next({
-        path: '/login'
-      })
+  try{
+    if (!(Cookies.get('_tcloser') && localStorage.getItem('_ucloser'))) {
+      if (to.path != '/login') {
+        next({
+          path: '/login'
+        })
+      }
     }
+  } catch(e) {
+    console.log(e)
   }
   switch (to.name) {
     case 'permission':

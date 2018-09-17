@@ -70,8 +70,8 @@ export default {
           permissions: user.permissions, // 权限列表
           phone: user.phone,
         };
-        store.state.authUser = base
-        store.state.token = data.result.token
+        store.state.authUser = base;
+        store.state.token = data.result.token;
         localStorage.setItem('_ucloser', JSON.stringify(base))
         Cookies.set('_tcloser', data.result.token, {
           expires: 7
