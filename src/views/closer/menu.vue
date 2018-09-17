@@ -31,14 +31,17 @@
             <el-button type="text" @click="clearSearch">清除搜索</el-button>
           </section>
         </section>
-        <el-checkbox-group 
-          @change="handleChange2" 
-          class="br"
-          v-if="searchCloserList.data.length > 0 && isSearch"
-          v-model="searchClassifies">
-          <el-checkbox  style="width: 33.33%;margin: 0 0px 10px 0" v-for="cl in searchCloserList.data" :label="cl.class_name" :key="cl.id">{{cl.class_name}} <span style="margin-left: 40px">{{ cl.community_count }}个栏目</span></el-checkbox>
-        </el-checkbox-group>
+        <section v-if="searchCloserList.data.length > 0 && isSearch">
+          <section class="br2">搜索结果：</section>
+          <el-checkbox-group 
+            @change="handleChange2" 
+            class="br"
+            v-model="searchClassifies">
+            <el-checkbox  style="width: 33.33%;margin: 0 0px 10px 0" v-for="cl in searchCloserList.data" :label="cl.class_name" :key="cl.id">{{cl.class_name}} <span style="margin-left: 40px">{{ cl.community_count }}个栏目</span></el-checkbox>
+          </el-checkbox-group>
+        </section>
         <section v-else-if="isSearch" class="br">暂无数据</section>
+        <section class="br2">所有分类：</section>
         <el-checkbox-group 
           @change="handleChange"
           v-model="classifies">
@@ -221,6 +224,9 @@ export default {
 <style scoped="scoped">
 .br {
   margin-bottom: 20px;
+}
+.br2 {
+  margin-bottom: 10px;
 }
 .labelname {
   margin-right: 10px;
