@@ -32,6 +32,10 @@ export default {
     }
   },
   getCommonTime(milliseconds, type) {
+    milliseconds = Number(milliseconds);
+    if (isNaN(milliseconds)) {
+      return
+    }
     let time = new Date(milliseconds),
       time_ = new Date(),
       time1 = time.getTime(time), //发布时间

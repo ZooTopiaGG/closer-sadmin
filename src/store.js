@@ -23,7 +23,8 @@ export default new Vuex.Store({
     authUser: {},
     token: '',
     isLoginPage: false,
-    activeIndex: '/permission'
+    activeIndex: '/permission',
+    loadingMain: false
   },
   modules: {
     permission,

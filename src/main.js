@@ -7,6 +7,10 @@ import router from './router'
 import ElementUI from 'element-ui'
 import VueLazyload from 'vue-lazyload'
 import Grid from 'vue-js-grid'
+//单独的组件里面使用
+import infiniteScroll from "vue-infinite-scroll";
+// 有问题 还是影响
+Vue.use(infiniteScroll);
 import {
   Message,
   MessageBox,

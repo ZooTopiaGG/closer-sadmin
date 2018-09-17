@@ -1,9 +1,6 @@
 import axios from 'axios';
 import api from './api';
 import Store from '../store';
-import {
-	Loading
-} from 'element-ui';
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
 	timeout: 15000, // 请求的超时时间
@@ -11,7 +8,7 @@ const axio = axios.create({ 
 })
 let loading //定义loading变量
 function startLoading() { //使用Element loading-start 方法
-	loading = Loading.service({
+	loading = $loading({
 		lock: true,
 		text: '加载中……',
 		target: document.getElementById('loadingMain')
@@ -42,10 +39,12 @@ export function tryHideFullScreenLoading() {
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
-		// loadingInstance = Loading.service({
+		// loadingInstance = $loading({
 		// 	target: document.getElementById('loadingMain')
 		// });
-		showFullScreenLoading()
+		if (Store.state.loadingMain) {
+			showFullScreenLoading()
+		}
 		let reqUrl = api.serverDevUrl + config.url
 		if (/sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverDevUrl + config.url;

@@ -24,7 +24,8 @@ import sadminAside from "@/components/sadminAside.vue";
 import sadminNav from "@/components/sadminNav.vue";
 export default {
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     authUser() {

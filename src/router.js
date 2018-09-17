@@ -44,9 +44,9 @@ const router = new Router({
     name: 'content',
     component: () =>
       import ('./views/content/index.vue'),
-    meta: {
-      keepAlive: true
-    }
+    // meta: {
+    //   keepAlive: true
+    // }
   }, {
     path: '/content/cover',
     name: 'cover',
@@ -85,7 +85,7 @@ const router = new Router({
     component: () =>
       import ('./views/content/feed/index.vue'),
     meta: {
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/column',
@@ -299,8 +299,9 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(to)
+  console.log('now===', to.path)
   store.state.isLoginPage = to.path === '/login' || to.path === '/register';
+  store.state.loadingMain = to.path != '/content';
   if (!(Cookies.get('_tcloser') && Cookies.get('_ucloser'))) {
     if (to.path != '/login') {
       next({

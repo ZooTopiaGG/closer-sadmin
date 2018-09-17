@@ -42,7 +42,7 @@
               <section class="columnname flex flex-align-center">
                 <img v-lazy="$com.makeFileUrl(item.blogo)">
                 <span class="name text-ellipse flex-1">{{ item.communityName }}</span>
-                <span class="time">{{ $com.getCommonTime(item.long_update_time, 'yy-mm-dd hh:MM') }}</span>
+                <span class="time">{{ item.long_create_time }}</span>
               </section>
               <!-- 贴子详情 -->
               <!-- 纯图片类型 int_type == 0-->
@@ -146,7 +146,7 @@
         暂无贴子
       </section>
       <section class="loading" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" :autoFill="false" infinite-scroll-distance="10">
-         {{ loading_text }}
+         <section>拼命加载中...</section>
       </section>
       <!-- dialog -->
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
@@ -169,20 +169,19 @@
         </span>
       </el-dialog>
     </section>
-
+    <!-- <section class="loadingMain" style="display: none;width:0;height: 0;"></section> -->
   </section>
 </template>
 <script>
-//单独的组件里面使用
-import Vue from "vue";
-import infiniteScroll from "vue-infinite-scroll";
-// 有问题 还是影响
-Vue.use(infiniteScroll);
-console.log(infiniteScroll);
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("content", ["readCount", "readList", "loading_text", "busy"]),
+    ...mapState("content", [
+      "readCount",
+      "readList",
+      "loading_text",
+      "busy"
+    ]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -302,7 +301,6 @@ export default {
     // 更新已读
     async updateRead(id) {
       let self = this;
-      console.log("id===", id);
       await self.setUpdateRead({
         subjectid: id
       });
@@ -375,7 +373,8 @@ export default {
   border-bottom: 1px solid #e9e9e9;
 }
 
-.feed-list-cell {
+.feed-list-cell,
+.loading {
   padding: 0 100px;
   /*border-bottom: 1px solid #e9e9e9;*/
 }

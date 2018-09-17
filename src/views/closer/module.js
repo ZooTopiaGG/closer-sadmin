@@ -78,7 +78,6 @@ export default {
           x.update_time = $async.createTime(x.update_time, "yy-mm-dd hh:MM");
           return x;
         });
-        console.log(data.result)
         commit('closerList', data.result)
       } else {
         $message.error(data.result)
