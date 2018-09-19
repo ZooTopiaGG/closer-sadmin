@@ -47,7 +47,7 @@ export default {
       })
       if (data.code === 0) {
         let na = [];
-        await data.result.data.sort($async.compare('update_time'));
+        await data.result.data.sort($async.compare('order_num'));
         await data.result.data.map(x => {
           x.update_time = $async.createTime(x.update_time, "yy-mm-dd hh:MM");
           if (x.status == 0) {

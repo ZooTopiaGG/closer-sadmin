@@ -80,8 +80,9 @@ export default {
       }
     },
     goConfig(row) {
+      let type = row.activityDesc ? row.activityDesc : 'else';
       this.$router.push({
-        path: `/activity/data/tuzhu/config?id=${row.activityId}`
+        path: `/activity/data/tuzhu/config?id=${row.activityId}&type=${type}`
       });
     }
   }
