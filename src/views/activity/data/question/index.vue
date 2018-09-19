@@ -1,6 +1,6 @@
 <template>
   <section id="permission" class="flex flex-v">
-    <section class="permission_title">土著活动统计</section>
+    <section class="permission_title">活动统计</section>
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
