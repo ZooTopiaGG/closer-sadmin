@@ -21,7 +21,7 @@
           <el-table-column fixed="right" label="操作" width="280">
             <template slot-scope="scope">
              <el-button type="text" size="medium" v-if="scope.row.activityId !=1" @click="look(scope.row)">查看</el-button>
-             <el-button type="text" size="medium" v-if="scope.row.activityId == 2" @click="goConfig(scope.row)">上传配置</el-button>
+             <el-button type="text" size="medium" v-if="scope.row.activityDesc === 'question'" @click="goConfig(scope.row)">上传配置</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -63,26 +63,23 @@ export default {
     handleCurrentChange() {},
     searchCityByKeywords() {},
     look(row) {
-      switch (row.activityId) {
-        case 2:
-          this.$router.push({
-            path: `/activity/data/tuzhu?id=${row.activityId}`
+      let type = row.activityDesc ? row.activityDesc : 'else';
+      switch(type) {
+        case 'question': this.$router.push({
+            path: `/activity/data/question?id=${row.activityId}&type=${type}`
           });
-          break;
-        case 3:
-          this.$router.push({
-            path: `/activity/data/taijibing?id=${row.activityId}`
+        break;
+        case 'else': this.$router.push({
+            path: `/activity/data/taijibing?id=${row.activityId}&type=${type}`
           });
-          break;
-        default:
-          return;
-          break;
+        break;
+        default: return;
       }
     },
     goConfig(row) {
       let type = row.activityDesc ? row.activityDesc : 'else';
       this.$router.push({
-        path: `/activity/data/tuzhu/config?id=${row.activityId}&type=${type}`
+        path: `/activity/data/question/config?id=${row.activityId}&type=${type}`
       });
     }
   }

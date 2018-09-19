@@ -51,7 +51,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("activity_tuzhu", {
+    ...mapState("activity_question", {
       statisticList: state => state.statisticList
     })
   },
@@ -109,7 +109,7 @@ export default {
     self.getTuzhuStatisticsList(para);
   },
   methods: {
-    ...mapActions("activity_tuzhu", ["getTuzhuStatisticsList"]),
+    ...mapActions("activity_question", ["getTuzhuStatisticsList"]),
     // 分页
     handleCurrentChange(val) {
       this.pagenum = val;

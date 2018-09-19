@@ -222,25 +222,16 @@ const router = new Router({
     name: 'activity_data_taijibing',
     component: () =>
       import ('./views/activity/data/taijibing/index.vue'),
-    meta: {
-      keepAlive: true
-    }
   }, {
-    path: '/activity/data/tuzhu/config',
-    name: 'activity_data_tuzhu_config',
+    path: '/activity/data/question/config',
+    name: 'activity_data_question_config',
     component: () =>
-      import ('./views/activity/data/tuzhu/config.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/activity/data/question/config.vue'),
   }, {
-    path: '/activity/data/tuzhu',
-    name: 'activity_data_tuzhu',
+    path: '/activity/data/question',
+    name: 'activity_data_question',
     component: () =>
-      import ('./views/activity/data/tuzhu/index.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/activity/data/question/index.vue'),
   }, {
     path: '/notice',
     name: 'notice',
@@ -389,10 +380,10 @@ router.beforeEach((to, from, next) => {
     case "activity_data_taijibing":
       store.state.activeIndex = '活动数据';
       break;
-    case "activity_data_tuzhu":
+    case "activity_data_question":
       store.state.activeIndex = '活动数据';
       break;
-    case "activity_data_tuzhu_config":
+    case "activity_data_question_config":
       store.state.activeIndex = '活动数据';
       break;
     case "setting":

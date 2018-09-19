@@ -10,7 +10,7 @@ import finance from '@/views/finance/module'
 import log from '@/views/log/module'
 import activity from '@/views/activity/module'
 import activity_taijibing from '@/views/activity/data/taijibing/module'
-import activity_tuzhu from '@/views/activity/data/tuzhu/module'
+import activity_question from '@/views/activity/data/question/module'
 import notice from '@/views/notice/module'
 import config from '@/views/config/module'
 import closer from '@/views/closer/module'
@@ -36,7 +36,7 @@ export default new Vuex.Store({
     log,
     activity,
     activity_taijibing,
-    activity_tuzhu,
+    activity_question,
     notice,
     config,
     closer

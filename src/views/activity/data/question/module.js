@@ -31,7 +31,6 @@ export default {
       commit,
       state
     }, payload) {
-      console.log('payload==', payload)
       let {
         data
       } = await getQuestionList(payload).catch(err => {
@@ -96,7 +95,6 @@ export default {
       } = await uploadQuestions(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data)
       if (data.code === 0) {
         $message.success("保存成功！");
       }

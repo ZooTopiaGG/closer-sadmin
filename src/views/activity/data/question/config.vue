@@ -4,10 +4,10 @@
     <section class="permission_table" style="padding-bottom: 80px">
       <section class="permission_table_top flex flex-pack-justify flex-align-center">
         <section class="flex flex-1">
-          <el-radio-group v-model="radioRecord" @change="handleSelect">
+          <!-- <el-radio-group v-model="radioRecord" @change="handleSelect">
             <el-radio label="topic">上传题目配置</el-radio>
             <el-radio label="project">项目配置</el-radio>
-          </el-radio-group>
+          </el-radio-group> -->
         </section> 
         <section class="flex flex-align-center">
           <el-upload
@@ -22,7 +22,8 @@
           </el-upload>
         </section> 
       </section> 
-      <section class="permission_table_content" v-if="radioRecord === 'topic'">
+      <!-- <section class="permission_table_content" v-if="radioRecord === 'topic'"> -->
+      <section class="permission_table_content">
         <el-table :data="questionList.data" style="width: 100%">
           <el-table-column
             prop="index"
@@ -61,7 +62,7 @@
           </el-table-column>
         </el-table>
       </section> 
-      <section class="permission_table_content intro" v-else>
+      <!-- <section class="permission_table_content intro" v-else>
         <section class="list flex flex-v">
           <p>
             <span class="score">100分：</span>
@@ -100,7 +101,7 @@
             <span>200元</span>
           </p>
         </section> 
-      </section> 
+      </section>  -->
     </section> 
     <section class="fixedBottom flex flex-align-center flex-pack-center">
       <el-button size="small" type="primary"  @click="uploadAnswer">保 存</el-button>
@@ -126,7 +127,7 @@ export default {
         ? JSON.parse(this.$store.state.authUser)
         : false;
     },
-    ...mapState("activity_tuzhu", {
+    ...mapState("activity_question", {
       questionList: state => state.questionList
     })
   },
@@ -150,7 +151,7 @@ export default {
     this.getQuestionList(para);
   },
   methods: {
-    ...mapActions("activity_tuzhu", [
+    ...mapActions("activity_question", [
       "getQuestionList",
       "localQuestionList",
       "uploadQuestions"
