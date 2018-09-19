@@ -190,9 +190,6 @@ const router = new Router({
     name: 'closer_menu',
     component: () =>
       import ('./views/closer/menu.vue'),
-    meta: {
-      keepAlive: true
-    }
   }, {
     path: '/log',
     name: 'log',

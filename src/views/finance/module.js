@@ -449,7 +449,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
+          x.applyTime = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
             x.auditStatus = "审核通过";
           } else if (x.auditStatus === "apply") {
