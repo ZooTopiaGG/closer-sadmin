@@ -50,9 +50,11 @@ axio.interceptors.request.use(
 			reqUrl = api.serverDevUrl + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
+		} else if (/admin-test.tiejin/.test(window.location.href)) {
+			reqUrl = api.serverUrl + config.url;
 		}
 		config.url = reqUrl;
-		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1) {
+		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1 && config.url.indexOf('/command/closer_sys.send_code') === -1) {
 			try {
 				let t = Cookies.get('_tcloser') || Store.state.token;
 				config.headers.Authorization = "CloserSysAuth " + t;
