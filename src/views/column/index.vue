@@ -34,7 +34,7 @@
             </el-select>
           </section>
         </section>
-        <section>
+        <section class="flex flex-align-center">
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="columnAdd">添加默认栏目</el-button>
           <el-button type="primary" icon="el-icon-circle-plus-outline" @click="tobindcover(res.needBindCover)">
             <span v-if="JSON.stringify(res.needBindCover) === 'true'">设置封面栏目</span>
@@ -296,13 +296,7 @@ import { mapState, mapActions } from "vuex";
 import Modify from "@/components/modifycontrast.vue";
 export default {
   computed: {
-    ...mapState("column", [
-      "res",
-      "allregion",
-      "searchregion",
-      "_fliterregion",
-      "closerList"
-    ]),
+    ...mapState("column", ["res", "allregion", "searchregion", "closerList"]),
     // 上传文件 请求头设置
     headers() {
       return {
@@ -358,7 +352,7 @@ export default {
       state5: "",
       // 分页
       pagenum: 1,
-      pagesize: 6,
+      pagesize: 10,
       operationtype: 0, // 操作类型
       communityid: "", // 栏目id
       regionid: "", // 城市id
@@ -508,21 +502,36 @@ export default {
   },
   created() {
     let self = this,
-      columnCity,
-      region_id;
+      columnCity = [],
+      region_id,
+      defaultRegion;
     // 1.判断 是否是超管，是regionid默认为0，不是则选择在权限中所勾选的城市
     if (self.authUser.type === 1) {
       region_id = "0";
     } else {
       if (self.authUser.columnCity != "") {
         columnCity = JSON.parse(self.authUser.columnCity);
+        console.log(columnCity);
         if (columnCity.length > 0) {
-          region_id = columnCity[0];
+          if (columnCity.includes("wfXYXEpsBEyN")) {
+            defaultRegion = "wfXYXEpsBEyN";
+          } else if (columnCity.includes("0")) {
+            defaultRegion = "0";
+          } else if (columnCity.includes("wsJK3jZqhgxR")) {
+            defaultRegion = "wsJK3jZqhgxR";
+          } else if (columnCity.includes("wghHCWxHxgYV")) {
+            defaultRegion = "wghHCWxHxgYV";
+          } else if (columnCity.includes("wg2JligjGo3a")) {
+            defaultRegion = "wg2JligjGo3a";
+          } else {
+            defaultRegion = columnCity[0];
+          }
+          self.fliterregion = defaultRegion;
         }
       }
     }
     // 2.判断 如果是超管 直接通过接口获取所有城市 否则是获取到columnCity的城市列表
-    self.communitypara["regionid"] = region_id;
+    self.communitypara["regionid"] = self.fliterregion;
     self.getCommunitiesList(self.communitypara);
     self.regionspara["columnCity"] = columnCity;
     self.getRegionList(self.regionspara);
@@ -1147,12 +1156,6 @@ export default {
         self.$message.success("复制成功！");
       });
     }
-  },
-  mounted() {
-    let self = this;
-    setTimeout(() => {
-      self.fliterregion = self._fliterregion;
-    }, 1000);
   }
 };
 </script>

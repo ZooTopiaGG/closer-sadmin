@@ -149,11 +149,9 @@ export default {
             label: x.region_name
           };
         });
-        let arr2 = [],
-          _fliterregion;
+        let arr2 = []
         if (store.state.authUser.type === 1) {
           arr2 = arr1;
-          _fliterregion = "0";
         } else {
           payload['columnCity'].forEach((x, i) => {
             arr1.forEach((y, j) => {
@@ -165,11 +163,9 @@ export default {
               }
             });
           });
-          _fliterregion = arr2[0].value;
         }
         commit('allregion', arr1);
         commit('searchregion', arr2);
-        commit('_fliterregion', _fliterregion);
       }
     },
     async showCommunity({
