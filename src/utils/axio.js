@@ -39,9 +39,6 @@ export function tryHideFullScreenLoading() {
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
-		// loadingInstance = $loading({
-		// 	target: document.getElementById('loadingMain')
-		// });
 		if (Store.state.loadingMain) {
 			showFullScreenLoading()
 		}
