@@ -32,7 +32,11 @@
           </el-table-column>
           <el-table-column prop="payeeAccount" label="支付宝ID">
           </el-table-column>
-          <el-table-column prop="withdrawAmt" label="已提现金额">
+          <el-table-column prop="withdrawApply" label="申请金额">
+          </el-table-column>
+          <el-table-column prop="withdrawTax" label="税额">
+          </el-table-column>
+          <el-table-column prop="withdrawAmt" label="实际提现金额">
           </el-table-column>
           <el-table-column prop="createTime" label="申请时间">
           </el-table-column>
