@@ -1,29 +1,28 @@
 <template>
   <section id="permission" class="closer flex flex-v">
-    <section class="permission_title">财务管理 / 财务审核</section>
+    <section class="permission_title">财务管理 / 提现审核 / 个人详情</section>
     <el-tabs v-model="activeName" @tab-click="handleClick" class="flex flex-v flex-1">
-      <el-tab-pane label="待审批" name="approval">
-        <approval></approval>
+      <el-tab-pane label="入账记录" name="account_entry">
+        <account-entry></account-entry>
       </el-tab-pane>
-      <el-tab-pane label="操作记录" name="logo">
-        <f-logo></f-logo>
+      <el-tab-pane label="提现记录" name="withdraw_record">
+        <withdraw-record></withdraw-record>
       </el-tab-pane>
     </el-tabs>
   </section>
 </template>
 <script>
-import Approval from "@/components/approval.vue";
-import Fee from "@/components/fee.vue";
-import fLogo from "@/components/flogo.vue";
+import accountEntry from "@/components/accountEntry.vue";
+import withdrawRecord from "@/components/withdrawRecord.vue";
 export default {
   name: "info",
   components: {
-    Approval,
-    fLogo
+    accountEntry,
+    withdrawRecord
   },
   data() {
     return {
-      activeName: "approval"
+      activeName: "account_entry"
     };
   },
   methods: {

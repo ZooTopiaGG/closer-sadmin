@@ -42,7 +42,6 @@
             <el-menu-item index="财务申请">财务申请</el-menu-item>
             <el-menu-item index="财务审核">财务审核</el-menu-item>
             <el-menu-item index="提现审核">提现审核</el-menu-item>
-            <el-menu-item index="财务记录">财务记录</el-menu-item>
           </el-submenu>
           <el-menu-item index="活动管理">
             <i class="el-icon-setting"></i>
@@ -113,7 +112,6 @@
             </template>
             <el-menu-item :index="item.name" v-for="(item, index) in authUser.permissions.finance"
                 :key="index">{{ item.name }}</el-menu-item>
-              <el-menu-item index="财务记录">财务记录</el-menu-item>
           </el-submenu>
           <el-menu-item index="活动管理" v-if="authUser.permissions && authUser.permissions.activity">
             <i class="el-icon-setting"></i>
@@ -228,12 +226,7 @@ export default {
           break;
         case "提现审核":
           this.$router.push({
-            path: "/finance/withdraw/applying"
-          });
-          break;
-        case "财务记录":
-          this.$router.push({
-            path: "/finance/records/column"
+            path: "/finance/withdraw"
           });
           break;
         case "贴近号分类":
