@@ -131,7 +131,7 @@
                 <el-input v-model="ruleForm.columntype" :disabled="cateisdisabled"></el-input>
               </el-form-item>
               <el-form-item label="贴近号分类" prop="class_list">
-                <el-select v-model="ruleForm.classes" :multiple-limit="3" @change="handleSelectClass" placeholder="请选择分类" multiple :disabled="authUser.type != 1 && operationtype === 2">
+                <el-select v-model="ruleForm.classes" :multiple-limit="3" @change="handleSelectClass" placeholder="请选择分类" multiple>
                   <el-option v-for="item in closerList.data" :key="item.id" :label="item.class_name" :value="item.id">
                   </el-option>
                 </el-select>
@@ -508,10 +508,10 @@ export default {
     // 1.判断 是否是超管，是regionid默认为0，不是则选择在权限中所勾选的城市
     if (self.authUser.type === 1) {
       region_id = "0";
+      self.fliterregion = "0";
     } else {
       if (self.authUser.columnCity != "") {
         columnCity = JSON.parse(self.authUser.columnCity);
-        console.log(columnCity);
         if (columnCity.length > 0) {
           if (columnCity.includes("wfXYXEpsBEyN")) {
             defaultRegion = "wfXYXEpsBEyN";
