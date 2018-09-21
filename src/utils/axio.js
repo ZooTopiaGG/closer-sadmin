@@ -46,8 +46,10 @@ axio.interceptors.request.use(
 			showFullScreenLoading()
 		}
 		let reqUrl = api.serverDevUrl + config.url
-		if (/sandbox.tiejin/.test(window.location.href)) {
-			reqUrl = api.serverDevUrl + config.url;
+		if (/s1-sandbox.tiejin/.test(window.location.href)) {
+			reqUrl = 'https://api-sandbox.tiejin.cn/command/' + config.url;
+		} else if (/sadmin-qa.tiejin/.test(window.location.href)) {
+			reqUrl = 'https://api-qa.tiejin.cn/command/' + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		} else if (/admin-test.tiejin/.test(window.location.href)) {
