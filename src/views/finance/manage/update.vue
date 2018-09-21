@@ -1,13 +1,10 @@
 <template>
-  <section id="permission" class="flex flex-v">
+  <section id="permission" class="apply flex flex-v">
     <section class="permission_title">财务申请</section>
     <section class="flex-1">
       <section class="permission_table_top flex flex-pack-justify">
-        <section class="flex flex-align-center">
-          <span class="labelname">
-            栏目名称
-          </span>
-          <el-input v-model="columnid" placeholder="请输入栏目ID" @keyup.enter.native="bindSearch">
+        <section class="flex flex-align-center userinfo">
+          <el-input v-model="columnid" placeholder="请输入贴近号名称、企业、个人名称进行搜索" @keyup.enter.native="bindSearch">
             <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
           </el-input>
         </section>
@@ -15,85 +12,100 @@
       <!-- table 改政策查看操作 -->
       <section class="permission_table_content">
         <el-table :data="communityList.data" style="width: 100%">
-          <el-table-column fixed prop="name" label="栏目名称">
+          <el-table-column fixed prop="name" label="贴近号名称">
           </el-table-column>
-          <el-table-column prop="objectID" label="栏目ID">
+          <el-table-column prop="objectID" label="企业（个人）名称">
           </el-table-column>
-          <el-table-column prop="create_time" label="栏目入驻时间">
+          <el-table-column prop="create_time" label="未解冻余额">
+          </el-table-column>
+          <el-table-column prop="objectID" label="可用余额">
+          </el-table-column>
+          <el-table-column prop="create_time" label="累计充值">
+          </el-table-column>
+          <el-table-column prop="objectID" label="累计补贴">
+          </el-table-column>
+          <el-table-column label="日缓释金额">
+            <template slot-scope="scope">
+              <section class="flex flex-align-center">
+                <span>{{ scope.row.create_time }}</span>
+                <i class="write" @click="update_recharge(0)"></i>
+              </section>
+            </template>
+          </el-table-column>
+          <el-table-column label="单一贴发放上线">
+            <template slot-scope="scope">
+              <section class="flex flex-align-center">
+                <span>{{ scope.row.objectID }}</span>
+                <i class="write" @click="update_recharge(1)"></i>
+              </section>
+            </template>
+          </el-table-column>
+          <el-table-column label="充值（一次性到账）">
+            <template slot-scope="scope">
+              <section class="flex flex-align-center">
+                <span>{{ scope.row.create_time }}</span>
+                <i class="write" @click="update_recharge(2)"></i>
+              </section>
+            </template>
+          </el-table-column>
+          <el-table-column label="充值（缓释额度）">
+            <template slot-scope="scope">
+              <section class="flex flex-align-center">
+                <span>{{ scope.row.objectID }}</span>
+                <i class="write" @click="update_recharge(3)"></i>
+              </section>
+            </template>
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleClick(scope.row, '改政策')" size="medium">改政策</el-button>
-              <el-button type="text" @click="handleClick(scope.row, '充额度')" size="medium">充额度</el-button>
+              <el-button type="text" @click="handleClick(scope.row, '改政策')" size="medium">查看详情</el-button>
+              <el-button type="text" @click="handleClick(scope.row, '充额度')" size="medium">其他记录</el-button>
             </template>
           </el-table-column>
         </el-table>
       </section>
-      <!-- el-dialog -->
-      <el-dialog title="栏目详情" class="column-dialog" :visible.sync="dialogTableVisible">
-        <el-form class="userinfo" :model="ruleForm" :disabled="disabled">
-          <p class="flex flex-align-center">
-            <span class="label">栏目归属地：</span>
-            <span>{{ ruleForm.regionName }}</span>
-          </p>
-          <p class="flex flex-align-center">
-            <span class="label">栏目名称：</span>
-            <span>{{ ruleForm.name }}</span>
-          </p>
-          <p class="hr"></p>
-          <p class="flex flex-align-center">
-            <span class="label label-bold">状态</span>
-          </p>
-          <p class="flex flex-align-center">
-            <span class="label">栏目当前余额：</span>
-            <span>{{ ruleForm.balance }}</span>
-          </p>
-          <p class="flex flex-align-center">
-            <span class="label">累计补贴额度：</span>
-            <span>{{ ruleForm.allsubsidy }}</span>
-          </p>
-          <p class="flex flex-align-center">
-            <span class="label">每天发放额度：</span>
-            <span>{{ ruleForm.give }}</span>
-          </p>
-          <p class="flex flex-align-center">
-            <span class="middle-label-2">每个贴子能够发放的额度上限：</span>
-            <span>{{ ruleForm.givelimit }}</span>
-          </p>
-          <p class="hr"></p>
-          <p class="flex flex-align-center">
-            <span class="label label-bold">栏目财务管理</span>
-          </p>
-          <p class="flex flex-align-center" v-if="type==='充额度'">
-            <span class="middle-label">新增一次性到账额度：</span>
-            <el-input v-model="ruleForm.rechargeAmount"></el-input>
-          </p>
-          <p class="flex flex-align-center" v-if="type==='充额度'">
-            <span class="middle-label">新增缓释额度：</span>
-            <el-input v-model="ruleForm.subsidy"></el-input>
-          </p>
-          <p class="flex flex-align-center" v-if="type==='改政策'">
-            <span class="middle-label">每天发放额度：</span>
-            <el-input v-model="ruleForm.give1"></el-input>
-          </p>
-          <p class="flex flex-align-center" v-if="type==='改政策'">
-            <span class="long-label">每个贴子能够发放的额度上限：</span>
-            <el-input v-model="ruleForm.givelimit1"></el-input>
-          </p>
+      <el-dialog :title="title" class="column-dialog" :visible.sync="dialogTableVisible">
+        <el-form class="userinfo2" :model="ruleForm" :disabled="disabled">
+          <el-form-item label="当前额度" class="flex flex-align-center"  v-if="type === 0">
+              <span>20000元</span>
+          </el-form-item>
+          <el-form-item label="当前上限" class="flex flex-align-center" v-if="type === 1">
+              <span>20000元</span>
+          </el-form-item>
+          <el-form-item label="修改额度" class="flex flex-align-center" v-if="type === 0 || type === 1">
+            <p class="flex flex-align-center">
+              <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
+              <span>元</span>
+            </p>
+          </el-form-item>
+          <section v-if="type === 2 || type === 3">
+            <el-form-item label="可用余额" class="flex flex-align-center">
+              <span>20000元</span>
+            </el-form-item>
+            <el-form-item label="缓释金余额" class="flex flex-align-center">
+              <span>20000元</span>
+            </el-form-item>
+            <el-form-item label="充值" class="flex flex-align-center">
+              <p class="flex flex-align-center">
+                <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
+                <span>元</span>
+              </p>
+            </el-form-item>
+            <el-form-item label="缓释额度" class="flex flex-align-center">
+              <p class="flex flex-align-center">
+                <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
+                <span>元</span>
+              </p>
+            </el-form-item>
+          </section>
+          <span class="prompt">
+            请认真填写金额，确认后提交申请
+          </span>
         </el-form>
-        <span v-if="operationType === 0" slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="f_commit_apply" :disabled="loading">
-            <span v-if="loading">
-              <span class="el-icon-loading"></span>
-              <span>正在提交</span>
-            </span>
-            <span v-else>提交申请</span>
-          </el-button>
-        </span>
-        <span v-else slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="sureOrRefuse('fail')">拒绝</el-button>
-          <el-button type="primary" @click="sureOrRefuse('success')">同意</el-button>
-        </span>
+        <section slot="footer" class="dialog-footer">
+          <el-button type="text">取 消</el-button>
+          <el-button type="primary">提交申请</el-button>
+        </section>
       </el-dialog>
     </section>
     <section class="block" v-if="communityList.count > 0">
@@ -140,7 +152,9 @@ export default {
         subsidy: "",
         give1: "",
         givelimit1: ""
-      }
+      },
+      // 改版data
+      title: "每日缓释额度"
     };
   },
   created() {
@@ -277,13 +291,48 @@ export default {
       } else {
         await self.commit_apply();
       }
+    },
+
+    // 改版方法
+    update_recharge(type) {
+      let self = this;
+      self.dialogTableVisible = true;
+      self.type = type;
+      if (type === 1) {
+        self.title = "单一贴发放上限";
+      } else if (type === 2 || type === 3) {
+        self.title = "充值";
+      } else {
+        self.title = "每日缓释金额";
+      }
     }
   }
 };
 </script>
 <style type="text/css">
 .userinfo .el-input .el-input__inner {
+  width: 350px;
+}
+.userinfo2 .el-input .el-input__inner {
   width: 150px;
+  margin-right: 5px;
+}
+
+#app .apply .el-dialog {
+  min-width: 320px;
+  width: 320px;
+}
+#app .apply .column-dialog .el-button--text {
+  color: #999;
+}
+#app .apply .column-dialog .el-form-item {
+  margin-bottom: 0;
+}
+#app .apply .column-dialog p {
+  margin: 0;
+}
+#app .apply .column-dialog .el-form-item__label {
+  min-width: 82px;
 }
 </style>
 <style scoped>
@@ -310,5 +359,17 @@ export default {
   background-color: #e6e6e6;
   height: 1px;
   margin-top: 20px;
+}
+.write {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  background: url("../../../assets/images/default.jpeg") no-repeat;
+  background-size: cover;
+}
+.prompt {
+  color: red;
+  font-size: 12px;
+  margin-left: 68px;
 }
 </style>
