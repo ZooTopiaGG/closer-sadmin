@@ -61,7 +61,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="medium" @click="preview">预览</el-button>
+              <el-button type="text" size="medium" @click="preview(scope.row)">预览</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -89,8 +89,7 @@ export default {
   },
   data() {
     return {
-      pre_src:
-        "https://h5.tiejin.cn/feed/wsuAwNP0S0pt?type=2&category=5&view=pre",
+      pre_src: "",
       dialogVisible: false,
       res: {
         data: [],
@@ -121,7 +120,15 @@ export default {
   },
   methods: {
     ...mapActions("content", ["adminSearch", "coverSetting", "getRegionsList"]),
-    preview() {
+    preview(row) {
+      let host = window.location.host,
+        url;
+      if (/sandbox.tiejin/.test(host)) {
+        url = "https://h5-sandbox.tiejin.cn";
+      } else if (/tiejin/.test(host)) {
+        url = "https://h5.tiejin.cn";
+      }
+      this.pre_src = `${url}/feed/${row.subjectid}?view=pre`;
       this.dialogVisible = true;
     },
     async getCoverList() {
