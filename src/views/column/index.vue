@@ -991,7 +991,6 @@ export default {
         self.ruleForm.classes = await res.class_list.map(x => {
           return x.class_id;
         });
-        console.log(self.ruleForm.classes);
         if (res.int_type === 1) {
           self.cateisdisabled = true;
         } else {

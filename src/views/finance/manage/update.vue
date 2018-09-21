@@ -4,7 +4,7 @@
     <section class="flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center userinfo">
-          <el-input v-model="columnid" placeholder="请输入贴近号名称、企业、个人名称进行搜索" @keyup.enter.native="bindSearch">
+          <el-input v-model="columnid" class="inp" placeholder="请输入贴近号名称、企业、个人名称进行搜索" @keyup.enter.native="bindSearch">
             <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
           </el-input>
         </section>
@@ -56,57 +56,17 @@
               </section>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
+          <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleClick(scope.row, '改政策')" size="medium">查看详情</el-button>
-              <el-button type="text" @click="handleClick(scope.row, '充额度')" size="medium">其他记录</el-button>
+              <el-button type="text" @click="handleLook" size="medium">查看详情</el-button>
+              <el-button type="text" @click="handleRecords" size="medium">其他记录</el-button>
             </template>
           </el-table-column>
         </el-table>
       </section>
-      <el-dialog :title="title" class="column-dialog" :visible.sync="dialogTableVisible">
-        <el-form class="userinfo2" :model="ruleForm" :disabled="disabled">
-          <el-form-item label="当前额度" class="flex flex-align-center"  v-if="type === 0">
-              <span>20000元</span>
-          </el-form-item>
-          <el-form-item label="当前上限" class="flex flex-align-center" v-if="type === 1">
-              <span>20000元</span>
-          </el-form-item>
-          <el-form-item label="修改额度" class="flex flex-align-center" v-if="type === 0 || type === 1">
-            <p class="flex flex-align-center">
-              <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
-              <span>元</span>
-            </p>
-          </el-form-item>
-          <section v-if="type === 2 || type === 3">
-            <el-form-item label="可用余额" class="flex flex-align-center">
-              <span>20000元</span>
-            </el-form-item>
-            <el-form-item label="缓释金余额" class="flex flex-align-center">
-              <span>20000元</span>
-            </el-form-item>
-            <el-form-item label="充值" class="flex flex-align-center">
-              <p class="flex flex-align-center">
-                <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
-                <span>元</span>
-              </p>
-            </el-form-item>
-            <el-form-item label="缓释额度" class="flex flex-align-center">
-              <p class="flex flex-align-center">
-                <el-input v-model="ruleForm.subsidy" placeholder="请输入具体金额"></el-input>
-                <span>元</span>
-              </p>
-            </el-form-item>
-          </section>
-          <span class="prompt">
-            请认真填写金额，确认后提交申请
-          </span>
-        </el-form>
-        <section slot="footer" class="dialog-footer">
-          <el-button type="text">取 消</el-button>
-          <el-button type="primary">提交申请</el-button>
-        </section>
-      </el-dialog>
+      <section v-if="dialogTableVisible">
+        <recharge-popup :title="title" :type="type" @visible="visible"></recharge-popup> 
+      </section>
     </section>
     <section class="block" v-if="communityList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
@@ -118,12 +78,16 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import rechargePopup from "@/components/rechargePopup";
 export default {
   computed: {
     ...mapState("finance", ["communityList"]),
     authUser() {
       return this.$store.state.authUser;
     }
+  },
+  components: {
+    rechargePopup
   },
   data() {
     return {
@@ -168,6 +132,9 @@ export default {
       "updateRechargeSetting",
       "commitApply"
     ]),
+    visible(val) {
+      this.dialogTableVisible = val;
+    },
     bindSearch() {
       this.pagenum = 1;
       this.getMoreColumnList();
@@ -305,19 +272,31 @@ export default {
       } else {
         self.title = "每日缓释金额";
       }
+    },
+    handleLook() {
+      this.$router.push({
+        path: "/finance/closer?type=info"
+      });
+    },
+    handleRecords() {
+      this.$router.push({
+        path: "/finance/closer?type=fee"
+      });
     }
   }
 };
 </script>
 <style type="text/css">
-.userinfo .el-input .el-input__inner {
+.userinfo .inp.el-input .el-input__inner {
   width: 350px;
 }
 .userinfo2 .el-input .el-input__inner {
   width: 150px;
   margin-right: 5px;
 }
-
+#app .apply .el-dialog__body {
+  padding: 10px 20px;
+}
 #app .apply .el-dialog {
   min-width: 320px;
   width: 320px;
@@ -364,7 +343,8 @@ export default {
   width: 18px;
   min-width: 18px;
   height: 18px;
-  background: url("../../../assets/images/default.jpeg") no-repeat;
+  background: url("../../../assets/images/write.png") no-repeat;
+  margin-left: 5px;
   background-size: cover;
 }
 .prompt {

@@ -212,3 +212,7 @@ body .el-dropdown-menu {
 .labelname {
   min-width: 60px;
 }
+
+.el-tabs__content {
+  overflow: auto;
+}
