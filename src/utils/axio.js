@@ -52,6 +52,7 @@ axio.interceptors.request.use(
 		} else if (/admin-test.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		}
+		console.log('reqUrl===', reqUrl)
 		config.url = reqUrl;
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1 && config.url.indexOf('/command/closer_sys.send_code') === -1) {
 			try {
