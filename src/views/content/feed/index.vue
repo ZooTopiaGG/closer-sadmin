@@ -23,7 +23,7 @@
             </section>
           </section>
           <section>
-            <el-button @click.stop="dropoff">下 架</el-button>
+            <el-button @click.stop="dropoff">删 除</el-button>
           </section>
         </section>
         <!-- 帖子内容 -->
