@@ -190,7 +190,8 @@ export default {
         keywords: "",
         startTime: null,
         endTime: null,
-        userid: "0"
+        userid: "0",
+        isChange: false
       },
       seachbytitle: "",
       dialogVisible: false,
@@ -262,6 +263,7 @@ export default {
     },
     // 下拉框
     handleSelect(val) {
+      this.getreadlist["isChange"] = this.flag != val;
       this.flag = val;
       this.getFeedList();
     },
@@ -277,6 +279,10 @@ export default {
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
       self.getreadlist["userid"] = self.authUser.uid;
+      console.log(
+        "this.getreadlist['isChange']===",
+        this.getreadlist["isChange"]
+      );
       await self.getReadList(self.getreadlist);
     },
     // 查看贴子详情
