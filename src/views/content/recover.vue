@@ -90,9 +90,8 @@ export default {
         drop_reason: "" // 举报信息
       });
       if (res) {
-        self.$message.success("上墙成功");
-        // console.log('index====', self.spliceIndex)
-        self.res.data.splice(scope.row.$index, 1);
+        self.$message.success("操作成功！");
+        self.recycleList.data.splice(scope.row.$index, 1);
       }
     },
     // table操作

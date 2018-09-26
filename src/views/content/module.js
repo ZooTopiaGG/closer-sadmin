@@ -118,10 +118,15 @@ export default {
           return x;
         });
         // data.result.result1.data = state.readList.data.concat(arr)
+        // 判断当前请求的flag和上次请求的flag是否一致
+        // if (!payload['isChange']) {
         data.result.data = state.readList.data.concat(arr)
+        // }
         state.current_payload = payload;
+        console.log('res===', data.result)
         // commit('readList', data.result.result1)
         commit('readList', data.result)
+        return
       } else {
         $message.error(data.result);
       }
@@ -200,11 +205,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        if (payload['flag'] === 1) {
-          $message.success("上墙成功");
-        } else {
-          $message.success("下架成功");
-        }
+        $message.success("操作成功！");
         return true
       } else {
         $message.error(data.result);
