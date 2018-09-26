@@ -98,7 +98,7 @@ export default {
     // table操作
     contentRecover(scope) {
       // console.log(scope);
-      this.$confirm("是否恢复并上墙该贴子？", "提示", {
+      this.$confirm("是否恢复该贴子？（贴子不会出现在首页）", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
