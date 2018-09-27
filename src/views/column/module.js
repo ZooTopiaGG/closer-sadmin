@@ -349,7 +349,6 @@ export default {
           return x;
         });
         commit('zeroList', na)
-        console.log(data)
         commit('closerList', data.result)
       } else {
         $message.error(data.result)

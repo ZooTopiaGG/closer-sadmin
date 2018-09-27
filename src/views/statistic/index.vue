@@ -353,7 +353,6 @@ export default {
       }
     },
     spread(row) {
-      console.log("row===", row);
       this.$router.push({
         path: `/statistic/spread/${row.planid}?type=${row.name}`
       });

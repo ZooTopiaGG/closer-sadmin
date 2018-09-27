@@ -112,8 +112,7 @@ export default {
   },
   created() {
     this.readlistpara["userid"] = this.$route.query.id;
-    console.log(this.readlistpara);
-    this.getReadList(this.readlistpara);
+    this.getReadList2(this.readlistpara);
   },
   methods: {
     ...mapActions("content", ["getReadList2"]),
@@ -143,7 +142,6 @@ export default {
     },
     // table操作
     contentRecover(row) {
-      console.log(row);
       this.$confirm("是否恢复该贴子？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -164,7 +162,6 @@ export default {
         });
     },
     contentLook(row) {
-      console.log(row);
       this.$router.push({
         path: `/content/feed/${row.subjectid}`
       });

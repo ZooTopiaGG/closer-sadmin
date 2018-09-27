@@ -22,13 +22,13 @@
       </section>
       <!-- feed流 -->
       <ul v-if="readList.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='true'>
+        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='flag === 0'>
           <section class="feed-box">
             <section class="feed-cell-title flex flex-align-center flex-pack-justify">
               <p class="flex">
                 <span>更新于：{{ item.long_update_time }}</span>
                 &nbsp;&nbsp;&nbsp;
-                <span class="isRead">已读</span>
+                <span class="isRead" v-if="flag === 0">已读</span>
               </p>
               <el-button @click.stop="dropoff(item.subjectid, index, -1)">删 除</el-button>
             </section>
@@ -190,8 +190,7 @@ export default {
         keywords: "",
         startTime: null,
         endTime: null,
-        userid: "0",
-        isChange: false
+        userid: "0"
       },
       seachbytitle: "",
       dialogVisible: false,
@@ -222,6 +221,7 @@ export default {
   methods: {
     ...mapActions("content", [
       "getReadList",
+      "getReadList1",
       "getReadCount",
       "setUpdateVerify",
       "setUpdateRead",
@@ -263,9 +263,13 @@ export default {
     },
     // 下拉框
     handleSelect(val) {
-      this.getreadlist["isChange"] = this.flag != val;
-      this.flag = val;
-      this.getFeedList();
+      let self = this;
+      self.flag = val;
+      self.getreadlist["flag"] = val;
+      self.getreadlist["keywords"] = self.seachbytitle;
+      self.getreadlist["pagenum"] = self.pagenum;
+      self.getreadlist["userid"] = self.authUser.uid;
+      self.getReadList1(self.getreadlist);
     },
     // 搜索按钮
     bindSearch() {
@@ -279,10 +283,6 @@ export default {
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
       self.getreadlist["userid"] = self.authUser.uid;
-      console.log(
-        "this.getreadlist['isChange']===",
-        this.getreadlist["isChange"]
-      );
       await self.getReadList(self.getreadlist);
     },
     // 查看贴子详情

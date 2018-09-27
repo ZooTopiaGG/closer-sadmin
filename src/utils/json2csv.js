@@ -22,7 +22,6 @@
           formatter: function() // 自定义设置当前数据的 传入(key, value)
      */
     setDataConver: function (obj) {
-      console.log(obj['data'])
       var bw = this.browser();
       if (bw['ie'] < 9) return; // IE9以下的
       var data = obj['data'],

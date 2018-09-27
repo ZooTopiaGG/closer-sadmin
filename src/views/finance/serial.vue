@@ -221,7 +221,6 @@ export default {
         newData = new Array(),
         sd = self.serialList["data"];
       newData = newData.concat(sd, sd);
-      console.log(newData);
       return newData;
     },
     async json2csv() {
