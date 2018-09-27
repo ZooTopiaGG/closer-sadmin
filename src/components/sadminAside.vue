@@ -79,6 +79,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
           </el-menu-item>
+          <el-menu-item index="推送管理">
+            <i class="el-icon-setting"></i>
+            <span slot="title">推送管理</span>
+          </el-menu-item>
           <el-menu-item index="操作日志">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>
@@ -284,6 +288,11 @@ export default {
         case "配置管理":
           this.$router.push({
             path: "/config"
+          });
+          break;
+        case "推送管理":
+          this.$router.push({
+            path: "/push"
           });
           break;
         default:
