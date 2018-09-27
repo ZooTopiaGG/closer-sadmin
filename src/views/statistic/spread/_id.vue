@@ -115,7 +115,6 @@ export default {
       };
       let data = await app.$axios.$post(`${api.promotion.activity_list}`, para);
       if (data.code === 0) {
-        console.log("listdata====", data);
         let arr = await data.result.data.map(x => {
           // x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
           if (x.type === 1) {
@@ -243,7 +242,6 @@ export default {
           para
         );
         if (data.code === 0) {
-          console.log("listdata====", data);
           let arr = await data.result.data.map(x => {
             x.createTime = self.$com.createTime(x.createTime, "yy-mm-dd hh:MM");
             if (x.type === 1) {
@@ -304,7 +302,6 @@ export default {
           para
         );
         if (data.code === 0) {
-          console.log("data====", data);
           self.$message.success("新建成功！");
           self.outerVisible = false;
           await self.getList();
@@ -321,7 +318,6 @@ export default {
           `${api.promotion.activity_delete}?id=${row.id}`
         );
         if (data.code === 0) {
-          console.log("data==", data);
           self.$message.success("操作成功！");
           await self.getList();
         }
@@ -331,7 +327,6 @@ export default {
     },
     async deleteRow(row) {
       let self = this;
-      console.log(row);
       self
         .$confirm(`此操作将删除‘${row.name}’, 是否继续?`, "提示", {
           confirmButtonText: "确定",
@@ -350,7 +345,6 @@ export default {
     },
     // 更新 activity_update
     updateRow(row, op) {
-      console.log("row==", row);
       let self = this;
       self.op = op;
       self.updaterow = row;
@@ -384,7 +378,6 @@ export default {
           para
         );
         if (data.code === 0) {
-          console.log("data====", data);
           self.outerVisible = false;
           self.$message.success("更新成功！");
           await self.getList();
@@ -395,7 +388,6 @@ export default {
     },
     // 查看行
     lookRow(row, op) {
-      console.log("row==", row);
       let self = this;
       self.outerVisible = true;
       self.channelTitle = "查看推广活动";
@@ -408,7 +400,6 @@ export default {
     // 分页
     handleCurrentChange(val) {
       this.pagenum = val;
-      console.log(`当前页: ${this.pagenum}`);
       this.getList();
     },
     handleSelectByTime() {

@@ -113,7 +113,6 @@ export default {
         });
     },
     contentLook(row) {
-      console.log(row);
       this.$router.push({
         path: `/content/feed/${row.subjectid}`
       });

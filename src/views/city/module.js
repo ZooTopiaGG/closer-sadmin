@@ -85,7 +85,6 @@ export default {
       } = await showRegion(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data)
       if (data.code === 0) {
         return data
       } else {
@@ -131,7 +130,6 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        console.log(data.result)
         commit('getSearchColumn', data.result)
         return true
       } else {

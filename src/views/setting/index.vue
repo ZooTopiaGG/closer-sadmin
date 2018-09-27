@@ -100,7 +100,6 @@ export default {
         para
       );
       if (data.code === 0) {
-        console.log("logdata====", data);
         let arr = await data.result.data.map(x => {
           // x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
           if (!x.imageUrl) {
@@ -223,7 +222,6 @@ export default {
         if (res.code === 0) {
           self.fileList = fileList.slice(-1);
           self.planForm.fileOnlineUrl = `${api.filePath}${res.result.url}`;
-          console.log("self.fileOnlineUrl====", self.planForm.fileOnlineUrl);
         } else {
           self.$message.error(res.result);
         }

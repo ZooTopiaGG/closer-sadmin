@@ -123,8 +123,36 @@ export default {
         data.result.data = state.readList.data.concat(arr)
         // }
         state.current_payload = payload;
-        console.log('res===', data.result)
         // commit('readList', data.result.result1)
+        commit('readList', data.result)
+        return
+      } else {
+        $message.error(data.result);
+      }
+    },
+    async getReadList1({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await getReadList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        let arr = await data.result.data.map(x => {
+          x.content = JSON.parse(x.content);
+          x.long_create_time = $async.getCommonTime(
+            x.long_create_time,
+            "yy-mm-dd hh:MM"
+          );
+          x.long_update_time = $async.createTime(
+            x.long_update_time,
+            "yy-mm-dd hh:MM"
+          );
+          return x;
+        });
+        state.current_payload = payload;
         commit('readList', data.result)
         return
       } else {

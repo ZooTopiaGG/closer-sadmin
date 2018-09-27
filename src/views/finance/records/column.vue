@@ -205,7 +205,6 @@ export default {
     },
     // 查看栏目详情 community_detail 充值记录wallet_detail_list
     async handleLook(row) {
-      console.log("row====", row);
       let self = this;
       self.row = row;
       await self.get_community_detail();
