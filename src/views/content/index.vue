@@ -267,14 +267,18 @@ export default {
       self.flag = val;
       self.getreadlist["flag"] = val;
       self.getreadlist["keywords"] = self.seachbytitle;
-      self.getreadlist["pagenum"] = self.pagenum;
+      self.getreadlist["pagenum"] = 1;
       self.getreadlist["userid"] = self.authUser.uid;
       self.getReadList1(self.getreadlist);
     },
     // 搜索按钮
     bindSearch() {
-      this.pagenum = 1;
-      this.getFeedList();
+      let self = this;
+      self.getreadlist["flag"] = self.flag;
+      self.getreadlist["keywords"] = self.seachbytitle;
+      self.getreadlist["pagenum"] = 1;
+      self.getreadlist["userid"] = self.authUser.uid;
+      self.getReadList1(self.getreadlist);
     },
     // 获取未读已读列表
     async getFeedList() {
