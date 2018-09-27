@@ -28,7 +28,6 @@ export default {
       } = await getAllUser().catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data)
       if (data.code === 0) {
         await data.result.list.map(x => {
           x.create_time = x.create_time ?
@@ -77,7 +76,6 @@ export default {
       } = await deleteUser(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log(data)
       if (data.code === 0) {
         $message.success("操作成功！");
       } else {

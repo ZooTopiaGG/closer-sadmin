@@ -22,15 +22,15 @@
       </section>
       <!-- feed流 -->
       <ul v-if="readList.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='true'>
+        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='flag === 0'>
           <section class="feed-box">
             <section class="feed-cell-title flex flex-align-center flex-pack-justify">
               <p class="flex">
                 <span>更新于：{{ item.long_update_time }}</span>
                 &nbsp;&nbsp;&nbsp;
-                <span class="isRead">已读</span>
+                <span class="isRead" v-if="flag === 0">已读</span>
               </p>
-              <el-button @click.stop="dropoff(item.subjectid, index, -1)">下 架</el-button>
+              <el-button @click.stop="dropoff(item.subjectid, index, -1)">删 除</el-button>
             </section>
             <section class="hasreport flex flex-align-start" v-if="item.report_list && item.report_list.length > 0">
               <span>投诉理由：</span>
@@ -151,7 +151,7 @@
       <!-- dialog -->
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
         <section>
-          <p>选择以下原因后下架：</p>
+          <p>选择以下原因后删除：</p>
           <el-checkbox-group v-model="checkList" class="dropreason flex">
             <el-checkbox label="垃圾营销"></el-checkbox>
             <el-checkbox label="不实信息"></el-checkbox>
@@ -176,12 +176,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("content", [
-      "readCount",
-      "readList",
-      "loading_text",
-      "busy"
-    ]),
+    ...mapState("content", ["readCount", "readList", "loading_text", "busy"]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -201,7 +196,7 @@ export default {
       dialogVisible: false,
       // 贴子状态筛选
       fliterfeeds: 0,
-      // 贴子id和状态（下架， 上墙）
+      // 贴子id和状态（删除， 上墙）
       subjectid: "",
       flag: 0, // 0未读 1 已读
       flags: -1,
@@ -226,6 +221,7 @@ export default {
   methods: {
     ...mapActions("content", [
       "getReadList",
+      "getReadList1",
       "getReadCount",
       "setUpdateVerify",
       "setUpdateRead",
@@ -242,7 +238,7 @@ export default {
         path: "/content/read"
       });
     },
-    // 下架
+    // 删除
     async dropoff(id, index, flag) {
       let self = this;
       self.dialogVisible = true;
@@ -250,12 +246,12 @@ export default {
       self.flags = flag;
       self.spliceIndex = index;
     },
-    // 更新上墙 下架状态
+    // 更新上墙 删除状态
     async updateVerify() {
       let self = this;
       let res = await self.setUpdateVerify({
         subjectid: self.subjectid,
-        flag: self.flags, // -1 下架 1 上墙
+        flag: self.flags, // -1 删除 1 上墙
         drop_reason: self.checkList // 举报信息
       });
       if (res) {
@@ -267,13 +263,22 @@ export default {
     },
     // 下拉框
     handleSelect(val) {
-      this.flag = val;
-      this.getFeedList();
+      let self = this;
+      self.flag = val;
+      self.getreadlist["flag"] = val;
+      self.getreadlist["keywords"] = self.seachbytitle;
+      self.getreadlist["pagenum"] = 1;
+      self.getreadlist["userid"] = self.authUser.uid;
+      self.getReadList1(self.getreadlist);
     },
     // 搜索按钮
     bindSearch() {
-      this.pagenum = 1;
-      this.getFeedList();
+      let self = this;
+      self.getreadlist["flag"] = self.flag;
+      self.getreadlist["keywords"] = self.seachbytitle;
+      self.getreadlist["pagenum"] = 1;
+      self.getreadlist["userid"] = self.authUser.uid;
+      self.getReadList1(self.getreadlist);
     },
     // 获取未读已读列表
     async getFeedList() {

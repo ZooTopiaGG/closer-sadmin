@@ -90,15 +90,14 @@ export default {
         drop_reason: "" // 举报信息
       });
       if (res) {
-        self.$message.success("上墙成功");
-        // console.log('index====', self.spliceIndex)
-        self.res.data.splice(scope.row.$index, 1);
+        self.$message.success("操作成功！");
+        self.recycleList.data.splice(scope.row.$index, 1);
       }
     },
     // table操作
     contentRecover(scope) {
       // console.log(scope);
-      this.$confirm("是否恢复并上墙该贴子？", "提示", {
+      this.$confirm("是否恢复该贴子？（贴子不会出现在首页）", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -114,7 +113,6 @@ export default {
         });
     },
     contentLook(row) {
-      console.log(row);
       this.$router.push({
         path: `/content/feed/${row.subjectid}`
       });

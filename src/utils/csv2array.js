@@ -25,7 +25,6 @@
  *                           error in the provided data.
  */
 export default function csv2array(data, delimeter) {
-  console.log(data)
   // Retrieve the delimeter
   if (delimeter == undefined)
     delimeter = ',';
@@ -107,7 +106,6 @@ export default function csv2array(data, delimeter) {
       row++;
     } else if (c != eof) {
       // unexpected character
-      console.log(c)
       // throw "Delimiter expected after character " + i;
     }
 

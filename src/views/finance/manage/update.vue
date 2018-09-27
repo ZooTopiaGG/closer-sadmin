@@ -193,7 +193,6 @@ export default {
     },
     // table操作
     async handleClick(row, type) {
-      console.log("row===", row);
       let self = this;
       self.row = row;
       self.type = type;

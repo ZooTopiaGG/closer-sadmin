@@ -258,7 +258,6 @@ export default {
     },
     // 上传异常
     handleError(err) {
-      console.log("eerrr===", err);
       this.$message.error("Network Error!");
       this.loadingAvatarUpload = false;
     },

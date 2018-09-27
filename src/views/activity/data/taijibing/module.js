@@ -25,7 +25,6 @@ export default {
       } = await activityWaterList(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
-      console.log('data===', data)
       if (data.code === 0) {
         data.result.data.map(x => {
           x.address = x.address ? x.address : "-";

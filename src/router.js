@@ -59,10 +59,7 @@ const router = new Router({
     path: '/content/recover',
     name: 'recover',
     component: () =>
-      import ('./views/content/recover.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/content/recover.vue')
   }, {
     path: '/content/workload',
     name: 'workload',
@@ -290,7 +287,7 @@ router.beforeEach((to, from, next) => {
   console.log('now===', to.path)
   store.state.isLoginPage = to.path === '/login' || to.path === '/register';
   store.state.loadingMain = to.path != '/content';
-  try{
+  try {
     if (!(Cookies.get('_tcloser') && localStorage.getItem('_ucloser'))) {
       if (to.path != '/login') {
         next({
@@ -298,7 +295,7 @@ router.beforeEach((to, from, next) => {
         })
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
   switch (to.name) {

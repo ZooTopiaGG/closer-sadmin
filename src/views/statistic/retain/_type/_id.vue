@@ -120,7 +120,6 @@ export default {
     // 分页
     handleCurrentChange(val) {
       this.pagenum = val;
-      console.log(`当前页: ${this.pagenum}`);
     },
     handleSelect() {
       console.log(`当前时间: ${this.dataValue}`);
