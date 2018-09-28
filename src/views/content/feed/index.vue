@@ -64,7 +64,7 @@
         <!-- 视频 -->
         <section class="feed-doc" v-else-if="res.int_type === 1">
           <section class="feeder-title feeder-title-2">{{ content.text }}</section>
-          <section :id="content.videos[0].vid" :vid="content.videos[0].vid" :cover="content.videos[0].imageUrl"></section>
+          <section id="closerPlayer" :vid="content.videos[0].vid" :cover="content.videos[0].imageUrl"></section>
         </section>
         <!-- res.int_type==2长图文。int_category=== 3 神议论 1是征稿 -->
         <section class="feed-doc" v-else-if="res.int_type === 2">
@@ -311,17 +311,6 @@ export default {
           cover: self.content.videos[0].imageUrl
         });
       }
-      // if (self.res.int_type === 2) {
-      //   let v = document.querySelectorAll("video");
-      //   if (v && v.length > 0) {
-      //     Array.prototype.forEach.call(v, (x, i) => {
-      //       self.createVideos({
-      //         vid: x.getAttribute("vid"),
-      //         cover: x.getAttribute("cover") || x.getAttribute("poster")
-      //       });
-      //     });
-      //   }
-      // }
     }, 1000);
   }
 };
