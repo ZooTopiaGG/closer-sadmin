@@ -365,15 +365,15 @@ export default {
       if (data.code === 0) {
         let r = data.result;
         let player = new Aliplayer({
-            id: payload.vid,
+            id: 'closerPlayer',
             width: "100%",
             autoplay: false,
             prismType: 2,
-            vid: payload.vid, //self.content.videos[0].vid
+            vid: payload['vid'], //self.content.videos[0].vid
             playauth: "",
             playsinline: true, //app内播放设置
             qualitySort: "desc", //清晰度切换
-            cover: payload.cover, //self.content.videos[0].imageUrl
+            cover: payload['cover'], //self.content.videos[0].imageUrl
             accessKeyId: r.accessKeyId,
             securityToken: r.securityToken,
             accessKeySecret: r.accessKeySecret
