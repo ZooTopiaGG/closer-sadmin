@@ -11,66 +11,64 @@
       </section>
       <!-- table 改政策查看操作 -->
       <section class="permission_table_content">
-        <el-table :data="communityList.data" style="width: 100%">
-          <el-table-column fixed prop="name" label="贴近号名称">
-          </el-table-column>
-          <el-table-column prop="objectID" label="企业（个人）名称">
-          </el-table-column>
-          <el-table-column prop="create_time" label="未解冻余额">
-          </el-table-column>
-          <el-table-column prop="objectID" label="可用余额">
-          </el-table-column>
-          <el-table-column prop="create_time" label="累计充值">
-          </el-table-column>
-          <el-table-column prop="objectID" label="累计补贴">
-          </el-table-column>
-          <el-table-column label="日缓释金额">
+        <el-table :data="communityRecordsList.data" style="width: 100%">
+          <el-table-column fixed label="贴近号名称">
             <template slot-scope="scope">
-              <section class="flex flex-align-center">
-                <span>{{ scope.row.create_time }}</span>
-                <i class="write" @click="update_recharge(0)"></i>
-              </section>
+              <span>{{ scope.row.extend.community_name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="单一贴发放上线">
+          <el-table-column label="企业（个人）名称">
             <template slot-scope="scope">
-              <section class="flex flex-align-center">
-                <span>{{ scope.row.objectID }}</span>
-                <i class="write" @click="update_recharge(1)"></i>
-              </section>
+              <span>{{ scope.row.extend.community_person_name }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="充值（一次性到账）">
+          <el-table-column label="未解冻余额">
             <template slot-scope="scope">
-              <section class="flex flex-align-center">
-                <span>{{ scope.row.create_time }}</span>
-                <i class="write" @click="update_recharge(2)"></i>
-              </section>
+              <span>{{ scope.row.extend.total_lock_balance }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="充值（缓释额度）">
+          <el-table-column label="可用余额">
             <template slot-scope="scope">
-              <section class="flex flex-align-center">
-                <span>{{ scope.row.objectID }}</span>
-                <i class="write" @click="update_recharge(3)"></i>
-              </section>
+              <span>{{ scope.row.extend.total_available_Balance }}</span>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column label="累计充值">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleLook" size="medium">查看详情</el-button>
+              <span>{{ scope.row.extend.total_recharge }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="累计补贴">
+            <template slot-scope="scope">
+              <span>{{ scope.row.extend.total_allowance }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="日缓释额度">
+            <template slot-scope="scope">
+              <span>{{ scope.row.extend.daily_allowance }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="单一贴发放上限">
+            <template slot-scope="scope">
+              <span>{{ scope.row.extend.transMaxAmt }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="250">
+            <template slot-scope="scope">
+              <el-button type="text" @click="update_recharge(1, scope.row)" size="medium">改政策</el-button>
+              <el-button type="text" @click="update_recharge(2, scope.row)" size="medium">充额度</el-button>
+              <el-button type="text" @click="handleLook(scope.row)" size="medium">查看号</el-button>
               <el-button type="text" @click="handleRecords" size="medium">其他记录</el-button>
             </template>
           </el-table-column>
         </el-table>
       </section>
       <section v-if="dialogTableVisible">
-        <recharge-popup :title="title" :type="type" @visible="visible"></recharge-popup> 
+        <recharge-popup :title="title" :type="type" @visible="visible" :row="row"></recharge-popup> 
       </section>
     </section>
-    <section class="block" v-if="communityList.count > 0">
+    <section class="block" v-if="communityRecordsList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="communityList.count">
+        :total="communityRecordsList.count">
       </el-pagination>
     </section>
   </section>
@@ -81,7 +79,7 @@ import { mapState, mapActions } from "vuex";
 import rechargePopup from "@/components/rechargePopup";
 export default {
   computed: {
-    ...mapState("finance", ["communityList"]),
+    ...mapState("finance", ["communityRecordsList"]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -118,16 +116,18 @@ export default {
         givelimit1: ""
       },
       // 改版data
-      title: "每日缓释额度"
+      title: "改政策"
     };
   },
   created() {
     let self = this;
-    self.getCommunityList(self.financepara);
+    // self.getCommunityList(self.financepara);
+    self.communityRecords(self.financepara);
   },
   methods: {
     ...mapActions("finance", [
       "getCommunityList",
+      "communityRecords",
       "communityDetail",
       "updateRechargeSetting",
       "commitApply"
@@ -148,7 +148,7 @@ export default {
       let self = this;
       self.financepara["id"] = self.columnid;
       self.financepara["page"] = self.pagenum;
-      await self.getCommunityList(self.financepara);
+      await self.communityRecords(self.financepara);
     },
     // 改政策查看 community_detail 改政策commit_apply 同意recharge_audit
     async lookAndModify() {
@@ -183,104 +183,30 @@ export default {
       self.operationType = 0;
       self.disabled = false;
     },
-    async update_recharge_setting() {
-      // update_recharge_setting 改政策
-      let self = this;
-      if (
-        !self.$com.isInteger(Number(self.ruleForm.give1)) ||
-        Number(self.ruleForm.give1) <= 0
-      ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
-        self.loading = false;
-        return false;
-      }
-      if (
-        !self.$com.isInteger(Number(self.ruleForm.givelimit1)) ||
-        Number(self.ruleForm.givelimit1) <= 0
-      ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
-        self.loading = false;
-        return false;
-      }
-      let res = await self.updateRechargeSetting({
-        toUid: self.row.objectID, //被改政策用户ID
-        dailyAllowanceAmt: self.ruleForm.give1 * 100 || 0, //每天发放额度(单位分)
-        transMaxAmt: self.ruleForm.givelimit1 * 100 || 0 //每个帖子能够发放的额度上线
-      });
-      if (res) {
-        self.dialogTableVisible = false;
-      } else {
-        self.loading = false;
-      }
-    },
-
-    async commit_apply() {
-      // commit_apply 充额度
-      let self = this;
-      if (self.ruleForm.rechargeAmount == "" && self.ruleForm.subsidy == "") {
-        self.$message.warning("所填额度不能为空或填入额度必须大于零");
-        self.loading = false;
-        return;
-      }
-      if (
-        !self.$com.isInteger(Number(self.ruleForm.rechargeAmount)) ||
-        Number(self.ruleForm.rechargeAmount) < 0
-      ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
-        self.loading = false;
-        return false;
-      }
-      if (
-        !self.$com.isInteger(Number(self.ruleForm.subsidy)) ||
-        Number(self.ruleForm.subsidy) < 0
-      ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
-        self.loading = false;
-        return false;
-      }
-      let res = await self.commitApply({
-        toUid: self.row.objectID, //被充额度用户ID
-        rechargeAmt: self.ruleForm.rechargeAmount * 100 || 0, //新增一次性到账额度(单位分)
-        totalAllowanceAmt: self.ruleForm.subsidy * 100 || 0 //新增缓释额度(单位分)
-      });
-      if (res) {
-        self.dialogTableVisible = false;
-      } else {
-        self.loading = false;
-      }
-    },
-    // 提交申请 commit_apply recharge_audit
-    async f_commit_apply() {
-      let self = this;
-      self.loading = true;
-      if (self.type === "改政策") {
-        await self.update_recharge_setting();
-      } else {
-        await self.commit_apply();
-      }
-    },
 
     // 改版方法
-    update_recharge(type) {
+    update_recharge(type, row) {
       let self = this;
+      self.row = row;
       self.dialogTableVisible = true;
       self.type = type;
       if (type === 1) {
-        self.title = "单一贴发放上限";
+        self.title = "改政策";
       } else if (type === 2 || type === 3) {
-        self.title = "充值";
+        self.title = "充额度";
       } else {
-        self.title = "每日缓释金额";
+        self.title = "改政策";
       }
     },
-    handleLook() {
+    handleLook(row) {
+      window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
         path: "/finance/closer?type=info"
       });
     },
     handleRecords() {
       this.$router.push({
-        path: "/finance/closer?type=fee"
+        path: "/finance/closer?type=recharge"
       });
     }
   }

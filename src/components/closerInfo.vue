@@ -4,60 +4,78 @@
       <aside>栏目基本信息</aside>
       <section class="flex-1">
         <section class="flex flex-pack-justify">
-          <p><span>贴近号名称：</span><span>直升机</span></p>
-          <p><span>注册手机：</span><span>124567888</span></p>
+          <p><span>贴近号名称：</span><span>{{ row.name }}</span></p>
+          <p><span>注册手机：</span><span>{{ row.phone }}</span></p>
         </section>
         <section class="flex flex-pack-justify">
-          <p><span>贴近号归属：</span><span>上海</span></p>
-          <p><span>企业名称：</span><span>上海切近信息技术有限公司</span></p>
+          <p><span>贴近号归属：</span><span>{{ row.regionName }}</span></p>
+          <p><span>企业/个人名称：</span><span>{{ row.person_name }}</span></p>
         </section>
         <section class="flex flex-pack-justify">
-          <p><span>创建时间：</span><span>2018-08-09 33333</span></p>
-          <p><span>社会信用代码：</span><span>12456788点点滴滴8</span></p>
+          <p><span>创建时间：</span><span>{{ row.create_time }}</span></p>
+          <p><span>社会信用代码：</span><span>{{ row.business_license || noValue }}</span></p>
         </section>
       </section>
     </section>
     <section class="split_line"></section>
     <section class="cm flex">
-      <aside>修改额度</aside>
+      <aside>改政策</aside>
       <section>
         <section>
           <p class="flex flex-align-center">
-            <span>一次性到账额度：</span>
-            <span>1223435</span>
-            <i class="write" @click="showRechargePopup(1)"></i>
+            <span>单一帖发放上限：</span>
+            <span>{{ row.extend.transMaxAmt }}</span>
           </p>
         </section>
         <section>
           <p class="flex flex-align-center">
-            <span>每日缓释额度：</span>
-            <span>999</span>
-            <i class="write" @click="showRechargePopup(0)"></i>
+            <span>日缓释额度：</span>
+            <span>{{ row.extend.daily_allowance }}</span>
           </p>
+        </section>
+        <section>
+          <el-button type="primary" @click="showRechargePopup(1)">申请修改</el-button>
         </section>
       </section>
     </section>
     <section class="cm flex">
-      <aside>充值</aside>
+      <aside>充额度</aside>
       <section>
         <section>
-          <p><span>当前余额：</span><span>12345</span></p>
+          <p><span>充值余额：</span><span>{{ row.extend.total_available_Balance }}</span></p>
         </section>
         <section>
-          <p><span>缓释金额：</span><span>999</span></p>
+          <p><span>缓释余额：</span><span>{{ row.extend.total_allowance_remain || 0 }}</span></p>
         </section>
       </section>
     </section>
     <section class="cm cm-group-button flex">
       <el-button type="primary" @click="showRechargePopup(2)">申请充值</el-button>
-      <el-button type="primary">清空余额</el-button>
+      <el-button type="primary" @click="showClearPopup">清空余额</el-button>
+    </section>
+    <section>
+      <el-dialog
+        title=""
+        :visible.sync="dialogVisible"
+        width="30%">
+        <span style="color: red;">是否清空当前贴近号下所有余额，包含未解冻金额</span>
+        <section class="flex flex-v flex-align-center">
+          <span>充值余额： {{ row.extend.total_available_Balance }}元</span>
+          <span>缓释余额： {{ row.extend.total_allowance_remain || 0 }}元</span>
+        </section>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="text" style="color: #999;" @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="promptClearWallet">提交申请</el-button>
+        </span>
+      </el-dialog>
     </section>
     <section v-if="dialogTableVisible">
-      <recharge-popup :title="title" :type="type" @visible="visible"></recharge-popup> 
+      <recharge-popup :title="title" :type="type" @visible="visible" :row="row"></recharge-popup> 
     </section>
   </section>
 </template>
 <script>
+import { mapState, mapActions } from "vuex";
 import rechargePopup from "@/components/rechargePopup.vue";
 export default {
   name: "closer",
@@ -66,26 +84,48 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
       dialogTableVisible: false,
       ruleForm: {
         subsidy: ""
       },
-      title: "每日缓释额度",
-      type: 0
+      title: "改政策",
+      type: 0,
+      row: {},
+      noValue: "空"
     };
   },
+  created() {
+    try {
+      this.row = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"));
+    } catch (e) {
+      console.log(e);
+    }
+  },
   methods: {
+    ...mapActions("finance", ["clearWallet"]),
     showRechargePopup(type) {
       let self = this;
       self.type = type;
       if (type === 1) {
-        self.title = "单一贴发放上限";
+        self.title = "改政策";
       } else if (type === 2 || type === 3) {
-        self.title = "充值";
+        self.title = "充额度";
       } else {
-        self.title = "每日缓释金额";
+        self.title = "改政策";
       }
       self.dialogTableVisible = true;
+    },
+    showClearPopup() {
+      this.dialogVisible = true;
+    },
+    async promptClearWallet() {
+      let res = await this.clearWallet({
+        uid: this.row.objectID
+      });
+      if (res) {
+        this.dialogVisible = false;
+      }
     },
     visible(val) {
       this.dialogTableVisible = val;

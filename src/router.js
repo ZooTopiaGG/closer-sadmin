@@ -174,9 +174,9 @@ const router = new Router({
     name: 'withdraw_details',
     component: () =>
       import ('./views/finance/withdraw/details.vue'),
-    meta: {
-      keepAlive: true
-    }
+    // meta: {
+    //   keepAlive: true
+    // }
   }, {
     path: '/finance/serial',
     name: 'serial',

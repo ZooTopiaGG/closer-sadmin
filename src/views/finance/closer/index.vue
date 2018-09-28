@@ -1,6 +1,6 @@
 <template>
   <section id="permission" class="closer flex flex-v">
-    <section class="permission_title">xx 贴近号</section>
+    <section class="permission_title">{{ row.name }} 贴近号</section>
     <el-tabs v-model="activeName" @tab-click="handleClick" class="flex flex-v flex-1">
       <el-tab-pane label="贴近号信息" name="info">
         <closer-info></closer-info>
@@ -11,7 +11,7 @@
       <el-tab-pane label="充值记录" name="recharge">
         <recharge></recharge>
       </el-tab-pane>      
-      <el-tab-pane label="申请记录" name="apply">
+      <el-tab-pane label="改政策记录" name="apply">
         <apply></apply>
       </el-tab-pane>
     </el-tabs>
@@ -32,7 +32,8 @@ export default {
   },
   data() {
     return {
-      activeName: "info"
+      activeName: "info",
+      row: {}
     };
   },
   methods: {
@@ -42,6 +43,11 @@ export default {
   },
   created() {
     this.activeName = this.$route.query.type;
+    try {
+      this.row = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"));
+    } catch (e) {
+      console.log(e);
+    }
   }
 };
 </script>

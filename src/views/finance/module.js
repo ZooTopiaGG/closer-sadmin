@@ -17,7 +17,12 @@ import {
   walletLockType,
   lockWallet,
   allRechargeList,
-  userWalletDetail
+  userWalletDetail,
+  clearWallet,
+  subjectFeeList,
+  subjectFeeTotal,
+  rechargeListNew,
+  searchUser
 } from './service'
 
 export default {
@@ -28,6 +33,10 @@ export default {
       count: 0
     },
     withdrawList: {
+      data: [],
+      count: 0
+    },
+    withdrawList2: {
       data: [],
       count: 0
     },
@@ -51,10 +60,23 @@ export default {
       data: [],
       count: 0
     },
+    rechargeList2: {
+      data: [],
+      count: 0
+    },
     serialList: {
       data: [],
       count: 0
     },
+    feeList: {
+      data: [],
+      count: 0
+    },
+    feeTotal: {},
+    newRechargeList: {
+      data: [],
+      count: 0
+    }
   },
   mutations: {
     communityList(state, para) {
@@ -62,6 +84,9 @@ export default {
     },
     withdrawList(state, para) {
       state.withdrawList = para
+    },
+    withdrawList2(state, para) {
+      state.withdrawList2 = para
     },
     communityRecordsList(state, para) {
       state.communityRecordsList = para
@@ -78,8 +103,20 @@ export default {
     rechargeList(state, para) {
       state.rechargeList = para
     },
+    rechargeList2(state, para) {
+      state.rechargeList2 = para
+    },
     serialList(state, para) {
       state.serialList = para
+    },
+    feeList(state, para) {
+      state.feeList = para
+    },
+    feeTotal(state, para) {
+      state.feeTotal = para
+    },
+    newRechargeList(state, para) {
+      state.newRechargeList = para
     }
   },
   actions: {
@@ -160,6 +197,8 @@ export default {
       if (data.code === 0) {
         await data.result.data.map(x => {
           x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
           return x;
         });
         commit('rechargeList', data.result)
@@ -215,9 +254,15 @@ export default {
         await data.result.data.map(x => {
           x.userName = x.user && x.user.fullname ? x.user.fullname : "-";
           x.userPhone = x.user && x.user.phones ? x.user.phones : "-";
+          x.objectID = x.user && x.user.objectID ? x.user.objectID : "-";
+          x.certNo = x.identity && x.identity.certNo ? x.identity.certNo : "-";
           x.createTime =
             x.withdraw && x.withdraw.createTime ?
             $async.createTime(x.withdraw.createTime, "yy-mm-dd hh:MM") :
+            "-";
+          x.auditTime =
+            x.withdraw && x.withdraw.auditTime ?
+            $async.createTime(x.withdraw.auditTime, "yy-mm-dd hh:MM") :
             "-";
           x.withdrawAmt =
             x.withdraw && x.withdraw.withdrawAmt ?
@@ -242,15 +287,73 @@ export default {
           x.auditUser =
             x.withdraw && x.withdraw.auditUser ? x.withdraw.auditUser : "-";
           if (x.withdraw.auditStatus === "success") {
-            x.auditStatus = "已通过";
+            x.auditStatus = "通过";
           } else if (x.withdraw.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "已拒绝";
+            x.auditStatus = "拒绝";
           }
           return x;
         });
         commit('withdrawList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async withdrawAuthList2({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await withdrawAuthList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.userName = x.user && x.user.fullname ? x.user.fullname : "-";
+          x.userPhone = x.user && x.user.phones ? x.user.phones : "-";
+          x.objectID = x.user && x.user.objectID ? x.user.objectID : "-";
+          x.certNo = x.identity && x.identity.certNo ? x.identity.certNo : "-";
+          x.createTime =
+            x.withdraw && x.withdraw.createTime ?
+            $async.createTime(x.withdraw.createTime, "yy-mm-dd hh:MM") :
+            "-";
+          x.auditTime =
+            x.withdraw && x.withdraw.auditTime ?
+            $async.createTime(x.withdraw.auditTime, "yy-mm-dd hh:MM") :
+            "-";
+          x.withdrawAmt =
+            x.withdraw && x.withdraw.withdrawAmt ?
+            x.withdraw.withdrawAmt / 100 :
+            0;
+          x.payeeAccount =
+            x.withdraw && x.withdraw.payeeAccount ?
+            x.withdraw.payeeAccount :
+            "-";
+          x.withdrawRemark =
+            x.withdraw && x.withdraw.withdrawRemark ?
+            x.withdraw.withdrawRemark :
+            "-";
+          x.withdrawApply =
+            x.withdraw && x.withdraw.withdrawApply ?
+            x.withdraw.withdrawApply / 100 :
+            0;
+          x.withdrawTax =
+            x.withdraw && x.withdraw.withdrawTax ?
+            x.withdraw.withdrawTax / 100 :
+            0;
+          x.auditUser =
+            x.withdraw && x.withdraw.auditUser ? x.withdraw.auditUser : "-";
+          if (x.withdraw.auditStatus === "success") {
+            x.auditStatus = "通过";
+          } else if (x.withdraw.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "拒绝";
+          }
+          return x;
+        });
+        commit('withdrawList2', data.result)
       } else {
         $message.error(data.result)
       }
@@ -432,6 +535,8 @@ export default {
           } else {
             x.auditStatus = "审核失败";
           }
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
           return x;
         });
         commit('rechargeList', data.result)
@@ -457,9 +562,13 @@ export default {
           } else {
             x.auditStatus = "审核失败";
           }
+          x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
+          x.originalTransMaxAmt = x.originalTransMaxAmt ? x.originalTransMaxAmt / 100 : 0;
+          x.originalDailyAllowanceAmt = x.originalDailyAllowanceAmt ? x.originalDailyAllowanceAmt / 100 : 0;
+          x.transMaxAmt = x.transMaxAmt ? x.transMaxAmt / 100 : 0;
           return x;
         });
-        commit('rechargeList', data.result)
+        commit('rechargeList2', data.result)
       } else {
         $message.error(data.result)
       }
@@ -504,6 +613,107 @@ export default {
           return x;
         });
         commit('serialList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async clearWallet({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await clearWallet(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        $message.success("提交成功，等待审批...")
+        return true
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async subjectFeeList({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await subjectFeeList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          switch (x.subject.int_release_type) {
+            case 0:
+              x.subject.int_release_type = '自媒体'
+              break;
+            case 1:
+              x.subject.int_release_type = '班级'
+              break;
+            default:
+              x.subject.int_release_type = '自媒体'
+          }
+          try {
+            x.subject.title = x.subject.title ? x.subject.title : JSON.parse(x.subject.content).text.substr(0, 10)
+          } catch (e) {}
+          x.subject.long_publish_time = $async.createTime(x.subject.long_publish_time, "yy-mm-dd hh:MM");
+          x.transStatus = x.transStatus === 'success' ? '是' : '否';
+          x.totalFee = x.totalFee / 100;
+          return x;
+        });
+        commit('feeList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async subjectFeeTotal({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await subjectFeeTotal(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        commit('feeTotal', data.result)
+        return true
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async rechargeListNew({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await rechargeListNew(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          console.log(x)
+          switch (x.auditStatus) {
+            case 'apply':
+              x.auditStatus = '审核中';
+              break;
+            case 'success':
+              x.auditStatus = '通过';
+              break;
+            case 'fail':
+              x.auditStatus = '审核中';
+              break;
+            default:
+              x.auditStatus = '拒绝';
+          }
+          x.type = '充值';
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.auditUid = x.auditUid ? x.auditUid : '-';
+          x.auditUser = x.auditUser ? x.auditUser : '-';
+          x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.updateTime = $async.createTime(x.updateTime, "yy-mm-dd hh:MM");
+        })
+        commit('newRechargeList', data.result)
+        return true
       } else {
         $message.error(data.result)
       }

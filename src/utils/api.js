@@ -126,7 +126,17 @@ let api = {
     // 审核操作
     auth_status: 'closer_finance_superadmin.auth_status',
     // 近期流水
-    user_wallet_detail: 'closer_finance_superadmin.user_wallet_detail'
+    user_wallet_detail: 'closer_finance_superadmin.user_wallet_detail',
+    // 清空余额
+    clear_wallet: 'closer_finance_superadmin.clear_wallet',
+    // 稿费记录
+    subject_fee_list: 'closer_community_fee.subject_fee_list',
+    // 稿费统计
+    subject_fee_total: 'closer_community_fee.subject_fee_total',
+    // 充值记录
+    recharge_list_new: 'closer_finance_superadmin.recharge_list_new',
+    // 查询提现列表
+    searchUser: 'closer_finance_superadmin.searchUser'
   },
   activity: {
     // 获取活动列表
