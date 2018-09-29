@@ -20,8 +20,8 @@
             </el-option>
           </el-select>
           <a class="yetread" v-if="authUser.type != 1" @click="read" href="javascript:;">已读条数：{{readCount}}</a>
-          <el-button icon="el-icon-delete" v-if="fliterVerify === 0" @click="recover(fliterVerify)">普通回收站</el-button>
-          <el-button icon="el-icon-delete" v-else @click="recover(fliterVerify)">精华回收站</el-button>
+          <el-button icon="el-icon-delete" v-if="fliterVerify === 0" @click="recover(0)">普通回收站</el-button>
+          <el-button icon="el-icon-delete" v-else @click="recover(-1)">精华回收站</el-button>
         </section>
       </section>
       <!-- feed流 -->
