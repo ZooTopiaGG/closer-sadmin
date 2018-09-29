@@ -4,12 +4,15 @@
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
-          <span class="content_labelname labelname">
-            贴子名称
-          </span>
-          <el-input v-model="seachbytitle" placeholder="请输入贴子标题全称" @keyup.enter.native="bindSearch">
-            <el-button slot="append" @click="bindSearch" icon="el-icon-search"></el-button>
+          <el-select class='list-filter-select' @change="handleSelect" v-model="fliterVerify" placeholder="贴子状态">
+          <el-option v-for="item in verify.options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+        <section class="flex flex-align-center">
+          <el-input v-model="seachbytitle" placeholder="请输入贴子标题全称" @keyup.enter.native="handleSelect">
+            <el-button slot="append" @click="handleSelect" icon="el-icon-search"></el-button>
           </el-input>
+        </section>
         </section>
         <section class="flex flex-align-center">
           <el-select class='list-filter-select' @change="handleSelect" v-model="fliterfeeds" placeholder="贴子状态">
@@ -17,7 +20,8 @@
             </el-option>
           </el-select>
           <a class="yetread" v-if="authUser.type != 1" @click="read" href="javascript:;">已读条数：{{readCount}}</a>
-          <el-button icon="el-icon-delete" @click="recover">回收站</el-button>
+          <el-button icon="el-icon-delete" v-if="fliterVerify === 0" @click="recover(fliterVerify)">普通回收站</el-button>
+          <el-button icon="el-icon-delete" v-else @click="recover(fliterVerify)">精华回收站</el-button>
         </section>
       </section>
       <!-- feed流 -->
@@ -190,7 +194,8 @@ export default {
         keywords: "",
         startTime: null,
         endTime: null,
-        userid: "0"
+        userid: "0",
+        intVerify: 1
       },
       seachbytitle: "",
       dialogVisible: false,
@@ -215,6 +220,19 @@ export default {
             label: "已读"
           }
         ]
+      },
+      fliterVerify: 1,
+      verify: {
+        options: [
+          {
+            value: 1,
+            label: "精华"
+          },
+          {
+            value: 0,
+            label: "普通"
+          }
+        ]
       }
     };
   },
@@ -228,9 +246,9 @@ export default {
       "loadMore"
     ]),
     // table操作
-    recover() {
+    recover(id) {
       this.$router.push({
-        path: "/content/recover"
+        path: `/content/recover?id=${id}`
       });
     },
     read() {
@@ -269,6 +287,7 @@ export default {
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
       self.getreadlist["userid"] = self.authUser.uid;
+      self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
     },
     // 搜索按钮
@@ -287,6 +306,7 @@ export default {
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
       self.getreadlist["userid"] = self.authUser.uid;
+      self.getreadlist["intVerify"] = self.fliterVerify;
       await self.getReadList(self.getreadlist);
     },
     // 查看贴子详情
