@@ -271,10 +271,10 @@ export default {
         self.$message.warning("活动页面不能为空！");
         return;
       }
-      if (!self.$com.isUrl(self.displaypage)) {
-        self.$message.warning("活动页面地址错误！");
-        return;
-      }
+      // if (!self.$com.isUrl(self.displaypage)) {
+      //   self.$message.warning("活动页面地址错误！");
+      //   return;
+      // }
       if (!self.imageUrl) {
         self.$message.warning("活动logo不能为空！");
         return;
