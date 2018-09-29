@@ -4,7 +4,7 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center" style="margin-right: 15px;">
-            <el-select class='list-filter-select' @change="handleSelectType" v-model="recharge_type" placeholder="全部结果">
+            <el-select class='list-filter-select' @change="handleSearch" v-model="recharge_type" placeholder="全部结果">
               <el-option v-for="item in recharge_type_list" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column prop="applyTime" label="申请时间">
           </el-table-column>
-          <el-table-column prop="applyTime" label="审核结果">
+          <el-table-column prop="auditStatus" label="审核结果">
           </el-table-column>
         </el-table>
       </section>
@@ -92,18 +92,18 @@ export default {
     };
   },
   created() {
-    this.rechargeApplyList(this.financepara);
+    this.allRechargeList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["rechargeApplyList", "rechargeAudit"]),
+    ...mapActions("finance", ["allRechargeList"]),
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
-      await self.rechargeApplyList(self.financepara);
+      self.financepara["auditStatus"] = self.recharge_type || "";
+      await self.allRechargeList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;
-      this.columnid = "";
       await this.handleSelect();
     },
     async handleSearch() {
@@ -113,8 +113,7 @@ export default {
     async handleCurrentChange(val) {
       this.pagenum = val;
       await this.handleSelect();
-    },
-    handleSelectType() {}
+    }
   }
 };
 </script>

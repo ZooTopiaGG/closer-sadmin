@@ -4,8 +4,8 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center" style="margin-right: 15px;">
-            <el-select class='list-filter-select' @change="handleSelectType" v-model="recharge_type" placeholder="全部结果">
-              <el-option v-for="item in recharge_type_list" :key="item.label" :label="item.label" :value="item.value">
+            <el-select class='list-filter-select' @change="handleSelectResult" v-model="recharge_result" placeholder="全部结果">
+              <el-option v-for="item in recharge_result_list" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </section>
@@ -33,15 +33,19 @@
           </el-table-column>
           <el-table-column prop="fromUserName" label="申请者昵称">
           </el-table-column>
-          <el-table-column prop="originalDailyAllowanceAmt" label="原日缓释金额">
+          <el-table-column prop="dailyAllowanceAmtOld" label="原日缓释金额">
           </el-table-column>
           <el-table-column prop="dailyAllowanceAmt" label="申请缓释">
           </el-table-column>
-          <el-table-column prop="originalTransMaxAmt" label="原单一帖发放上限">
+          <el-table-column prop="transMaxAmtOld" label="原单一帖发放上限">
           </el-table-column>
           <el-table-column prop="transMaxAmt" label="申请上限">
           </el-table-column>
           <el-table-column prop="applyTime" label="申请时间">
+          </el-table-column>
+          <el-table-column prop="auditTime" label="审批时间">
+          </el-table-column>
+          <el-table-column prop="auditStatus" label="操作结果">
           </el-table-column>
         </el-table>
       </section>
@@ -68,9 +72,10 @@ export default {
       financepara: {
         page: 1,
         count: 10,
-        auditStatus: "success",
+        auditStatus: "",
         startTime: null,
-        endTime: null
+        endTime: null,
+        uid: null
       },
       columnid: "",
       pagenum: 1,
@@ -78,11 +83,11 @@ export default {
       dialogTableVisible: false,
       innerVisible: false,
       row: "",
-      recharge_type: "",
-      recharge_type_list: [
+      recharge_result: "",
+      recharge_result_list: [
         {
           label: "全部结果",
-          value: "all"
+          value: ""
         },
         {
           label: "审核失败",
@@ -103,15 +108,19 @@ export default {
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
-      self.financepara["auditStatus"] = self.recharge_type || "";
-      await self.rechargeSettingsApplyList(self.financepara);
+      self.financepara["auditStatus"] = self.recharge_result || "";
+      self.financepara["endTime"] = self.dataValue[1] || null;
+      self.financepara["startTime"] = self.dataValue[0] || null;
+      await self.settingAuditList(self.financepara);
     },
     async clearSearch() {
-      this.pagenum = 1;
-      this.recharge_type = "";
+      let self = this;
+      self.pagenum = 1;
+      self.recharge_result = "";
+      self.dataValue = "";
       await this.handleSelect();
     },
-    async handleSearch() {
+    async handleSelectResult() {
       this.pagenum = 1;
       await this.handleSelect();
     },
@@ -119,7 +128,7 @@ export default {
       this.pagenum = val;
       await this.handleSelect();
     },
-    handleSelectType() {}
+    handleSearch() {}
   }
 };
 </script>

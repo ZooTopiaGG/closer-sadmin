@@ -57,7 +57,7 @@
               <el-button type="text" @click="update_recharge(1, scope.row)" size="medium">改政策</el-button>
               <el-button type="text" @click="update_recharge(2, scope.row)" size="medium">充额度</el-button>
               <el-button type="text" @click="handleLook(scope.row)" size="medium">查看号</el-button>
-              <el-button type="text" @click="handleRecords" size="medium">其他记录</el-button>
+              <el-button type="text" @click="handleRecords(scope.row)" size="medium">其他记录</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -204,9 +204,9 @@ export default {
         path: `/finance/closer?type=info&id=${row.objectID}`
       });
     },
-    handleRecords() {
+    handleRecords(row) {
       this.$router.push({
-        path: `/finance/closer?type=recharge`
+        path: `/finance/closer?type=recharge&id=${row.objectID}`
       });
     }
   }

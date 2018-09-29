@@ -26,7 +26,7 @@
       </section>
       <!-- table 修改查看操作 -->
       <section class="permission_table_content" style="margin-top: 0;">
-        <el-table :data="newRechargeList.data" style="width: 100%">
+        <el-table :data="rechargeList.data" style="width: 100%">
           <el-table-column fixed prop="type" label="类型">
           </el-table-column>
           <el-table-column prop="rechargeAmt" label="一次性到账额度">
@@ -37,9 +37,9 @@
           </el-table-column>
           <el-table-column prop="auditUser" label="审批人昵称">
           </el-table-column>
-          <el-table-column prop="createTime" label="申请时间">
+          <el-table-column prop="applyTime" label="申请时间">
           </el-table-column>
-          <el-table-column prop="updateTime" label="审批时间">
+          <el-table-column prop="auditTime" label="审批时间">
           </el-table-column>
           <el-table-column label="操作结果">
             <template slot-scope="scope">
@@ -51,9 +51,9 @@
         </el-table>
       </section>
     </section>
-    <section class="block" v-if="newRechargeList.count > 0">
+    <section class="block" v-if="rechargeList.count > 0">
       <el-pagination @current-change="handleSelect1" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="newRechargeList.count">
+        :total="rechargeList.count">
       </el-pagination>
     </section>
   </section>
@@ -66,7 +66,8 @@ export default {
     ...mapState("finance", [
       "communityRecordsList",
       "rechargeInfo",
-      "newRechargeList"
+      "newRechargeList",
+      "rechargeList"
     ])
   },
   data() {
@@ -76,7 +77,8 @@ export default {
         count: 10,
         auditStatus: "",
         startTime: null,
-        endTime: null
+        endTime: null,
+        uid: null
       },
       dialogTableVisible: false,
       pagenum: 1,
@@ -141,10 +143,11 @@ export default {
     };
   },
   created() {
-    this.rechargeListNew(this.financepara);
+    this.financepara["uid"] = this.$route.query.id;
+    this.allRechargeList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["rechargeListNew"]),
+    ...mapActions("finance", ["allRechargeList"]),
 
     async handleSelect() {
       let self = this;
@@ -152,7 +155,7 @@ export default {
       self.financepara["endTime"] = self.dataValue[1] || null;
       self.financepara["page"] = self.pagenum || 1;
       self.financepara["auditStatus"] = self.recharge_result || "";
-      await self.rechargeListNew(self.financepara);
+      await self.allRechargeList(self.financepara);
     },
     async handleSelect1(val) {
       this.pagenum = val;

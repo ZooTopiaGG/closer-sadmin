@@ -78,14 +78,14 @@ export default {
     };
   },
   created() {
-    this.rechargeApplyList(this.financepara);
+    this.allRechargeList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["rechargeApplyList", "rechargeAudit"]),
+    ...mapActions("finance", ["allRechargeList", "rechargeAudit"]),
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
-      await self.rechargeApplyList(self.financepara);
+      await self.allRechargeList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;

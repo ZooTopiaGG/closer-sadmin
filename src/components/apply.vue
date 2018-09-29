@@ -10,7 +10,7 @@
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">
             <el-select class='list-filter-select' @change="handleSelectResult" v-model="recharge_result" placeholder="全部结果">
-              <el-option v-for="item in recharge_result_list" :key="item.region_name" :label="item.region_name" :value="item.region_id">
+              <el-option v-for="item in recharge_result_list" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </section>
@@ -26,31 +26,27 @@
       </section>
       <!-- table 修改查看操作 -->
       <section class="permission_table_content" style="margin-top: 0;">
-        <el-table :data="rechargeList.data" style="width: 100%">
-          <el-table-column fixed prop="name" label="原日缓释金额">
+        <el-table :data="auditList.data" style="width: 100%">
+          <el-table-column prop="dailyAllowanceAmtOld" label="原日缓释金额">
           </el-table-column>
-          <el-table-column prop="objectID" label="申请缓释">
+          <el-table-column prop="dailyAllowanceAmt" label="申请缓释">
           </el-table-column>
-          <el-table-column prop="transMaxAmt" label="原单一帖发放上限">
+          <el-table-column prop="transMaxAmtOld" label="原单一帖发放上限">
           </el-table-column>
-          <el-table-column prop="objectID" label="申请上限">
+          <el-table-column prop="transMaxAmt" label="申请上限">
           </el-table-column>
-          <el-table-column prop="create_time" label="审批人ID">
+          <el-table-column prop="createTime" label="申请时间">
           </el-table-column>
-          <el-table-column prop="fromUserName" label="审批人昵称">
+          <el-table-column prop="auditTime" label="审批时间">
           </el-table-column>
-          <el-table-column prop="applyTime" label="申请时间">
-          </el-table-column>
-          <el-table-column prop="create_time" label="审批时间">
-          </el-table-column>
-          <el-table-column prop="create_time" label="操作结果">
+          <el-table-column prop="auditStatus" label="操作结果">
           </el-table-column>
         </el-table>
       </section>
     </section>
-    <section class="block" v-if="rechargeList.count > 0">
-      <el-pagination @current-change="handleCurrentChange1" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="rechargeList.count">
+    <section class="block" v-if="auditList.count > 0">
+      <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
+        :total="auditList.count">
       </el-pagination>
     </section>
   </section>
@@ -60,15 +56,17 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("finance", ["rechargeList"])
+    ...mapState("finance", ["auditList"])
   },
   data() {
     return {
       financepara: {
         page: 1,
         count: 10,
-        toUid: null,
-        auditStatus: "all"
+        auditStatus: "",
+        startTime: null,
+        endTime: null,
+        uid: null
       },
       columnid: null,
       dialogTableVisible: false,
@@ -112,23 +110,37 @@ export default {
       },
       // 绑定选择到的日期 数组
       dataValue: "",
-      recharge_result_list: [],
+      recharge_result_list: [
+        {
+          label: "全部结果",
+          value: ""
+        },
+        {
+          label: "审核失败",
+          value: "fail"
+        },
+        {
+          label: "审核成功",
+          value: "success"
+        }
+      ],
       recharge_result: ""
     };
   },
   created() {
-    this.rechargeSettingsApplyList(this.financepara);
+    this.financepara["uid"] = this.$route.query.id;
+    this.settingAuditList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["rechargeSettingsApplyList"]),
+    ...mapActions("finance", ["settingAuditList"]),
 
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
       self.financepara["auditStatus"] = self.recharge_result || "";
-      self.financepara["endTime"] = self.dataValue[1] || "";
-      self.financepara["startTime"] = self.dataValue[0] || "";
-      await self.userWalletDetail(self.financepara);
+      self.financepara["endTime"] = self.dataValue[1] || null;
+      self.financepara["startTime"] = self.dataValue[0] || null;
+      await self.settingAuditList(self.financepara);
     },
     async clearSearch() {
       let self = this;
@@ -141,7 +153,7 @@ export default {
       this.pagenum = 1;
       await this.handleSelect();
     },
-    async handleCurrentChange1(val) {
+    async handleCurrentChange(val) {
       this.pagenum = val;
       await this.handleSelect();
     }

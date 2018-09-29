@@ -558,7 +558,8 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
+          x.applyTime = x.applyTime ? $async.createTime(x.applyTime, "yy-mm-dd hh:MM") : '-';
+          x.auditTime = x.auditTime ? $async.createTime(x.auditTime, "yy-mm-dd hh:MM") : '-';
           if (x.auditStatus === "success") {
             x.auditStatus = "审核通过";
           } else if (x.auditStatus === "apply") {
@@ -566,8 +567,11 @@ export default {
           } else {
             x.auditStatus = "审核失败";
           }
+          x.type = '充值';
           x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
           x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          x.auditUid = x.auditUid ? x.auditUid : '-';
+          x.auditUser = x.auditUser ? x.auditUser : '-';
           return x;
         });
         commit('rechargeList', data.result)
@@ -759,9 +763,19 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
-          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
-          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
+          if (x.auditStatus === "success") {
+            x.auditStatus = "审核通过";
+          } else if (x.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "审核失败";
+          }
+          x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
+          x.dailyAllowanceAmtOld = x.dailyAllowanceAmtOld ? x.dailyAllowanceAmtOld / 100 : 0;
+          x.transMaxAmt = x.transMaxAmt ? x.transMaxAmt / 100 : 0;
+          x.transMaxAmtOld = x.transMaxAmtOld ? x.transMaxAmtOld / 100 : 0;
           return x;
         });
         commit('auditList', data.result)
