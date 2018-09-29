@@ -25,8 +25,8 @@
         </section>
       </section>
       <!-- feed流 -->
-      <ul v-if="readList.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList.data" :key="index" :sub="item.subjectid" :status='flag === 0'>
+      <ul v-if="readList2.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
+        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList2.data" :key="index" :sub="item.subjectid" :status='flag === 0'>
           <section class="feed-box">
             <section class="feed-cell-title flex flex-align-center flex-pack-justify">
               <p class="flex">
@@ -44,8 +44,9 @@
             </section>
             <section class="feed-cell-content">
               <section class="columnname flex flex-align-center">
-                <img v-lazy="$com.makeFileUrl(item.blogo)">
-                <span class="name text-ellipse flex-1">{{ item.communityName }}</span>
+                <img v-if="item.blogo" :src="$com.makeFileUrl(item.blogo)">
+                <img v-else :src="defaultImg">
+                <span class="name text-ellipse flex-1">{{ item.communityName || ' ' }}</span>
                 <span class="time">{{ item.long_create_time }}</span>
               </section>
               <!-- 贴子详情 -->
@@ -187,6 +188,8 @@ export default {
   },
   data() {
     return {
+      defaultImg:
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAGmAQMAAAAZMJMVAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAADUExURefn5ySG6Q8AAAA+SURBVHja7cExAQAAAMKg9U9tCj+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvwGcmgABBZ8R+wAAAABJRU5ErkJggg==",
       getreadlist: {
         flag: 0,
         pagenum: 1,
@@ -233,6 +236,9 @@ export default {
             label: "普通"
           }
         ]
+      },
+      readList2: {
+        data: []
       }
     };
   },
@@ -273,7 +279,7 @@ export default {
         drop_reason: self.checkList // 举报信息
       });
       if (res) {
-        self.readList.data.splice(self.spliceIndex, 1);
+        self.readList2.data.splice(self.spliceIndex, 1);
         self.dialogVisible = false;
         self.seachbytitle = "";
         self.flag = 0;
@@ -282,8 +288,8 @@ export default {
     // 下拉框
     handleSelect(val) {
       let self = this;
-      self.flag = val;
-      self.getreadlist["flag"] = val;
+      self.flag = parseInt(val);
+      self.getreadlist["flag"] = parseInt(val);
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
       self.getreadlist["userid"] = self.authUser.uid;
@@ -297,6 +303,7 @@ export default {
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
       self.getreadlist["userid"] = self.authUser.uid;
+      self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
     },
     // 获取未读已读列表
@@ -364,6 +371,12 @@ export default {
           .querySelector(".main .page_container .el-scrollbar__wrap")
           .addEventListener("scroll", self._func, false);
       }
+    }
+  },
+  watch: {
+    readList(val) {
+      this.readList2 = val;
+      console.log(this.readList2);
     }
   },
   created() {
