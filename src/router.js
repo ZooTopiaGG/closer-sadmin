@@ -43,10 +43,7 @@ const router = new Router({
     path: '/content',
     name: 'content',
     component: () =>
-      import ('./views/content/index.vue'),
-    // meta: {
-    //   keepAlive: true
-    // }
+      import ('./views/content/index.vue')
   }, {
     path: '/content/cover',
     name: 'cover',
