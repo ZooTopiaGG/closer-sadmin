@@ -56,11 +56,13 @@ export default {
       recycleBinPara: {
         keywords: "",
         pagenum: 1,
-        pagesize: 10
+        pagesize: 10,
+        intVerify: 1
       }
     };
   },
   created() {
+    this.recycleBinPara["intVerify"] = parseInt(this.$route.query.id);
     this.recycleBin(this.recycleBinPara);
   },
   methods: {
