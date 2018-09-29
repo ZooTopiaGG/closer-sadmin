@@ -369,6 +369,7 @@ export default {
   created() {
     let self = this;
     self.getreadlist["userid"] = self.authUser.uid;
+    self.getreadlist["intVerify"] = self.fliterVerify;
     self.getReadList(self.getreadlist);
     self.getReadCount();
   },

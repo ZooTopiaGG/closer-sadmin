@@ -34,7 +34,8 @@ export default {
       pagesize: 10,
       keywords: "",
       startTime: null,
-      endTime: null
+      endTime: null,
+      intVerify: 1
     },
     recycleList: {},
     readCountList: {},
@@ -210,7 +211,7 @@ export default {
         state.current_payload['pagenum'] += 1
         dispatch('getReadList', state.current_payload)
         state.busy = false
-      }, 500)
+      }, 300)
     },
     async getReadCount({
       commit
