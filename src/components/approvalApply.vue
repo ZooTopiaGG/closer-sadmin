@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="160">
             <template slot-scope="scope">
-              <el-button type="text" @click="handleClick(scope.row)" size="medium">查看详情</el-button>
+              <el-button type="text" @click="handleLook(scope.row)" size="medium">查看号</el-button>
               <el-button type="text" @click="thenSureOrRefuse('success', scope.row)" size="medium">同意</el-button>
               <el-button type="text" @click="thenSureOrRefuse('fail', scope.row)" size="medium">拒绝</el-button>
             </template>
@@ -107,7 +107,11 @@ export default {
       this.pagenum = val;
       await this.handleSelect();
     },
-    handleClick() {},
+    handleLook(row) {
+      this.$router.push({
+        path: `/finance/closer?type=info&id=${row.communityId}`
+      });
+    },
     // 同意拒绝审批 commit_apply recharge_audit
     async sureOrRefuse(type) {
       let self = this,

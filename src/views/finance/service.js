@@ -174,3 +174,9 @@ export async function searchUser(payload) {
 export async function settingAuditList(payload) {
   return await Axios.post(`${api.finance.setting_audit_list}`, payload)
 }
+/**
+ * api.finance.get_community_detail 贴近号信息
+ */
+export async function getCommunityDetail(payload) {
+  return await Axios.post(`${api.finance.get_community_detail}`, payload)
+}

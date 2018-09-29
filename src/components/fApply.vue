@@ -26,7 +26,7 @@
       </section>
       <!-- table 改政策查看操作 -->
       <section class="permission_table_content" style="margin-top: 0;">
-        <el-table :data="rechargeList2.data" style="width: 100%">
+        <el-table :data="auditList.data" style="width: 100%">
           <el-table-column fixed prop="communityName" label="申请贴近号">
           </el-table-column>
           <el-table-column prop="communityId" label="贴近号ID">
@@ -46,9 +46,9 @@
         </el-table>
       </section>
     </section>
-    <section class="block" v-if="rechargeList2.count > 0">
+    <section class="block" v-if="auditList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="rechargeList2.count">
+        :total="auditList.count">
       </el-pagination>
     </section>
   </section>
@@ -58,7 +58,7 @@
 import { mapActions, mapState } from "vuex";
 export default {
   computed: {
-    ...mapState("finance", ["rechargeList2"]),
+    ...mapState("finance", ["auditList"]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -68,7 +68,9 @@ export default {
       financepara: {
         page: 1,
         count: 10,
-        auditStatus: "all"
+        auditStatus: "success",
+        startTime: null,
+        endTime: null
       },
       columnid: "",
       pagenum: 1,
@@ -94,13 +96,10 @@ export default {
     };
   },
   created() {
-    this.rechargeSettingsApplyList(this.financepara);
+    this.settingAuditList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", [
-      "rechargeSettingsApplyList",
-      "auditRechargeSetting"
-    ]),
+    ...mapActions("finance", ["settingAuditList"]),
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;

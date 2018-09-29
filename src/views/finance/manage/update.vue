@@ -201,12 +201,12 @@ export default {
     handleLook(row) {
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
-        path: "/finance/closer?type=info"
+        path: `/finance/closer?type=info&id=${row.objectID}`
       });
     },
     handleRecords() {
       this.$router.push({
-        path: "/finance/closer?type=recharge"
+        path: `/finance/closer?type=recharge`
       });
     }
   }

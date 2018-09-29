@@ -138,7 +138,11 @@ let api = {
     // 查询提现列表
     searchUser: 'closer_finance_superadmin.searchUser',
     // 改政策记录列表
-    setting_audit_list: 'closer_finance_superadmin.setting_audit_list'
+    setting_audit_list: 'closer_finance_superadmin.setting_audit_list',
+    // get_community_detail 贴近号信息
+    get_community_detail: 'closer_finance_superadmin.get_community_detail',
+    // search_community 搜索栏目
+    search_community: 'closer_finance_superadmin.search_community'
   },
   activity: {
     // 获取活动列表

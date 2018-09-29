@@ -4,16 +4,16 @@
       <aside>栏目基本信息</aside>
       <section class="flex-1">
         <section class="flex flex-pack-justify">
-          <p><span>贴近号名称：</span><span>{{ row.name }}</span></p>
-          <p><span>注册手机：</span><span>{{ row.phone }}</span></p>
+          <p><span>贴近号名称：</span><span>{{ communityInfo.community.name }}</span></p>
+          <p><span>注册手机：</span><span>{{ communityInfo.community.phone }}</span></p>
         </section>
         <section class="flex flex-pack-justify">
-          <p><span>贴近号归属：</span><span>{{ row.regionName }}</span></p>
-          <p><span>企业/个人名称：</span><span>{{ row.person_name }}</span></p>
+          <p><span>贴近号归属：</span><span>{{ communityInfo.community.regionName }}</span></p>
+          <p><span>企业/个人名称：</span><span>{{ communityInfo.community.person_name }}</span></p>
         </section>
         <section class="flex flex-pack-justify">
-          <p><span>创建时间：</span><span>{{ row.create_time }}</span></p>
-          <p><span>社会信用代码：</span><span>{{ row.business_license || noValue }}</span></p>
+          <p><span>创建时间：</span><span>{{ $com.createTime(communityInfo.community.long_create_time, 'yy-mm-dd hh:MM') }}</span></p>
+          <p><span>社会信用代码：</span><span>{{ communityInfo.community.business_license || noValue }}</span></p>
         </section>
       </section>
     </section>
@@ -24,13 +24,13 @@
         <section>
           <p class="flex flex-align-center">
             <span>单一帖发放上限：</span>
-            <span>{{ row.extend.transMaxAmt }}</span>
+            <span>{{ communityInfo.summary.transMaxAmt / 100 }}</span>
           </p>
         </section>
         <section>
           <p class="flex flex-align-center">
             <span>日缓释额度：</span>
-            <span>{{ row.extend.daily_allowance }}</span>
+            <span>{{ communityInfo.summary.dailyAllowanceAmt / 100 }}</span>
           </p>
         </section>
         <section>
@@ -42,10 +42,10 @@
       <aside>充额度</aside>
       <section>
         <section>
-          <p><span>充值余额：</span><span>{{ row.extend.total_available_Balance }}</span></p>
+          <p><span>充值余额：</span><span>{{ communityInfo.wallet.availableBalance / 100 }}</span></p>
         </section>
         <section>
-          <p><span>缓释余额：</span><span>{{ row.extend.total_allowance_remain || 0 }}</span></p>
+          <p><span>缓释余额：</span><span>{{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}</span></p>
         </section>
       </section>
     </section>
@@ -82,6 +82,9 @@ export default {
   components: {
     rechargePopup
   },
+  computed: {
+    ...mapState("finance", ["communityInfo"])
+  },
   data() {
     return {
       dialogVisible: false,
@@ -101,9 +104,12 @@ export default {
     } catch (e) {
       console.log(e);
     }
+    this.getCommunityDetail({
+      communityid: this.$route.query.id
+    });
   },
   methods: {
-    ...mapActions("finance", ["clearWallet"]),
+    ...mapActions("finance", ["clearWallet", "getCommunityDetail"]),
     showRechargePopup(type) {
       let self = this;
       self.type = type;
