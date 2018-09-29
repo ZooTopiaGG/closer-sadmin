@@ -83,7 +83,25 @@ export default {
       data: [],
       count: 0
     },
-    communityInfo: {}
+    communityInfo: {
+      community: {
+        name: '',
+        phone: '',
+        regionName: '',
+        person_name: '',
+        long_create_time: '',
+        business_license: '',
+      },
+      summary: {
+        transMaxAmt: '',
+        dailyAllowanceAmt: '',
+        totalAllowanceAmt: '',
+        totalAllowancedAmt: '',
+      },
+      wallet: {
+        availableBalance: ''
+      }
+    }
   },
   mutations: {
     communityList(state, para) {

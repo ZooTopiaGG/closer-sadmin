@@ -60,8 +60,8 @@
         width="30%">
         <span style="color: red;">是否清空当前贴近号下所有余额，包含未解冻金额</span>
         <section class="flex flex-v flex-align-center">
-          <span>充值余额： {{ row.extend.total_available_Balance }}元</span>
-          <span>缓释余额： {{ row.extend.total_allowance_remain || 0 }}元</span>
+          <span>充值余额： {{ communityInfo.wallet.availableBalance / 100 }}元</span>
+          <span>缓释余额： {{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}元</span>
         </section>
         <span slot="footer" class="dialog-footer">
           <el-button type="text" style="color: #999;" @click="dialogVisible = false">取 消</el-button>

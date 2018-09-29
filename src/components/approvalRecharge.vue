@@ -101,7 +101,6 @@ export default {
       await this.handleSelect();
     },
     handleLook(row) {
-      console.log(row);
       this.$router.push({
         path: `/finance/closer?type=info&id=${row.communityId}`
       });
