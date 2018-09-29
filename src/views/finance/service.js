@@ -168,3 +168,9 @@ export async function rechargeListNew(payload) {
 export async function searchUser(payload) {
   return await Axios.post(`${api.finance.search_user}`, payload)
 }
+/**
+ * api.finance.setting_audit_list 改政策记录列表
+ */
+export async function settingAuditList(payload) {
+  return await Axios.post(`${api.finance.setting_audit_list}`, payload)
+}

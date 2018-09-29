@@ -1,11 +1,11 @@
 <template>
   <section id="permission" class="flex flex-v">    
-    <section class="flex-1">
+    <section>
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center" style="margin-right: 15px;">
-            <el-select class='list-filter-select' @change="handleSelectType" v-model="recharge_type" placeholder="全部操作">
-              <el-option v-for="item in recharge_type_list" :key="item.region_name" :label="item.region_name" :value="item.region_id">
+            <el-select class='list-filter-select' @change="handleSelectType" v-model="recharge_type" placeholder="全部结果">
+              <el-option v-for="item in recharge_type_list" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </section>
@@ -77,7 +77,20 @@ export default {
       innerVisible: false,
       row: "",
       recharge_type: "",
-      recharge_type_list: []
+      recharge_type_list: [
+        {
+          label: "全部结果",
+          value: "all"
+        },
+        {
+          label: "审核失败",
+          value: "fail"
+        },
+        {
+          label: "审核成功",
+          value: "success"
+        }
+      ]
     };
   },
   created() {
@@ -91,11 +104,12 @@ export default {
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
+      self.financepara["auditStatus"] = self.recharge_type || "";
       await self.rechargeSettingsApplyList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;
-      this.columnid = "";
+      this.recharge_type = "";
       await this.handleSelect();
     },
     async handleSearch() {

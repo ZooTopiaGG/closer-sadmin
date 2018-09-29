@@ -22,7 +22,8 @@ import {
   subjectFeeList,
   subjectFeeTotal,
   rechargeListNew,
-  searchUser
+  searchUser,
+  settingAuditList
 } from './service'
 
 export default {
@@ -76,6 +77,10 @@ export default {
     newRechargeList: {
       data: [],
       count: 0
+    },
+    auditList: {
+      data: [],
+      count: 0
     }
   },
   mutations: {
@@ -117,6 +122,9 @@ export default {
     },
     newRechargeList(state, para) {
       state.newRechargeList = para
+    },
+    auditList(state, para) {
+      state.auditList = para
     }
   },
   actions: {
@@ -690,7 +698,6 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          console.log(x)
           switch (x.auditStatus) {
             case 'apply':
               x.auditStatus = '审核中';
@@ -714,6 +721,27 @@ export default {
         })
         commit('newRechargeList', data.result)
         return true
+      } else {
+        $message.error(data.result)
+      }
+    },
+    // 改政策记录列表
+    async settingAuditList({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await settingAuditList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          return x;
+        });
+        commit('auditList', data.result)
       } else {
         $message.error(data.result)
       }

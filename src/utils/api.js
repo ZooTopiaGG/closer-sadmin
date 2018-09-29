@@ -1,9 +1,9 @@
 let api = {
   // 测试环境api-dev.tiejin.cn
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
+  // serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
   // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
-  // serverDevUrl: 'http://10.0.3.94:8080/command/',
+  serverDevUrl: 'http://10.3.0.72:8080/command/',
 
   // 正式环境
   serverUrl: 'https://api.tiejin.cn/command/',
@@ -136,7 +136,9 @@ let api = {
     // 充值记录
     recharge_list_new: 'closer_finance_superadmin.recharge_list_new',
     // 查询提现列表
-    searchUser: 'closer_finance_superadmin.searchUser'
+    searchUser: 'closer_finance_superadmin.searchUser',
+    // 改政策记录列表
+    setting_audit_list: 'closer_finance_superadmin.setting_audit_list'
   },
   activity: {
     // 获取活动列表
