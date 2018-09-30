@@ -6,7 +6,7 @@
         <el-breadcrumb-item>已读栏目</el-breadcrumb-item>
       </el-breadcrumb>
     </section>
-    <section class="permission_table flex-1">
+    <section class="permission_table">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
           <span class="labelname">
@@ -58,19 +58,17 @@ export default {
   data() {
     return {
       readlistpara: {
-        // userid: null,
         flag: 1,
         pagenum: 1,
-        pagesize: 6,
+        pagesize: 10,
         keywords: "",
         startTime: null,
         endTime: null,
         intVerify: 1
       },
-      state4: "",
       searchbytitle: "",
       // 分页
-      pagesize: 6,
+      pagesize: 10,
       pagenum: 1,
       // 日期选择
       pickerOptions2: {
@@ -112,19 +110,17 @@ export default {
     };
   },
   created() {
-    // this.readlistpara["userid"] = this.$route.query.id;
+    this.readlistpara["intVerify"] = parseInt(this.$route.query.id);
     this.getReadList2(this.readlistpara);
   },
   methods: {
     ...mapActions("content", ["getReadList2"]),
     // 分页
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.pagenum = val;
       this.getReadList();
     },
     handleSelect() {
-      console.log(`当前时间: ${this.dataValue}`);
       this.getReadList();
     },
     handleSearch() {
@@ -134,7 +130,6 @@ export default {
     // 获取已读列表
     async getReadList() {
       let self = this;
-      self.readlistpara["userid"] = self.$route.query.id;
       self.readlistpara["pagenum"] = self.pagenum;
       self.readlistpara["keywords"] = self.searchbytitle;
       self.readlistpara["startTime"] = self.dataValue[0] || null;

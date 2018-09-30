@@ -66,10 +66,7 @@ const router = new Router({
     path: '/content/read',
     name: 'read',
     component: () =>
-      import ('./views/content/read.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/content/read.vue')
   }, {
     path: '/content/feed/:id',
     name: 'feed',

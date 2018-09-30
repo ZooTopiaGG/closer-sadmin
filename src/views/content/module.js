@@ -182,19 +182,10 @@ export default {
         // 待发布
         await data.result.data.map(x => {
           // await data.result.result1.data.map(x => {
-          x.content = JSON.parse(x.content);
           // 判断是否有title 没有用text替换
-          if (x.int_type === 2) {
-            x.title = x.title;
-          } else {
-            x.title = x.content.text;
-          }
-          if (!x.bool_tip) {
-            x.bool_tip = "-";
-          }
-          if (!x.drop_reason) {
-            x.drop_reason = "-";
-          }
+          x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
+          x.bool_tip = x.bool_tip ? "是" : "否";
+          x.drop_reason = x.drop_reason ? x.drop_reason : '-';
           x.long_update_time = $async.createTime(
             x.long_update_time,
             "yy-mm-dd hh:MM"
@@ -281,11 +272,7 @@ export default {
             "yy-mm-dd hh:MM"
           );
           // 判断是否有title 没有用text替换
-          if (x.int_type === 2) {
-            x.title = x.title;
-          } else {
-            x.title = x.content.text;
-          }
+          x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
           return x;
         });
         commit('recycleList', data.result)
