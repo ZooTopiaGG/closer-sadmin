@@ -44,8 +44,8 @@
             </section>
             <section class="feed-cell-content">
               <section class="columnname flex flex-align-center">
-                <img :src="$com.makeFileUrl(item.blogo) || defaultImg">
-                <span class="name text-ellipse flex-1">{{ item.communityName || ' ' }}</span>
+                <img :src="$com.makeFileUrl(item.blogo) || $com.makeFileUrl(item.user.avatar) || defaultImg">
+                <span class="name text-ellipse flex-1">{{ item.communityName || item.user.fullname || ''}}</span>
                 <span class="time">{{ item.long_create_time }}</span>
               </section>
               <!-- 贴子详情 -->
