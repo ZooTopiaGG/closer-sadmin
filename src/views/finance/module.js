@@ -102,7 +102,8 @@ export default {
       wallet: {
         availableBalance: ''
       }
-    }
+    },
+    searchCommunityList: []
   },
   mutations: {
     communityList(state, para) {
@@ -149,6 +150,9 @@ export default {
     },
     communityInfo(state, para) {
       state.communityInfo = para
+    },
+    searchCommunityList(state, para) {
+      state.searchCommunityList = para
     }
   },
   actions: {
@@ -814,8 +818,11 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        console.log(data.result)
-        // commit('communityInfo', data.result)
+        console.log(data.result.data)
+        await data.result.data.map(x => {
+          x.value = x.name
+        })
+        commit('searchCommunityList', data.result.data)
         return data.result.data
       } else {
         $message.error(data.result)
