@@ -4,7 +4,7 @@
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
-          <el-select class='list-filter-select' @change="handleSelect2" v-model="fliterVerify" placeholder="贴子状态">
+          <el-select class='list-filter-select' @change="handleSelect" v-model="fliterVerify" placeholder="贴子状态">
           <el-option v-for="item in verify.options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
@@ -291,19 +291,10 @@ export default {
     },
     // 下拉框
     handleSelect() {
-      let self = this;
-      self.getreadlist["flag"] = self.fliterfeeds;
-      self.getreadlist["keywords"] = self.seachbytitle;
-      self.getreadlist["pagenum"] = 1;
-      self.getreadlist["intVerify"] = self.fliterVerify;
-      self.getReadList1(self.getreadlist);
-      self.getReadCount({intVerify: self.fliterVerify});
-    },
-    handleSelect2() {
-      let self = this;
       document.querySelectorAll("#feed>li").forEach(async (x, i) => {
         $("#feed>li .isRead").eq(i).hide();
       })
+      let self = this;
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
