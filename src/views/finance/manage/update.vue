@@ -2,11 +2,19 @@
   <section id="permission" class="apply flex flex-v">
     <section class="permission_title">财务申请</section>
     <section class="flex-1">
-      <section class="permission_table_top flex flex-pack-justify">
+      <section class="permission_table_top flex">
         <section class="flex flex-align-center userinfo">
-          <el-input v-model="columnid" class="inp" placeholder="请输入贴近号名称、企业、个人名称进行搜索" @keyup.enter.native="bindSearch">
-            <el-button slot="append" icon="el-icon-search" @click="bindSearch"></el-button>
-          </el-input>
+          <el-autocomplete
+            class="inp"
+            v-model="columnName"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入贴近号名称、企业、个人名称进行搜索"
+            @select="handleSearch"
+          ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+          </el-autocomplete>
+        </section>
+        <section class="flex flex-align-center" style="margin-left: 15px">
+          <el-button type="text" @click="clearSearch">清除搜索</el-button>
         </section>
       </section>
       <!-- table 改政策查看操作 -->
@@ -92,9 +100,10 @@ export default {
       financepara: {
         page: 1,
         count: 10,
-        id: null
+        uid: null
       },
       columnid: "",
+      columnName: "",
       loading: false,
       pagenum: 1,
       pagesize: 10,
@@ -135,19 +144,26 @@ export default {
     visible(val) {
       this.dialogTableVisible = val;
     },
-    bindSearch() {
+    async handleSearch(item) {
       this.pagenum = 1;
-      this.getMoreColumnList();
+      this.columnid = item.objectID;
+      await this.getMoreColumnList();
     },
-    handleCurrentChange(val) {
+    async clearSearch() {
+      this.pagenum = 1;
+      this.columnid = null;
+      this.columnName = '';
+      await this.getMoreColumnList();
+    },
+    async handleCurrentChange(val) {
       this.pagenum = val;
-      this.getMoreColumnList();
+      await this.getMoreColumnList();
     },
     // 获取栏目列表
     async getMoreColumnList() {
       let self = this;
-      self.financepara["id"] = self.columnid;
-      self.financepara["page"] = self.pagenum;
+      self.financepara["uid"] = self.columnid || null;
+      self.financepara["page"] = self.pagenum || 1;
       await self.communityRecords(self.financepara);
     },
     // 改政策查看 community_detail 改政策commit_apply 同意recharge_audit
@@ -174,7 +190,6 @@ export default {
     },
     // table操作
     async handleClick(row, type) {
-      console.log("row===", row);
       let self = this;
       self.row = row;
       self.type = type;
@@ -213,7 +228,7 @@ export default {
 };
 </script>
 <style type="text/css">
-.userinfo .inp.el-input .el-input__inner {
+.userinfo .inp .el-input .el-input__inner {
   width: 350px;
 }
 .userinfo2 .el-input .el-input__inner {
