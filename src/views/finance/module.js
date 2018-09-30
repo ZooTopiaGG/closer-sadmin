@@ -24,7 +24,8 @@ import {
   rechargeListNew,
   searchUser,
   settingAuditList,
-  getCommunityDetail
+  getCommunityDetail,
+  searchCommunity
 } from './service'
 
 export default {
@@ -800,6 +801,22 @@ export default {
         // });
         console.log(data.result)
         commit('communityInfo', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async searchCommunity({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await searchCommunity(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        console.log(data.result)
+        // commit('communityInfo', data.result)
+        return data.result.data
       } else {
         $message.error(data.result)
       }

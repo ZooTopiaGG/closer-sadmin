@@ -180,3 +180,9 @@ export async function settingAuditList(payload) {
 export async function getCommunityDetail(payload) {
   return await Axios.post(`${api.finance.get_community_detail}`, payload)
 }
+/**
+ * api.finance.search_community 贴近号信息
+ */
+export async function searchCommunity(payload) {
+  return await Axios.post(`${api.finance.search_community}`, payload)
+}
