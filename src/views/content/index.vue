@@ -286,15 +286,15 @@ export default {
         self.readList2.data.splice(self.spliceIndex, 1);
         self.dialogVisible = false;
         self.seachbytitle = "";
-        self.fliterfeeds = 0;
+        // self.fliterfeeds = 0;
       }
     },
     // 下拉框
     handleSelect() {
-      let self = this;
       document.querySelectorAll("#feed>li").forEach(async (x, i) => {
         $("#feed>li .isRead").eq(i).hide();
       })
+      let self = this;
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
