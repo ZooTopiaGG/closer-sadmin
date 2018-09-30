@@ -8,8 +8,8 @@ export async function getReadList(payload) {
 /**
  * readCount 已读条数
  */
-export async function getReadCount() {
-  return await Axios.get(`${api.subject.read_count}`)
+export async function getReadCount(payload) {
+  return await Axios.post(`${api.subject.read_count}`, payload)
 }
 
 /**

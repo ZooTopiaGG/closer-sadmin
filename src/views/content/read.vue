@@ -58,13 +58,14 @@ export default {
   data() {
     return {
       readlistpara: {
-        userid: null,
+        // userid: null,
         flag: 1,
         pagenum: 1,
         pagesize: 6,
         keywords: "",
         startTime: null,
-        endTime: null
+        endTime: null,
+        intVerify: 1
       },
       state4: "",
       searchbytitle: "",
@@ -111,7 +112,7 @@ export default {
     };
   },
   created() {
-    this.readlistpara["userid"] = this.$route.query.id;
+    // this.readlistpara["userid"] = this.$route.query.id;
     this.getReadList2(this.readlistpara);
   },
   methods: {
