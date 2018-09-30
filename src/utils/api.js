@@ -1,5 +1,5 @@
 let api = {
-  // 测试环境api-dev.tiejin.cn
+  // 测试环境
   // serverDevUrl: 'https://api-dev.tiejin.cn/command/',
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
   // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
