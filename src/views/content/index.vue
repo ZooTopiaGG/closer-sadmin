@@ -286,7 +286,7 @@ export default {
         self.readList2.data.splice(self.spliceIndex, 1);
         self.dialogVisible = false;
         self.seachbytitle = "";
-        self.fliterfeeds = 0;
+        // self.fliterfeeds = 0;
       }
     },
     // 下拉框
