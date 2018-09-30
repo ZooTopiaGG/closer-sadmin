@@ -19,7 +19,7 @@
       </section>
       <section class="permission_table_content">
         <el-table :data="recycleList.data" type='index' style="width: 100%">
-          <el-table-column fixed prop="communityName" label="栏目名称">
+          <el-table-column fixed prop="communityName" label="栏目名称/个人名称">
           </el-table-column>
           <el-table-column prop="title" label="标题名称">
           </el-table-column>
