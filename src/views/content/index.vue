@@ -208,10 +208,9 @@ export default {
       seachbytitle: "",
       dialogVisible: false,
       // 贴子状态筛选
-      fliterfeeds: 0,
+      fliterfeeds: 0,// 0未读 1 已读
       // 贴子id和状态（删除， 上墙）
       subjectid: "",
-      flag: 0, // 0未读 1 已读
       flags: -1,
       spliceIndex: null, // 删除坐标
       pagenum: 1,
@@ -287,17 +286,15 @@ export default {
         self.readList2.data.splice(self.spliceIndex, 1);
         self.dialogVisible = false;
         self.seachbytitle = "";
-        self.flag = 0;
+        self.fliterfeeds = 0;
       }
     },
     // 下拉框
-    handleSelect(val) {
+    handleSelect() {
       let self = this;
-      self.flag = parseInt(val);
-      self.getreadlist["flag"] = parseInt(val);
+      self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
-      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
       self.getReadCount({intVerify: self.fliterVerify});
@@ -305,7 +302,7 @@ export default {
     // 搜索按钮
     bindSearch() {
       let self = this;
-      self.getreadlist["flag"] = self.flag;
+      self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
       // self.getreadlist["userid"] = self.authUser.uid;
@@ -315,7 +312,7 @@ export default {
     // 获取未读已读列表
     async getFeedList() {
       let self = this;
-      self.getreadlist["flag"] = self.flag;
+      self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
       // self.getreadlist["userid"] = self.authUser.uid;
