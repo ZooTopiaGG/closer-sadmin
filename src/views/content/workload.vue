@@ -27,9 +27,15 @@
           </el-table-column>
           <el-table-column prop="verify_user.phone" label="手机号">
           </el-table-column>
-          <el-table-column fixed="right" label="审核条数" width="150">
-            <template slot-scope="scope">
+          <el-table-column prop="count" label="审核条数">
+            <!-- <template slot-scope="scope">
               <el-button @click="handleClick(scope.row)" type="text" size="medium">{{scope.row.count }}</el-button>
+            </template> -->
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(1)" type="text" size="medium">精华贴</el-button>
+              <el-button @click="handleClick(0)" type="text" size="medium">普通贴</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -125,9 +131,9 @@ export default {
       this.getReadCountList();
     },
     // table操作
-    handleClick(row) {
+    handleClick(id) {
       this.$router.push({
-        path: "/content/read?id=" + row.verify_user.id
+        path: "/content/read?id=" + id
       });
     },
     // 日期查询
