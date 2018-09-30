@@ -61,7 +61,7 @@
 import { mapActions, mapState } from "vuex";
 export default {
   computed: {
-    ...mapState("finance", ["rechargeList"]),
+    ...mapState("finance", ["rechargeList", 'searchCommunityList']),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -83,14 +83,15 @@ export default {
       recharge_type: "",
       recharge_type_list: [],
       restaurants: [],
-      timeout: null
+      timeout: null,
+      bb: []
     };
   },
   created() {
     this.allRechargeList(this.financepara);
   },
   mounted() {
-    this.restaurants = this.loadAll();
+    this.bb= this.loadAll();
   },
   methods: {
     ...mapActions("finance", ["allRechargeList", "rechargeAudit", 'searchCommunity']),
@@ -149,13 +150,17 @@ export default {
     // 远程搜索
     async querySearchAsync(queryString, cb) {
       console.log('queryString===', queryString);
-      let restaurants = await this.searchCommunity({
+      let restaurants2 = await this.searchCommunity({
         communityName: queryString,
         page:1,
         count: 100
       });
-      // var restaurants = this.restaurants;
+      console.log("bb====", this.bb);
+      console.log("restaurants====", restaurants2);
+      var restaurants = this.bb
       var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+      console.log('results===', results)
+      // return
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
@@ -163,6 +168,7 @@ export default {
     },
     async createStateFilter(queryString) {
       return (state) => {
+        console.log('satate====', state)
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
