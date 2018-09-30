@@ -26,13 +26,13 @@
       </section>
       <!-- feed流 -->
       <ul v-if="readList2.data.length > 0" id="feed" ref="feedList" class="feed-list flex-1">
-        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList2.data" :key="index" :sub="item.subjectid" :status='flag === 0'>
+        <li class="feed-list-cell" @click="toFeeds(item.subjectid)" v-for="(item, index) in readList2.data" :key="index" :sub="item.subjectid" :status='fliterfeeds === 0'>
           <section class="feed-box">
             <section class="feed-cell-title flex flex-align-center flex-pack-justify">
               <p class="flex">
                 <span>更新于：{{ item.long_update_time }}</span>
                 &nbsp;&nbsp;&nbsp;
-                <span class="isRead" v-if="flag === 0">已读</span>
+                <span class="isRead" v-if="fliterfeeds === 0">已读</span>
               </p>
               <el-button @click.stop="dropoff(item.subjectid, index, -1)">删 除</el-button>
             </section>
