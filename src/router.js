@@ -43,15 +43,15 @@ const router = new Router({
     path: '/content',
     name: 'content',
     component: () =>
-      import ('./views/content/index.vue')
+      import ('./views/content/index.vue'),
+    meta: {
+      keepAlive: true
+    }
   }, {
     path: '/content/cover',
     name: 'cover',
     component: () =>
-      import ('./views/content/cover.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/content/cover.vue')
   }, {
     path: '/content/recover',
     name: 'recover',
@@ -61,10 +61,7 @@ const router = new Router({
     path: '/content/workload',
     name: 'workload',
     component: () =>
-      import ('./views/content/workload.vue'),
-    meta: {
-      keepAlive: true
-    }
+      import ('./views/content/workload.vue')
   }, {
     path: '/content/read',
     name: 'read',
@@ -77,10 +74,7 @@ const router = new Router({
     path: '/content/feed/:id',
     name: 'feed',
     component: () =>
-      import ('./views/content/feed/index.vue'),
-    meta: {
-      keepAlive: false
-    }
+      import ('./views/content/feed/index.vue')
   }, {
     path: '/column',
     name: 'column',
@@ -315,7 +309,7 @@ router.beforeEach((to, from, next) => {
       store.state.activeIndex = '工作量查看';
       break;
     case 'read':
-      store.state.activeIndex = '工作量查看';
+      store.state.activeIndex = '审核';
       break;
     case 'cover':
       store.state.activeIndex = '封面文章';

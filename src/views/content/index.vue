@@ -44,8 +44,7 @@
             </section>
             <section class="feed-cell-content">
               <section class="columnname flex flex-align-center">
-                <img v-if="item.blogo" :src="$com.makeFileUrl(item.blogo)">
-                <img v-else :src="defaultImg">
+                <img :src="$com.makeFileUrl(item.blogo) || defaultImg">
                 <span class="name text-ellipse flex-1">{{ item.communityName || ' ' }}</span>
                 <span class="time">{{ item.long_create_time }}</span>
               </section>
@@ -57,25 +56,25 @@
                 </section>
                 <section v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedcontent">
                   <section class="feeder-img-list" v-for="(img, index) in item.content.images" style="width: 100%;height:100%;" :key="index">
-                    <img class="feed-cover-list" v-lazy="$com.makeFileUrl(img.link)" :style="{ display:'block',position:'relative', height: '400px'}">
+                    <img class="feed-cover-list" :src="$com.makeFileUrl(img.link) || defaultImg" :style="{ display:'block',position:'relative', height: '400px'}">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
                 <section v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat'}"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundImage: $com.makeFileUrl(img.link) || defaultImg, backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
                 <section v-if="(item.content.images && item.content.images.length == 3) || (item.content.images && item.content.images.length > 4)"
                   class="flex feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage: $com.makeFileUrl(img.link) || defaultImg, backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
                 <section v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" v-lazy:backgroundImage="$com.makeFileUrl(img.link)" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundImage: $com.makeFileUrl(img.link) || defaultImg,  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
 
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -87,9 +86,9 @@
                 <section class="feedcontent">
                   <section class="feeds-video" 
                     v-if="item.content.videos[0].width > item.content.videos[0].height"
-                    v-lazy:backgroundImage="$com.makeFileUrl(item.content.videos[0].imageUrl)" 
                     :style="{
                       width: '100%',
+                      backgroundImage: $com.makeFileUrl(item.content.videos[0].imageUrl) || defaultImg,
                       paddingBottom: item.content.videos[0].height * 100 / item.content.videos[0].width + '%',
                       height: 0
                     }">
@@ -100,8 +99,8 @@
                   </section>
                   <section class="feeds-video feeds-video-vertical" 
                     v-else
-                    v-lazy:backgroundImage="$com.makeFileUrl(item.content.videos[0].imageUrl)" 
                     :style="{
+                      backgroundImage: $com.makeFileUrl(item.content.videos[0].imageUrl) || defaultImg,
                       width: item.content.videos[0].width * 400 / item.content.videos[0].height + 'px',
                       height: '400px'
                     }">
@@ -118,7 +117,7 @@
                 <section v-if="item.cover" class="feedcover flex">
                   <img :style="{ 
                     display:'block',
-                    position:'relative'}" v-lazy="$com.makeFileUrl(item.cover)">
+                    position:'relative'}" :src="$com.makeFileUrl(item.cover) || defaultImg">
                 </section>
                 <section class="feedtype">
                   <section v-if="item.title" class="feedtitle text-ellipse">
@@ -151,7 +150,7 @@
         暂无贴子
       </section>
       <section class="loading" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" :autoFill="false" infinite-scroll-distance="10">
-         <section>拼命加载中...</section>
+         <section v-if="current_read_list.data.length > 0">拼命加载中...</section>
       </section>
       <!-- dialog -->
       <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
@@ -181,7 +180,13 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("content", ["readCount", "readList", "loading_text", "busy"]),
+    ...mapState("content", [
+      "readCount",
+      "readList",
+      "loading_text",
+      "busy",
+      "current_read_list"
+    ]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -197,7 +202,7 @@ export default {
         keywords: "",
         startTime: null,
         endTime: null,
-        userid: "0",
+        // userid: "0",
         intVerify: 1
       },
       seachbytitle: "",
@@ -259,7 +264,7 @@ export default {
     },
     read() {
       this.$router.push({
-        path: "/content/read"
+        path: `/content/read?id=${this.fliterVerify}`
       });
     },
     // 删除
@@ -292,9 +297,10 @@ export default {
       self.getreadlist["flag"] = parseInt(val);
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
-      self.getreadlist["userid"] = self.authUser.uid;
+      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
+      self.getReadCount({intVerify: self.fliterVerify});
     },
     // 搜索按钮
     bindSearch() {
@@ -302,7 +308,7 @@ export default {
       self.getreadlist["flag"] = self.flag;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
-      self.getreadlist["userid"] = self.authUser.uid;
+      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
     },
@@ -312,7 +318,7 @@ export default {
       self.getreadlist["flag"] = self.flag;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
-      self.getreadlist["userid"] = self.authUser.uid;
+      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       await self.getReadList(self.getreadlist);
     },
@@ -376,15 +382,14 @@ export default {
   watch: {
     readList(val) {
       this.readList2 = val;
-      console.log(this.readList2);
     }
   },
   created() {
     let self = this;
-    self.getreadlist["userid"] = self.authUser.uid;
+    // self.getreadlist["userid"] = self.authUser.uid;
     self.getreadlist["intVerify"] = self.fliterVerify;
     self.getReadList(self.getreadlist);
-    self.getReadCount();
+    self.getReadCount({intVerify: self.fliterVerify});
   },
   mounted() {
     this._scroll();

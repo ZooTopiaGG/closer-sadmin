@@ -53,7 +53,11 @@ export default {
       count: 0
     },
     regionsList: [],
-    defaultRegion: ''
+    defaultRegion: '',
+    current_read_list: {
+      data: [],
+      count: 0
+    }
   },
   mutations: {
     readList(state, para) {
@@ -61,6 +65,9 @@ export default {
     },
     readList2(state, para) {
       state.readList2 = para;
+    },
+    current_read_list(state, para) {
+      state.current_read_list = para;
     },
     readCount(state, para) {
       state.readCount = para
@@ -105,6 +112,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
+        commit('current_read_list', data.result);
         let arr = await data.result.data.map(x => {
           // let arr = await data.result.result1.data.map(x => {
           x.content = JSON.parse(x.content);
@@ -141,6 +149,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
+        commit('current_read_list', data.result);
         let arr = await data.result.data.map(x => {
           x.content = JSON.parse(x.content);
           x.long_create_time = $async.getCommonTime(
@@ -215,10 +224,10 @@ export default {
     },
     async getReadCount({
       commit
-    }) {
+    },payload) {
       let {
         data
-      } = await getReadCount().catch(err => {
+      } = await getReadCount(payload).catch(err => {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
