@@ -4,15 +4,19 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center" style="margin-right: 15px;">
-            <el-select class='list-filter-select' @change="handleSearch" v-model="recharge_type" placeholder="全部结果">
+            <el-select class='list-filter-select' @change="handleSelectType" v-model="recharge_type" placeholder="全部结果">
               <el-option v-for="item in recharge_type_list" :key="item.label" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </section>
           <section class="flex flex-align-center">
-            <el-input v-model="columnid" placeholder="请输入栏目名称" @keyup.enter.native="handleSearch">
-              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
-            </el-input>
+            <el-autocomplete
+            v-model="columnName"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入栏目名称"
+            @select="handleSearch"
+          ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+          </el-autocomplete>
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">
             <el-button type="text" @click="clearSearch">清除搜索</el-button>
@@ -69,6 +73,7 @@ export default {
         auditStatus: "apply"
       },
       columnid: "",
+      columnName: '',
       pagenum: 1,
       pagesize: 10,
       dialogTableVisible: false,
@@ -78,7 +83,7 @@ export default {
       recharge_type_list: [
         {
           label: "全部结果",
-          value: "all"
+          value: ""
         },
         {
           label: "审核失败",
@@ -96,17 +101,26 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["allRechargeList"]),
+    async handleSearch(item) {
+      this.pagenum = 1;
+      this.columnid = item.objectID;
+      await this.handleSelect();
+    },
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
       self.financepara["auditStatus"] = self.recharge_type || "";
+      self.financepara["uid"] = self.columnid || null;
       await self.allRechargeList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;
+      this.recharge_type = "";
+      this.columnid = null;
+      this.columnName = '';
       await this.handleSelect();
     },
-    async handleSearch() {
+    async handleSelectType() {
       this.pagenum = 1;
       await this.handleSelect();
     },

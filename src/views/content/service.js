@@ -62,7 +62,7 @@ export async function deleteComment(payload) {
  * createVideos 创建播放器
  */
 export async function createVideos(payload) {
-  return await Axios.get(`${api.subject.videos}`, payload)
+  return await Axios.post(`${api.subject.videos}`, payload)
 }
 
 /**

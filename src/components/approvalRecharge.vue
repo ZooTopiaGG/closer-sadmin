@@ -4,19 +4,17 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center">
-            <el-input v-model="columnid" placeholder="请输入栏目名称" @keyup.enter.native="handleSearch">
-              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
-            </el-input>
+            <el-autocomplete
+            v-model="columnName"
+            :fetch-suggestions="querySearchAsync"
+            placeholder="请输入栏目名称"
+            @select="handleSearch"
+          ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+          </el-autocomplete>
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">
             <el-button type="text" @click="clearSearch">清除搜索</el-button>
           </section>
-          <el-autocomplete
-            v-model="columnName"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="请输入内容"
-            @select="handleSelect2"
-          ></el-autocomplete>
         </section>
          <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
@@ -60,8 +58,9 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
+  mixins: ['myMixins'],
   computed: {
-    ...mapState("finance", ["rechargeList", 'searchCommunityList']),
+    ...mapState("finance", ["rechargeList"]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -91,29 +90,8 @@ export default {
     this.allRechargeList(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["allRechargeList", "rechargeAudit", 'searchCommunity']),
-    // 远程搜索
-    async querySearchAsync(queryString, cb) {
-      await this.searchCommunity({
-        communityName: queryString,
-        page:1,
-        count: 100
-      });
-      var restaurants = this.searchCommunityList;
-      let qs = await this.createStateFilter(queryString);
-      var results = queryString ? restaurants.filter(qs) : restaurants;
-      // return
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 2000 * Math.random());
-    },
-    async createStateFilter(queryString) {
-      return (state) => {
-        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      };
-    },
-    async handleSelect2(item) {
+    ...mapActions("finance", ["allRechargeList", "rechargeAudit"]),
+    async handleSearch(item) {
       this.pagenum = 1;
       this.columnid = item.objectID;
       await this.handleSelect();
@@ -126,11 +104,8 @@ export default {
     },
     async clearSearch() {
       this.pagenum = 1;
-      this.columnid = "";
-      await this.handleSelect();
-    },
-    async handleSearch() {
-      this.pagenum = 1;
+      this.columnName = "";
+      self.columnid = null;
       await this.handleSelect();
     },
     async handleCurrentChange(val) {

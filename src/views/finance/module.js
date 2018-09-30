@@ -803,7 +803,6 @@ export default {
         //   x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
         //   return x;
         // });
-        console.log(data.result)
         commit('communityInfo', data.result)
       } else {
         $message.error(data.result)
@@ -818,7 +817,6 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        console.log(data.result.data)
         await data.result.data.map(x => {
           x.value = x.name
         })

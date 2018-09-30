@@ -4,9 +4,13 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center" style="margin-right:20px;">
           <section class="flex flex-align-center">
-            <el-input v-model="columnid" placeholder="请输入栏目ID" @keyup.enter.native="handleSearch">
-              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
-            </el-input>
+            <el-autocomplete
+              v-model="columnName"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="请输入栏目名称"
+              @select="handleSearch"
+            ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+            </el-autocomplete>
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">
             <el-button type="text" @click="clearSearch">清除搜索</el-button>
@@ -58,6 +62,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
+  mixins: ['myMixins'],
   computed: {
     ...mapState("finance", ["rechargeList2"]),
     authUser() {
@@ -69,9 +74,11 @@ export default {
       financepara: {
         page: 1,
         count: 10,
-        auditStatus: "apply"
+        auditStatus: "apply",
+        uid: null
       },
       columnid: "",
+      columnName: '',
       pagenum: 1,
       pagesize: 10,
       dialogTableVisible: false,
@@ -89,18 +96,21 @@ export default {
       "rechargeSettingsApplyList",
       "auditRechargeSetting"
     ]),
+    async handleSearch(item) {
+      this.pagenum = 1;
+      this.columnid = item.objectID;
+      await this.handleSelect();
+    },
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
+      self.financepara['uid'] = self.columnid || null;
       await self.rechargeSettingsApplyList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;
-      this.columnid = "";
-      await this.handleSelect();
-    },
-    async handleSearch() {
-      this.pagenum = 1;
+      this.columnName = "";
+      self.columnid = null;
       await this.handleSelect();
     },
     async handleCurrentChange(val) {
