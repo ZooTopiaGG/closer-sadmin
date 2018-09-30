@@ -8,14 +8,11 @@
     </section>
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
-        <section class="flex flex-align-center">
-          <span class="labelname">
-            用户名（员工）手机号
-          </span>
-          <el-input maxlength="11" v-model="phonenum" placeholder="请输入手机号" @keyup.enter.native="handleSearch">
-            <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
-          </el-input>
-        </section>
+        <section class="flex flex-align-center" style="margin-left: 15px;">
+            <el-input maxlength="11" v-model="phonenum" placeholder="请输入手机号" @keyup.enter.native="handleSelect">
+              <el-button slot="append" @click="handleSelect" icon="el-icon-search"></el-button>
+            </el-input>
+          </section>
         <section class="flex flex-align-center">
           <section class="block2">
             <el-date-picker v-model="value7" type="daterange" align="right" unlink-panels :default-time="['00:00:00', '23:59:59']" @change="handleSelect"
@@ -60,6 +57,21 @@ export default {
         pagenum: 1,
         pagesize: 10
       },
+      fliterStatus: 2,
+      status: [
+        {
+          label: "全部",
+          value: 2
+        },
+        {
+          label: "普通",
+          value: 0
+        },
+        {
+          label: "精华",
+          value: 1
+        }
+      ],
       phonenum: "",
       pagesize: 10,
       pagenum: 1,
@@ -120,11 +132,6 @@ export default {
     },
     // 日期查询
     handleSelect() {
-      this.pagenum = 1;
-      this.getReadCountList();
-    },
-    // 搜索
-    handleSearch() {
       this.pagenum = 1;
       this.getReadCountList();
     },
