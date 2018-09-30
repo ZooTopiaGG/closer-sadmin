@@ -271,6 +271,7 @@ export default {
             x.long_update_time,
             "yy-mm-dd hh:MM"
           );
+          x.communityName = x.communityName ? x.communityName : x.user.fullname;
           // 判断是否有title 没有用text替换
           x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
           return x;
