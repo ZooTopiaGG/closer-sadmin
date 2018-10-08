@@ -202,7 +202,6 @@ export default {
         keywords: "",
         startTime: null,
         endTime: null,
-        // userid: "0",
         intVerify: 1
       },
       seachbytitle: "",
@@ -308,7 +307,6 @@ export default {
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
-      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
     },
@@ -318,7 +316,6 @@ export default {
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = self.pagenum;
-      // self.getreadlist["userid"] = self.authUser.uid;
       self.getreadlist["intVerify"] = self.fliterVerify;
       await self.getReadList(self.getreadlist);
     },
@@ -386,7 +383,6 @@ export default {
   },
   created() {
     let self = this;
-    // self.getreadlist["userid"] = self.authUser.uid;
     self.getreadlist["intVerify"] = self.fliterVerify;
     self.getReadList(self.getreadlist);
     self.getReadCount({intVerify: self.fliterVerify});
