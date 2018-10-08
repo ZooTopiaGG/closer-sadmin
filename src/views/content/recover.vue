@@ -19,7 +19,7 @@
       </section>
       <section class="permission_table_content">
         <el-table :data="recycleList.data" type='index' style="width: 100%">
-          <el-table-column fixed prop="communityName" label="栏目名称">
+          <el-table-column fixed prop="communityName" label="栏目名称/个人名称">
           </el-table-column>
           <el-table-column prop="title" label="标题名称">
           </el-table-column>
@@ -93,12 +93,11 @@ export default {
       });
       if (res) {
         self.$message.success("操作成功！");
-        self.recycleList.data.splice(scope.row.$index, 1);
+        self.recycleList.data.splice(scope.$index, 1);
       }
     },
     // table操作
     contentRecover(scope) {
-      // console.log(scope);
       this.$confirm("是否恢复该贴子？（贴子不会出现在首页）", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

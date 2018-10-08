@@ -32,7 +32,7 @@
               <p class="flex">
                 <span>更新于：{{ item.long_update_time }}</span>
                 &nbsp;&nbsp;&nbsp;
-                <span class="isRead" v-if="fliterfeeds === 0">已读</span>
+                <span class="isRead">已读</span>
               </p>
               <el-button @click.stop="dropoff(item.subjectid, index, -1)">删 除</el-button>
             </section>
@@ -61,20 +61,20 @@
                   </section>
                 </section>
                 <section v-if="item.content.images && item.content.images.length == 2" class="flex flex-pack-justify feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundImage: 'url('+$com.makeFileUrl(img.link) || defaultImg+')', backgroundRepeat: 'no-repeat'}"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '50%',height:'0',paddingBottom:'50%', backgroundSize: 'cover', backgroundPosition:'center center', backgroundImage: 'url('+$com.makeFileUrl(img.link)+')', backgroundRepeat: 'no-repeat'}"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
                 <section v-if="(item.content.images && item.content.images.length == 3) || (item.content.images && item.content.images.length > 4)"
                   class="flex feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage: 'url('+$com.makeFileUrl(img.link) || defaultImg+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '33%',height:'0',paddingBottom:'33%',marginBottom:'0.5%', marginRight: '0.5%', backgroundImage: 'url('+$com.makeFileUrl(img.link)+')', backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
-                <section v-if="item.content.images && item.content.images === 4" class="flex flex-pack-justify feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundImage: 'url('+$com.makeFileUrl(img.link) || defaultImg+')',  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
+                <section v-if="item.content.images && item.content.images.length === 4" class="flex flex-pack-justify feedcontent">
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" :style="{width: '49.5%',height:'0',paddingBottom:'49.5%',marginBottom: '1%', backgroundImage: 'url('+$com.makeFileUrl(img.link)+')',  backgroundSize: 'cover', backgroundPosition:'center center', backgroundRepeat: 'no-repeat' }"
                     :key="index">
 
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
@@ -88,7 +88,7 @@
                     v-if="item.content.videos[0].width > item.content.videos[0].height"
                     :style="{
                       width: '100%',
-                      backgroundImage: 'url('+$com.makeFileUrl(item.content.videos[0].imageUrl) || defaultImg+')',
+                      backgroundImage: 'url('+$com.makeFileUrl(item.content.videos[0].imageUrl)+')',
                       paddingBottom: item.content.videos[0].height * 100 / item.content.videos[0].width + '%',
                       height: 0
                     }">
@@ -100,7 +100,7 @@
                   <section class="feeds-video feeds-video-vertical" 
                     v-else
                     :style="{
-                      backgroundImage: 'url('+$com.makeFileUrl(item.content.videos[0].imageUrl) || defaultImg+')',
+                      backgroundImage: 'url('+$com.makeFileUrl(item.content.videos[0].imageUrl)+')',
                       width: item.content.videos[0].width * 400 / item.content.videos[0].height + 'px',
                       height: '400px'
                     }">
@@ -286,11 +286,14 @@ export default {
         self.readList2.data.splice(self.spliceIndex, 1);
         self.dialogVisible = false;
         self.seachbytitle = "";
-        self.fliterfeeds = 0;
+        // self.fliterfeeds = 0;
       }
     },
     // 下拉框
     handleSelect() {
+      document.querySelectorAll("#feed>li").forEach(async (x, i) => {
+        $("#feed>li .isRead").eq(i).hide();
+      })
       let self = this;
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
