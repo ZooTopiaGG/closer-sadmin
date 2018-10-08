@@ -55,8 +55,8 @@
                   {{ item.content.text }}
                 </section>
                 <section v-if="item.content.images && item.content.images.length == 1" class="flex flex-pack-justify feedcontent">
-                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" style="width: 100%;height:100%;" :key="index">
-                    <img class="feed-cover-list" :src="$com.makeFileUrl(img.link) || defaultImg" :style="{ display:'block',position:'relative', height: '400px'}">
+                  <section class="feeder-img-list" v-for="(img, index) in item.content.images" style="width: auto;max-height: 400px" :key="index">
+                    <img class="feed-cover-list" :src="$com.makeFileUrl(img.link) || defaultImg" :style="{ display:'block',position:'relative', width: '100%',height: 'auto'}">
                     <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
                   </section>
                 </section>
