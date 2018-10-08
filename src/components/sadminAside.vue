@@ -52,10 +52,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">活动数据</span>
           </el-menu-item>
-          <!-- <el-menu-item index="通知管理">
+          <el-menu-item index="通知管理">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
-          </el-menu-item> -->
+          </el-menu-item>
           <!-- <el-menu-item index="数据统计">
             <i class="el-icon-setting"></i>
             <span slot="title">数据统计</span>
@@ -123,10 +123,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">活动数据</span>
           </el-menu-item>
-          <!-- <el-menu-item index="通知管理" v-if="authUser.permissions && authUser.permissions.notice">
+          <el-menu-item index="通知管理" v-if="authUser.permissions && authUser.permissions.notice">
             <i class="icon iconfont icon-computer"></i>
             <span slot="title">通知管理</span>
-          </el-menu-item> -->
+          </el-menu-item>
           <!-- <el-submenu index="6" v-if="authUser.permissions && authUser.permissions.product">
             <template slot="title">
               <i class="icon iconfont icon-computer"></i>
