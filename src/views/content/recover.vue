@@ -93,12 +93,11 @@ export default {
       });
       if (res) {
         self.$message.success("操作成功！");
-        self.recycleList.data.splice(scope.row.$index, 1);
+        self.recycleList.data.splice(scope.$index, 1);
       }
     },
     // table操作
     contentRecover(scope) {
-      // console.log(scope);
       this.$confirm("是否恢复该贴子？（贴子不会出现在首页）", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
