@@ -33,8 +33,8 @@
           <!-- 图片排列  需判断GIF -->
           <section>
             <section class="feeder-img flex flex-pack-justify" v-if="content.images.length == 1">
-              <section class="feeder-img-list" v-for="(img, index) in content.images" style="width: 100%;height:100%;" :key="index">
-                <img class="feed-cover" v-lazy="$com.makeFileUrl(img.link)">
+              <section class="feeder-img-list" v-for="(img, index) in content.images" style="width: auto;max-height: 400px" :key="index">
+                <img class="feed-cover" v-lazy="$com.makeFileUrl(img.link)" style="display:block;width: 100%;height: auto;">
                 <span class="gif" v-if="img.link.indexOf('.gif') > -1 || img.link.indexOf('.GIF') > -1">GIF图</span>
               </section>
             </section>
@@ -344,7 +344,8 @@ p:empty {
 .summary img,
 .summary video {
   max-width: 600px;
-  width: 100%;
+  max-height: 400px;
+  width: auto;
   height: auto;
   margin: 0 auto;
 }
