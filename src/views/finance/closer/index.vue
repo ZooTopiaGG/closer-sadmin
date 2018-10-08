@@ -33,7 +33,9 @@ export default {
   data() {
     return {
       activeName: "info",
-      row: {}
+      row: {
+        name: ''
+      }
     };
   },
   methods: {

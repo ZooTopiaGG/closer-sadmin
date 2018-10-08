@@ -220,6 +220,7 @@ export default {
       });
     },
     handleRecords(row) {
+      window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
         path: `/finance/closer?type=recharge&id=${row.objectID}`
       });
