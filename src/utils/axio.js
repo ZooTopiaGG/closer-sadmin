@@ -39,20 +39,20 @@ export function tryHideFullScreenLoading() {
 // http request 拦截器 
 axio.interceptors.request.use(
 	config => {
-		// loadingInstance = $loading({
-		// 	target: document.getElementById('loadingMain')
-		// });
 		if (Store.state.loadingMain) {
 			showFullScreenLoading()
 		}
 		let reqUrl = api.serverDevUrl + config.url
-		if (/sandbox.tiejin/.test(window.location.href)) {
-			reqUrl = api.serverDevUrl + config.url;
+		if (/s1-sandbox.tiejin/.test(window.location.href)) {
+			reqUrl = 'https://api-sandbox.tiejin.cn/command/' + config.url;
+		} else if (/sadmin-qa.tiejin/.test(window.location.href)) {
+			reqUrl = 'https://api-qa.tiejin.cn/command/' + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		} else if (/admin-test.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		}
+		console.log('reqUrl===', reqUrl)
 		config.url = reqUrl;
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1 && config.url.indexOf('/command/closer_sys.send_code') === -1) {
 			try {
