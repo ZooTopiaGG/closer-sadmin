@@ -18,7 +18,7 @@
         </section>
          <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -62,7 +62,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
-  mixins: ['myMixins'],
+  mixins: ["myMixins"],
   computed: {
     ...mapState("finance", ["rechargeList2"]),
     authUser() {
@@ -78,14 +78,34 @@ export default {
         uid: null
       },
       columnid: "",
-      columnName: '',
+      columnName: "",
       pagenum: 1,
       pagesize: 10,
       dialogTableVisible: false,
       innerVisible: false,
       row: "",
       recharge_type: "",
-      recharge_type_list: []
+      recharge_type_list: [],
+      keys: [
+        "申请贴近号",
+        "贴近号ID",
+        "申请者昵称",
+        "原日缓释金额",
+        "申请缓释",
+        "原单一帖发放上限",
+        "申请上限",
+        "申请时间"
+      ],
+      values: [
+        "communityName",
+        "communityId",
+        "fromUserName",
+        "originalDailyAllowanceAmt",
+        "dailyAllowanceAmt",
+        "originalTransMaxAmt",
+        "transMaxAmt",
+        "applyTime"
+      ]
     };
   },
   created() {
@@ -96,6 +116,19 @@ export default {
       "rechargeSettingsApplyList",
       "auditRechargeSetting"
     ]),
+    async preDownCsv() {
+      let self = this;
+      await self.rechargeSettingsApplyList2csv({
+        auditStatus: "apply",
+        uid: self.columnid || null
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `财务审核-待审批-改政策`
+      );
+    },
     async handleSearch(item) {
       this.pagenum = 1;
       this.columnid = item.objectID;
@@ -104,7 +137,7 @@ export default {
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
-      self.financepara['uid'] = self.columnid || null;
+      self.financepara["uid"] = self.columnid || null;
       await self.rechargeSettingsApplyList(self.financepara);
     },
     async clearSearch() {
@@ -118,6 +151,8 @@ export default {
       await this.handleSelect();
     },
     handleLook(row) {
+      row["name"] = row["communityName"];
+      window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
         path: `/finance/closer?type=info&id=${row.communityId}`
       });

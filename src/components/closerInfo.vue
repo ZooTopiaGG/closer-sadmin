@@ -8,7 +8,7 @@
           <p><span>注册手机：</span><span>{{ communityInfo.community.phone }}</span></p>
         </section>
         <section class="flex flex-pack-justify">
-          <p><span>贴近号归属：</span><span>{{ communityInfo.community.regionName }}</span></p>
+          <p><span>贴近号归属：</span><span>{{ communityInfo.region.region_name }}</span></p>
           <p><span>企业/个人名称：</span><span>{{ communityInfo.community.person_name }}</span></p>
         </section>
         <section class="flex flex-pack-justify">

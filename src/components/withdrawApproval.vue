@@ -14,7 +14,7 @@
         </section>
          <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -64,6 +64,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
+  mixins: ["myMixins"],
   computed: {
     ...mapState("finance", ["withdrawList"]),
     authUser() {
@@ -85,7 +86,16 @@ export default {
       pagesize: 10,
       row: "",
       dialogVisible: false,
-      refuseLabel: "由于您的账户存在安全风险，已暂时冻结"
+      refuseLabel: "由于您的账户存在安全风险，已暂时冻结",
+      keys: ["ID", "申请者昵称", "手机号", "身份证号", "申请金额", "申请时间"],
+      values: [
+        "objectID",
+        "userName",
+        "userPhone",
+        "certNo",
+        "withdrawApply",
+        "createTime"
+      ]
     };
   },
   created() {
@@ -93,6 +103,19 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["withdrawAuthList", "authStatus"]),
+    async preDownCsv() {
+      let self = this;
+      await self.withdrawAuthList2csv({
+        auditStatus: "apply",
+        userName: self.user_phone || ""
+      });
+      await self.json2csv(
+        self.withdrawList2csv.data,
+        self.keys,
+        self.values,
+        `提现审核-待审批`
+      );
+    },
     async clearSearch() {
       this.pagenum = 1;
       this.user_phone = "";

@@ -24,7 +24,7 @@
         </section>
          <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -73,7 +73,7 @@ export default {
         auditStatus: "apply"
       },
       columnid: "",
-      columnName: '',
+      columnName: "",
       pagenum: 1,
       pagesize: 10,
       dialogTableVisible: false,
@@ -93,6 +93,24 @@ export default {
           label: "审核成功",
           value: "success"
         }
+      ],
+      keys: [
+        "申请贴近号",
+        "贴近号ID",
+        "申请者昵称",
+        "一次性到账金额",
+        "缓释金额",
+        "申请时间",
+        "审核结果"
+      ],
+      values: [
+        "communityName",
+        "communityId",
+        "fromUserName",
+        "rechargeAmt",
+        "totalAllowanceAmt",
+        "applyTime",
+        "auditStatus"
       ]
     };
   },
@@ -101,6 +119,18 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["allRechargeList"]),
+    async preDownCsv() {
+      let self = this;
+      await self.allRechargeList2csv({
+        auditStatus: "apply"
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `财务审核-充值记录`
+      );
+    },
     async handleSearch(item) {
       this.pagenum = 1;
       this.columnid = item.objectID;
@@ -117,7 +147,7 @@ export default {
       this.pagenum = 1;
       this.recharge_type = "";
       this.columnid = null;
-      this.columnName = '';
+      this.columnName = "";
       await this.handleSelect();
     },
     async handleSelectType() {

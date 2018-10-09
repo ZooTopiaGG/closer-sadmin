@@ -43,6 +43,10 @@ export default {
       data: [],
       count: 0
     },
+    withdrawList2csv: {
+      data: [],
+      count: 0
+    },
     communityRecordsList: {
       data: [],
       count: 0
@@ -64,6 +68,10 @@ export default {
       count: 0
     },
     rechargeList2: {
+      data: [],
+      count: 0
+    },
+    rechargeList2Csv: {
       data: [],
       count: 0
     },
@@ -115,6 +123,9 @@ export default {
     withdrawList2(state, para) {
       state.withdrawList2 = para
     },
+    withdrawList2csv(state, para) {
+      state.withdrawList2csv = para
+    },
     communityRecordsList(state, para) {
       state.communityRecordsList = para
     },
@@ -132,6 +143,9 @@ export default {
     },
     rechargeList2(state, para) {
       state.rechargeList2 = para
+    },
+    rechargeList2Csv(state, para) {
+      state.rechargeList2Csv = para
     },
     serialList(state, para) {
       state.serialList = para
@@ -332,6 +346,64 @@ export default {
           return x;
         });
         commit('withdrawList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async withdrawAuthList2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await withdrawAuthList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.userName = x.user && x.user.fullname ? x.user.fullname : "-";
+          x.userPhone = x.user && x.user.phones ? x.user.phones : "-";
+          x.objectID = x.user && x.user.objectID ? x.user.objectID : "-";
+          x.certNo = x.identity && x.identity.certNo ? x.identity.certNo : "-";
+          x.createTime =
+            x.withdraw && x.withdraw.createTime ?
+            $async.createTime(x.withdraw.createTime, "yy-mm-dd hh:MM") :
+            "-";
+          x.auditTime =
+            x.withdraw && x.withdraw.auditTime ?
+            $async.createTime(x.withdraw.auditTime, "yy-mm-dd hh:MM") :
+            "-";
+          x.withdrawAmt =
+            x.withdraw && x.withdraw.withdrawAmt ?
+            x.withdraw.withdrawAmt / 100 :
+            0;
+          x.payeeAccount =
+            x.withdraw && x.withdraw.payeeAccount ?
+            x.withdraw.payeeAccount :
+            "-";
+          x.withdrawRemark =
+            x.withdraw && x.withdraw.withdrawRemark ?
+            x.withdraw.withdrawRemark :
+            "-";
+          x.withdrawApply =
+            x.withdraw && x.withdraw.withdrawApply ?
+            x.withdraw.withdrawApply / 100 :
+            0;
+          x.withdrawTax =
+            x.withdraw && x.withdraw.withdrawTax ?
+            x.withdraw.withdrawTax / 100 :
+            0;
+          x.auditUser =
+            x.withdraw && x.withdraw.auditUser ? x.withdraw.auditUser : "-";
+          if (x.withdraw.auditStatus === "success") {
+            x.auditStatus = "通过";
+          } else if (x.withdraw.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "拒绝";
+          }
+          return x;
+        });
+        commit('withdrawList2csv', data.result)
       } else {
         $message.error(data.result)
       }
@@ -584,6 +656,37 @@ export default {
         $message.error(data.result)
       }
     },
+    async allRechargeList2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await allRechargeList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.applyTime = x.applyTime ? $async.createTime(x.applyTime, "yy-mm-dd hh:MM") : '-';
+          x.auditTime = x.auditTime ? $async.createTime(x.auditTime, "yy-mm-dd hh:MM") : '-';
+          if (x.auditStatus === "success") {
+            x.auditStatus = "审核通过";
+          } else if (x.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "审核失败";
+          }
+          x.type = '充值';
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          x.auditUid = x.auditUid ? x.auditUid : '-';
+          x.auditUser = x.auditUser ? x.auditUser : '-';
+          return x;
+        });
+        commit('rechargeList2Csv', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
     async rechargeSettingsApplyList({
       commit
     }, payload) {
@@ -609,6 +712,35 @@ export default {
           return x;
         });
         commit('rechargeList2', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async rechargeSettingsApplyList2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await rechargeSettingsApplyList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.applyTime = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
+          if (x.auditStatus === "success") {
+            x.auditStatus = "审核通过";
+          } else if (x.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "审核失败";
+          }
+          x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
+          x.originalTransMaxAmt = x.originalTransMaxAmt ? x.originalTransMaxAmt / 100 : 0;
+          x.originalDailyAllowanceAmt = x.originalDailyAllowanceAmt ? x.originalDailyAllowanceAmt / 100 : 0;
+          x.transMaxAmt = x.transMaxAmt ? x.transMaxAmt / 100 : 0;
+          return x;
+        });
+        commit('rechargeList2Csv', data.result)
       } else {
         $message.error(data.result)
       }
@@ -682,25 +814,58 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          switch (x.subject.int_release_type) {
+          switch (x.int_release_type) {
             case 0:
-              x.subject.int_release_type = '自媒体'
+              x.int_release_type = '自媒体'
               break;
             case 1:
-              x.subject.int_release_type = '班级'
+              x.int_release_type = '班级'
               break;
             default:
-              x.subject.int_release_type = '自媒体'
+              x.int_release_type = '自媒体'
           }
           try {
-            x.subject.title = x.subject.title ? x.subject.title : JSON.parse(x.subject.content).text.substr(0, 10)
+            x.title = x.title ? x.title : '-'
           } catch (e) {}
-          x.subject.long_publish_time = $async.createTime(x.subject.long_publish_time, "yy-mm-dd hh:MM");
+          x.long_publish_time = $async.createTime(x.long_publish_time, "yy-mm-dd hh:MM");
           x.transStatus = x.transStatus === 'success' ? '是' : '否';
           x.totalFee = x.totalFee / 100;
           return x;
         });
         commit('feeList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async subjectFeeList2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await subjectFeeList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          switch (x.int_release_type) {
+            case 0:
+              x.int_release_type = '自媒体'
+              break;
+            case 1:
+              x.int_release_type = '班级'
+              break;
+            default:
+              x.int_release_type = '自媒体'
+          }
+          try {
+            x.title = x.title ? x.title : '-';
+          } catch (e) {}
+          x.long_publish_time = $async.createTime(x.long_publish_time, "yy-mm-dd hh:MM");
+          x.transStatus = x.transStatus === 'success' ? '是' : '否';
+          x.totalFee = x.totalFee / 100;
+          return x;
+        });
+        commit('rechargeList2Csv', data.result)
       } else {
         $message.error(data.result)
       }
@@ -784,6 +949,36 @@ export default {
           return x;
         });
         commit('auditList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async settingAuditList2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await settingAuditList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
+          if (x.auditStatus === "success") {
+            x.auditStatus = "审核通过";
+          } else if (x.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "审核失败";
+          }
+          x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
+          x.dailyAllowanceAmtOld = x.dailyAllowanceAmtOld ? x.dailyAllowanceAmtOld / 100 : 0;
+          x.transMaxAmt = x.transMaxAmt ? x.transMaxAmt / 100 : 0;
+          x.transMaxAmtOld = x.transMaxAmtOld ? x.transMaxAmtOld / 100 : 0;
+          return x;
+        });
+        commit('rechargeList2Csv', data.result)
       } else {
         $message.error(data.result)
       }

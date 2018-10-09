@@ -20,7 +20,7 @@
         </section>
         <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -124,7 +124,25 @@ export default {
           value: "success"
         }
       ],
-      recharge_result: ""
+      recharge_result: "",
+      keys: [
+        "原日缓释金额",
+        "申请缓释",
+        "原单一帖发放上限",
+        "申请上限",
+        "申请时间",
+        "审批时间",
+        "操作结果"
+      ],
+      values: [
+        "dailyAllowanceAmtOld",
+        "dailyAllowanceAmt",
+        "transMaxAmtOld",
+        "transMaxAmt",
+        "createTime",
+        "auditTime",
+        "auditStatus"
+      ]
     };
   },
   created() {
@@ -133,7 +151,23 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["settingAuditList"]),
-
+    async preDownCsv() {
+      let self = this;
+      let name = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"))
+        .name;
+      await self.settingAuditList2csv({
+        auditStatus: "",
+        startTime: self.dataValue[0] || null,
+        endTime: self.dataValue[1] || null,
+        uid: self.$route.query.id || null
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `${name}-改政策记录`
+      );
+    },
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;

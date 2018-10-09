@@ -20,7 +20,7 @@
         </section>
         <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -139,7 +139,27 @@ export default {
           value: "fail"
         }
       ],
-      recharge_result: ""
+      recharge_result: "",
+      keys: [
+        "类型",
+        "一次性到账金额",
+        "缓释金额",
+        "审批人ID",
+        "审批人昵称",
+        "申请时间",
+        "审批时间",
+        "操作结果"
+      ],
+      values: [
+        "type",
+        "rechargeAmt",
+        "totalAllowanceAmt",
+        "auditUid",
+        "auditUser",
+        "applyTime",
+        "auditTime",
+        "auditStatus"
+      ]
     };
   },
   created() {
@@ -148,7 +168,23 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["allRechargeList"]),
-
+    async preDownCsv() {
+      let self = this;
+      let name = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"))
+        .name;
+      await self.allRechargeList2csv({
+        auditStatus: "",
+        startTime: self.dataValue[0] || null,
+        endTime: self.dataValue[1] || null,
+        uid: self.$route.query.id || null
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `${name}-充值记录`
+      );
+    },
     async handleSelect() {
       let self = this;
       self.financepara["startTime"] = self.dataValue[0] || null;

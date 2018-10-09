@@ -132,7 +132,7 @@ let api = {
     // 稿费记录
     subject_fee_list: 'closer_community_fee.subject_fee_list',
     // 稿费统计
-    subject_fee_total: 'closer_community_fee.subject_fee_total',
+    subject_fee_total: 'closer_community_fee.subject_fee_total_new',
     // 充值记录
     recharge_list_new: 'closer_finance_superadmin.recharge_list_new',
     // 查询提现列表

@@ -34,13 +34,13 @@ export default {
     return {
       activeName: "info",
       row: {
-        name: ''
+        name: ""
       }
     };
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
     }
   },
   created() {

@@ -24,7 +24,7 @@
         </section>
          <section class="flex flex-align-center">
           <section style="margin-left: 15px;">
-            <el-button type="primary">导出数据</el-button>
+            <el-button type="primary" @click="preDownCsv">导出数据</el-button>
           </section>
         </section>
       </section>
@@ -65,7 +65,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
-  mixins: ['myMixins'],
+  mixins: ["myMixins"],
   computed: {
     ...mapState("finance", ["auditList"]),
     authUser() {
@@ -83,7 +83,7 @@ export default {
         uid: null
       },
       columnid: "",
-      columnName: '',
+      columnName: "",
       pagenum: 1,
       pagesize: 10,
       recharge_result: "",
@@ -100,6 +100,30 @@ export default {
           label: "审核成功",
           value: "success"
         }
+      ],
+      keys: [
+        "申请贴近号",
+        "贴近号ID",
+        "申请者昵称",
+        "原日缓释金额",
+        "申请缓释",
+        "原单一帖发放上限",
+        "申请上限",
+        "申请时间",
+        "审批时间",
+        "操作结果"
+      ],
+      values: [
+        "communityName",
+        "communityId",
+        "fromUserName",
+        "originalDailyAllowanceAmt",
+        "dailyAllowanceAmt",
+        "originalTransMaxAmt",
+        "transMaxAmt",
+        "applyTime",
+        "auditTime",
+        "auditStatus"
       ]
     };
   },
@@ -108,6 +132,19 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["settingAuditList"]),
+    async preDownCsv() {
+      let self = this;
+      await self.settingAuditList2csv({
+        auditStatus: self.recharge_result || "",
+        uid: self.columnid || null
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `财务审核-改政策记录`
+      );
+    },
     async handleSearch(item) {
       this.pagenum = 1;
       this.columnid = item.objectID;
@@ -117,7 +154,7 @@ export default {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
       self.financepara["auditStatus"] = self.recharge_result || "";
-      self.financepara['uid'] = self.columnid || null;
+      self.financepara["uid"] = self.columnid || null;
       await self.settingAuditList(self.financepara);
     },
     async clearSearch() {
@@ -135,8 +172,7 @@ export default {
     async handleCurrentChange(val) {
       this.pagenum = val;
       await this.handleSelect();
-    },
-    
+    }
   }
 };
 </script>
