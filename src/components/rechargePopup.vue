@@ -114,9 +114,14 @@ export default {
     async update_recharge_setting() {
       // update_recharge_setting 改政策
       let self = this;
+      if (self.ruleForm.give1 == "" && self.ruleForm.givelimit1 == "") {
+        self.$message.warning("所填额度不能为空或填入额度必须大于零");
+        self.loading = false;
+        return;
+      }
       if (
         !self.$com.isInteger(Number(self.ruleForm.give1)) ||
-        Number(self.ruleForm.give1) <= 0
+        Number(self.ruleForm.give1) < 0
       ) {
         self.$message.warning("请输入大于零的正整数，如1，11，111...");
         self.loading = false;
@@ -124,7 +129,7 @@ export default {
       }
       if (
         !self.$com.isInteger(Number(self.ruleForm.givelimit1)) ||
-        Number(self.ruleForm.givelimit1) <= 0
+        Number(self.ruleForm.givelimit1) < 0
       ) {
         self.$message.warning("请输入大于零的正整数，如1，11，111...");
         self.loading = false;
@@ -132,8 +137,10 @@ export default {
       }
       let res = await self.updateRechargeSetting({
         toUid: self.row.objectID, //被改政策用户ID
-        dailyAllowanceAmt: self.ruleForm.give1 * 100 || 0, //每天发放额度(单位分)
-        transMaxAmt: self.ruleForm.givelimit1 * 100 || 0 //每个帖子能够发放的额度上线
+        dailyAllowanceAmt:
+          self.ruleForm.give1 * 100 || self.row.extend.daily_allowance, //每天发放额度(单位分)
+        transMaxAmt:
+          self.ruleForm.givelimit1 * 100 || self.row.extend.transMaxAmt //每个帖子能够发放的额度上线
       });
       if (res) {
         self.dialogTableVisible = false;
@@ -168,8 +175,11 @@ export default {
       }
       let res = await self.commitApply({
         toUid: self.row.objectID, //被充额度用户ID
-        rechargeAmt: self.ruleForm.rechargeAmount * 100 || 0, //新增一次性到账额度(单位分)
-        totalAllowanceAmt: self.ruleForm.subsidy * 100 || 0 //新增缓释额度(单位分)
+        rechargeAmt:
+          self.ruleForm.rechargeAmount * 100 ||
+          self.row.extend.total_available_Balance, //新增一次性到账额度(单位分)
+        totalAllowanceAmt:
+          self.ruleForm.subsidy * 100 || self.row.extend.total_lock_balance //新增缓释额度(单位分)
       });
       if (res) {
         self.dialogTableVisible = false;

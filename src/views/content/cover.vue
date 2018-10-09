@@ -123,7 +123,7 @@ export default {
     preview(row) {
       let host = window.location.host,
         url;
-      if (/sandbox.tiejin/.test(host)) {
+      if (/sandbox.tiejin/.test(host) || /qa.tiejin/.test(host)) {
         url = "https://h5-sandbox.tiejin.cn";
       } else if (/tiejin/.test(host)) {
         url = "https://h5.tiejin.cn";
@@ -218,16 +218,6 @@ export default {
   }
 };
 </script>
-<style>
-.preview .el-dialog {
-  min-width: 375px !important;
-  border-radius: 10px;
-  box-shadow: 0px 0px 25px #333;
-}
-.preview .el-dialog__body {
-  padding: 10px 0;
-}
-</style>
 
 <style scoped="scoped">
 .labelname {

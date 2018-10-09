@@ -93,11 +93,11 @@ export default {
           value: ""
         },
         {
-          label: "审核失败",
+          label: "拒绝",
           value: "fail"
         },
         {
-          label: "审核成功",
+          label: "通过",
           value: "success"
         }
       ],
@@ -147,7 +147,9 @@ export default {
     },
     async handleSearch(item) {
       this.pagenum = 1;
-      this.columnid = item.objectID;
+      if (item.objectID) {
+        this.columnid = item.objectID;
+      }
       await this.handleSelect();
     },
     async handleSelect() {

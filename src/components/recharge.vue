@@ -173,7 +173,7 @@ export default {
       let name = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"))
         .name;
       await self.allRechargeList2csv({
-        auditStatus: "",
+        auditStatus: self.recharge_result || "",
         startTime: self.dataValue[0] || null,
         endTime: self.dataValue[1] || null,
         uid: self.$route.query.id || null

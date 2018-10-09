@@ -66,10 +66,6 @@ export default {
   margin-bottom: 15px;
   border-radius: 0 0 3px 3px;
 }
-.back_link {
-  font-weight: bold;
-  color: #495060;
-}
 </style>
 
 
