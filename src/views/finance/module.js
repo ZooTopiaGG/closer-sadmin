@@ -107,6 +107,9 @@ export default {
         totalAllowanceAmt: '',
         totalAllowancedAmt: '',
       },
+      region: {
+        region_name: ''
+      },
       wallet: {
         availableBalance: ''
       }
@@ -638,11 +641,11 @@ export default {
           x.applyTime = x.applyTime ? $async.createTime(x.applyTime, "yy-mm-dd hh:MM") : '-';
           x.auditTime = x.auditTime ? $async.createTime(x.auditTime, "yy-mm-dd hh:MM") : '-';
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.type = '充值';
           x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
@@ -669,11 +672,11 @@ export default {
           x.applyTime = x.applyTime ? $async.createTime(x.applyTime, "yy-mm-dd hh:MM") : '-';
           x.auditTime = x.auditTime ? $async.createTime(x.auditTime, "yy-mm-dd hh:MM") : '-';
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.type = '充值';
           x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
@@ -697,13 +700,13 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
+          x.createTime = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
           x.originalTransMaxAmt = x.originalTransMaxAmt ? x.originalTransMaxAmt / 100 : 0;
@@ -728,11 +731,11 @@ export default {
         await data.result.data.map(x => {
           x.applyTime = $async.createTime(x.create_time, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
           x.originalTransMaxAmt = x.originalTransMaxAmt ? x.originalTransMaxAmt / 100 : 0;
@@ -834,7 +837,8 @@ export default {
       }
     },
     async clearWallet({
-      commit
+      commit,
+      dispatch
     }, payload) {
       let {
         data
@@ -842,7 +846,10 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        $message.success("提交成功，等待审批...")
+        $message.success("余额已清空！")
+        dispatch('getCommunityDetail', {
+          communityid: payload['uid']
+        })
         return true
       } else {
         $message.error(data.result)
@@ -980,11 +987,11 @@ export default {
           x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
           x.dailyAllowanceAmtOld = x.dailyAllowanceAmtOld ? x.dailyAllowanceAmtOld / 100 : 0;
@@ -1010,11 +1017,11 @@ export default {
           x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
-            x.auditStatus = "审核通过";
+            x.auditStatus = "通过";
           } else if (x.auditStatus === "apply") {
             x.auditStatus = "审核中";
           } else {
-            x.auditStatus = "审核失败";
+            x.auditStatus = "拒绝";
           }
           x.dailyAllowanceAmt = x.dailyAllowanceAmt ? x.dailyAllowanceAmt / 100 : 0;
           x.dailyAllowanceAmtOld = x.dailyAllowanceAmtOld ? x.dailyAllowanceAmtOld / 100 : 0;

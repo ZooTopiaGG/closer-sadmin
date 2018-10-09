@@ -117,7 +117,7 @@ let api = {
     lock_wallet: 'closer_finance_superadmin.lock_wallet',
     // 是否允许提现 状态
     wallet_lock_type: 'closer_finance_superadmin.wallet_lock_type',
-    // 查询栏目审核通过的充值记录
+    // 查询栏目通过的充值记录
     wallet_detail_list: 'closer_finance_superadmin.wallet_detail_list',
     // 超管系统财务管理提现记录查询
     withdraw_list: 'closer_finance_superadmin.withdraw_list',

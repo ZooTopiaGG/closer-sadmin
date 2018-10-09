@@ -35,11 +35,20 @@
           </el-table-column>
           <el-table-column prop="transMaxAmt" label="申请上限">
           </el-table-column>
-          <el-table-column prop="createTime" label="申请时间">
+          <el-table-column prop="applyTime" label="申请时间">
+          </el-table-column>
+          <el-table-column prop="auditUid" label="审批人ID">
+          </el-table-column>
+          <el-table-column prop="auditUser" label="审批人昵称">
           </el-table-column>
           <el-table-column prop="auditTime" label="审批时间">
           </el-table-column>
-          <el-table-column prop="auditStatus" label="操作结果">
+          <el-table-column label="操作结果">
+            <template slot-scope="scope">
+              <span v-if="scope.row.auditStatus === '通过'" style="color: green;">{{ scope.row.auditStatus }}</span>
+              <span v-else-if="scope.row.auditStatus === '拒绝'" style="color: red;">{{ scope.row.auditStatus }}</span>
+              <span v-else>{{ scope.row.auditStatus }}</span>
+            </template>
           </el-table-column>
         </el-table>
       </section>
@@ -116,11 +125,11 @@ export default {
           value: ""
         },
         {
-          label: "审核失败",
+          label: "拒绝",
           value: "fail"
         },
         {
-          label: "审核成功",
+          label: "通过",
           value: "success"
         }
       ],
@@ -131,6 +140,8 @@ export default {
         "原单一帖发放上限",
         "申请上限",
         "申请时间",
+        "审批人ID",
+        "审批人昵称",
         "审批时间",
         "操作结果"
       ],
@@ -140,6 +151,8 @@ export default {
         "transMaxAmtOld",
         "transMaxAmt",
         "createTime",
+        "auditUid",
+        "auditUser",
         "auditTime",
         "auditStatus"
       ]
@@ -156,7 +169,7 @@ export default {
       let name = JSON.parse(window.sessionStorage.getItem("closer_cloumn_row"))
         .name;
       await self.settingAuditList2csv({
-        auditStatus: "",
+        auditStatus: self.recharge_result || "",
         startTime: self.dataValue[0] || null,
         endTime: self.dataValue[1] || null,
         uid: self.$route.query.id || null

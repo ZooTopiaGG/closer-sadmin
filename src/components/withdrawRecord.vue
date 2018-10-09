@@ -32,13 +32,13 @@
         <el-table :data="withdrawList.data" style="width: 100%">
           <el-table-column prop="withdrawApply" label="提现金额">
           </el-table-column>
-          <el-table-column prop="createTime" label="包含税金">
+          <el-table-column prop="withdrawTax" label="包含税金">
           </el-table-column>
-          <el-table-column prop="createTime" label="实际提现金额">
+          <el-table-column prop="withdrawAmt" label="实际提现金额">
           </el-table-column>
           <el-table-column prop="createTime" label="申请时间">
           </el-table-column>
-          <el-table-column prop="createTime" label="审批时间">
+          <el-table-column prop="auditTime" label="审批时间">
           </el-table-column>
           <el-table-column prop="auditStatus" label="审批结果">
           </el-table-column>
@@ -167,7 +167,7 @@ export default {
       let self = this;
       self.financepara["uid"] = self.$route.query.id;
       self.financepara["page"] = self.pagenum || 1;
-      self.financepara["transChannel"] = self.recharge_type || "";
+      // self.financepara["transChannel"] = self.recharge_type || "";
       self.financepara["endTime"] = self.dataValue[1] || "";
       self.financepara["startTime"] = self.dataValue[0] || "";
       await self.withdrawAuthList(self.financepara);
@@ -175,7 +175,7 @@ export default {
     async clearSearch() {
       let self = this;
       self.pagenum = 1;
-      self.recharge_type = "";
+      // self.recharge_type = "";
       self.dataValue = "";
       await this.handleSelect();
     },

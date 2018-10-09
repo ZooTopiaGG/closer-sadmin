@@ -12,9 +12,9 @@
               placeholder="选择月">
             </el-date-picker>
           </div>
-          <section class="flex flex-align-center" style="margin-left: 15px">
+          <!-- <section class="flex flex-align-center" style="margin-left: 15px">
             <el-button type="text" @click="clearSearch">清除搜索</el-button>
-          </section>
+          </section> -->
         </section>
         <section class="flex flex-align-center">
           <section>稿件数量：<span>{{ feeTotal.totalSubjectSize }}</span></section>

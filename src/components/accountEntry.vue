@@ -46,7 +46,7 @@
             <template slot-scope="scope">
               <section class="flex flex-align-center">
                 <span>{{ scope.row.transRemark }}</span>
-                <el-button type="text" v-if="scope.row.transChannel==='稿费'" @click="toPreview">查看贴子</el-button>
+                <el-button type="text" v-if="scope.row.transChannel==='稿费'" @click="toPreview(scope.row)">查看贴子</el-button>
               </section>
             </template>
           </el-table-column>
@@ -58,6 +58,9 @@
         :total="serialList.count">
       </el-pagination>
     </section>
+    <el-dialog title="手机预览" class="preview" :visible.sync="dialogVisible" width="375px">
+       <iframe :src="pre_src" frameborder="0" width="375px" height="667px"></iframe>
+    </el-dialog>
   </section>
 </template>
 
@@ -83,6 +86,8 @@ export default {
       pagenum: 1,
       pagesize: 10,
       row: {},
+      pre_src: "",
+      dialogVisible: false,
       // 日期选择
       pickerOptions2: {
         disabledDate(time) {
@@ -209,7 +214,17 @@ export default {
       this.pagenum = val;
       await this.handleSelect();
     },
-    toPreview() {}
+    toPreview(row) {
+      let host = window.location.host,
+        url;
+      if (/sandbox.tiejin/.test(host) || /qa.tiejin/.test(host)) {
+        url = "https://h5-sandbox.tiejin.cn";
+      } else if (/tiejin/.test(host)) {
+        url = "https://h5.tiejin.cn";
+      }
+      this.pre_src = `${url}/feed/${row.subjectId}?view=pre`;
+      this.dialogVisible = true;
+    }
   }
 };
 </script>

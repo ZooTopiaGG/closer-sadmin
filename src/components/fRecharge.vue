@@ -43,6 +43,8 @@
           </el-table-column>
           <el-table-column prop="applyTime" label="申请时间">
           </el-table-column>
+          <el-table-column prop="auditTime" label="审批时间">
+          </el-table-column>
           <el-table-column prop="auditStatus" label="审核结果">
           </el-table-column>
         </el-table>
@@ -70,7 +72,7 @@ export default {
       financepara: {
         page: 1,
         count: 10,
-        auditStatus: "apply"
+        auditStatus: "audited"
       },
       columnid: "",
       columnName: "",
@@ -83,14 +85,14 @@ export default {
       recharge_type_list: [
         {
           label: "全部结果",
-          value: ""
+          value: "audited"
         },
         {
-          label: "审核失败",
+          label: "拒绝",
           value: "fail"
         },
         {
-          label: "审核成功",
+          label: "通过",
           value: "success"
         }
       ],
@@ -122,7 +124,7 @@ export default {
     async preDownCsv() {
       let self = this;
       await self.allRechargeList2csv({
-        auditStatus: "apply"
+        auditStatus: self.recharge_type || "audited"
       });
       await self.json2csv(
         self.rechargeList2Csv.data,
@@ -133,19 +135,21 @@ export default {
     },
     async handleSearch(item) {
       this.pagenum = 1;
-      this.columnid = item.objectID;
+      if (item.objectID) {
+        this.columnid = item.objectID;
+      }
       await this.handleSelect();
     },
     async handleSelect() {
       let self = this;
       self.financepara["page"] = self.pagenum || 1;
-      self.financepara["auditStatus"] = self.recharge_type || "";
+      self.financepara["auditStatus"] = self.recharge_type || "audited";
       self.financepara["uid"] = self.columnid || null;
       await self.allRechargeList(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;
-      this.recharge_type = "";
+      this.recharge_type = "audited";
       this.columnid = null;
       this.columnName = "";
       await this.handleSelect();

@@ -131,7 +131,9 @@ export default {
     },
     async handleSearch(item) {
       this.pagenum = 1;
-      this.columnid = item.objectID;
+      if (item.objectID) {
+        this.columnid = item.objectID;
+      }
       await this.handleSelect();
     },
     async handleSelect() {

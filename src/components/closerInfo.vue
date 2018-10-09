@@ -65,7 +65,7 @@
         </section>
         <span slot="footer" class="dialog-footer">
           <el-button type="text" style="color: #999;" @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="promptClearWallet">提交申请</el-button>
+          <el-button type="primary" @click="promptClearWallet">确认清空</el-button>
         </span>
       </el-dialog>
     </section>
