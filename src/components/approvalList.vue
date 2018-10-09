@@ -1,34 +1,28 @@
 <template>
   <section id="permission" class="closer flex flex-v">
-    <section class="permission_title">财务管理 / 财务审核</section>
+    
     <el-tabs v-model="activeName" @tab-click="handleClick" class="flex flex-v flex-1">
-      <el-tab-pane label="待审批" name="approval">
-        <approval-List></approval-List>
+      <el-tab-pane label="充值" name="approval_recharge">
+        <approval-recharge></approval-recharge>
       </el-tab-pane>
-      <el-tab-pane label="改政策记录" name="apply">
-        <f-apply></f-apply>
-      </el-tab-pane>
-      <el-tab-pane label="充值记录" name="recharge">
-        <f-recharge></f-recharge>
+      <el-tab-pane label="改政策" name="approval_apply">
+        <approval-apply></approval-apply>
       </el-tab-pane>
     </el-tabs>
   </section>
 </template>
 <script>
-import approvalList from "@/components/approvalList.vue";
-import fApply from "@/components/fApply.vue";
-import fRecharge from "@/components/fRecharge.vue";
+import approvalRecharge from "@/components/approvalRecharge.vue";
+import approvalApply from "@/components/approvalApply.vue";
 export default {
-  mixins: ["myMixins"],
   name: "info",
   components: {
-    approvalList,
-    fRecharge,
-    fApply
+    approvalApply,
+    approvalRecharge
   },
   data() {
     return {
-      activeName: "approval"
+      activeName: "approval_recharge"
     };
   },
   methods: {

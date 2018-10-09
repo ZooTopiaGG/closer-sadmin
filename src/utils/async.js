@@ -27,6 +27,8 @@ export default {
       return y + '-' + m + '-' + d + ' ' + minute + ':' + seconds;
     } else if (type === '年/月/日') {
       return y + '年' + m + '月' + d + '日';
+    } else if (type === 'yy_mm') {
+      return y + '_' + m;
     } else {
       return y + '-' + m + '-' + d;
     }
@@ -105,11 +107,11 @@ export default {
       return
     }
   },
-  compare(property){
-    return function(obj1,obj2){
+  compare(property) {
+    return function (obj1, obj2) {
       var value1 = obj1[property];
       var value2 = obj2[property];
-      return value1 - value2;     // 升序
+      return value1 - value2; // 升序
     }
   },
   once(fn, context) {

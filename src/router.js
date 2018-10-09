@@ -133,7 +133,7 @@ const router = new Router({
     path: '/finance/withdraw',
     name: 'withdraw',
     component: () =>
-      import ('./views/finance/withdraw.vue'),
+      import ('./views/finance/withdraw/index.vue'),
     meta: {
       keepAlive: true
     },
@@ -155,6 +155,14 @@ const router = new Router({
       }
     }]
   }, {
+    path: '/finance/withdraw/details',
+    name: 'withdraw_details',
+    component: () =>
+      import ('./views/finance/withdraw/details.vue'),
+    // meta: {
+    //   keepAlive: true
+    // }
+  }, {
     path: '/finance/serial',
     name: 'serial',
     component: () =>
@@ -162,6 +170,11 @@ const router = new Router({
     meta: {
       keepAlive: true
     }
+  }, {
+    path: '/finance/closer',
+    name: 'finance_closer',
+    component: () =>
+      import ('./views/finance/closer/index.vue')
   }, {
     path: '/closer/classify',
     name: 'closer_classify',
@@ -323,10 +336,16 @@ router.beforeEach((to, from, next) => {
     case "manage_review":
       store.state.activeIndex = '财务审核';
       break;
+    case "withdraw":
+      store.state.activeIndex = '提现审核';
+      break;
     case "withdraw_applying":
       store.state.activeIndex = '提现审核';
       break;
     case "withdraw_audited":
+      store.state.activeIndex = '提现审核';
+      break;
+    case "withdraw_details":
       store.state.activeIndex = '提现审核';
       break;
     case "records_column":

@@ -138,3 +138,51 @@ export async function allRechargeList(payload) {
 export async function userWalletDetail(payload) {
   return await Axios.post(`${api.finance.user_wallet_detail}`, payload)
 }
+/**
+ * api.finance.clear_wallet 清空余额
+ */
+export async function clearWallet(payload) {
+  return await Axios.post(`${api.finance.clear_wallet}`, payload)
+}
+/**
+ * api.finance.subject_fee_list 清空余额
+ */
+export async function subjectFeeList(payload) {
+  return await Axios.post(`${api.finance.subject_fee_list}`, payload)
+}
+/**
+ * api.finance.subject_fee_total 稿费记录
+ */
+export async function subjectFeeTotal(payload) {
+  return await Axios.post(`${api.finance.subject_fee_total}`, payload)
+}
+/**
+ * api.finance.recharge_list_new 充值记录
+ */
+export async function rechargeListNew(payload) {
+  return await Axios.post(`${api.finance.recharge_list_new}`, payload)
+}
+/**
+ * api.finance.search_user 查讯提现列表
+ */
+export async function searchUser(payload) {
+  return await Axios.post(`${api.finance.search_user}`, payload)
+}
+/**
+ * api.finance.setting_audit_list 改政策记录列表
+ */
+export async function settingAuditList(payload) {
+  return await Axios.post(`${api.finance.setting_audit_list}`, payload)
+}
+/**
+ * api.finance.get_community_detail 贴近号信息
+ */
+export async function getCommunityDetail(payload) {
+  return await Axios.post(`${api.finance.get_community_detail}`, payload)
+}
+/**
+ * api.finance.search_community 贴近号信息
+ */
+export async function searchCommunity(payload) {
+  return await Axios.post(`${api.finance.search_community}`, payload)
+}
