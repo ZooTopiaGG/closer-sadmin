@@ -46,13 +46,12 @@ axio.interceptors.request.use(
 		if (/s1-sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = 'https://api-sandbox.tiejin.cn/command/' + config.url;
 		} else if (/sadmin-qa.tiejin/.test(window.location.href)) {
-			reqUrl = 'https://api-qa.tiejin.cn/command/' + config.url;
+			reqUrl = api.serverDevUrl + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		} else if (/admin-test.tiejin/.test(window.location.href)) {
 			reqUrl = api.serverUrl + config.url;
 		}
-		console.log('reqUrl===', reqUrl)
 		config.url = reqUrl;
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1 && config.url.indexOf('/command/closer_sys.send_code') === -1) {
 			try {
