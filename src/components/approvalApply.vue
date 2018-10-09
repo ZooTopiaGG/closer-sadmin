@@ -154,7 +154,7 @@ export default {
       row["name"] = row["communityName"];
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
-        path: `/finance/closer?type=info&id=${row.communityId}`
+        path: `/finance/closer?type=info&id=${row.communityId}&from=audit`
       });
     },
     // 同意拒绝审批 commit_apply recharge_audit

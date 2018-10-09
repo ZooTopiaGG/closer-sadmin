@@ -1,6 +1,9 @@
 <template>
   <section id="permission" class="closer flex flex-v">
-    <section class="permission_title">{{ row.name }} 贴近号</section>
+    <section class="permission_title">
+      <router-link class="back_link" v-if="$route.query.from === 'apply'" to="/finance/manage/update">财务申请</router-link>
+      <router-link class="back_link" v-else-if="$route.query.from === 'audit'" to="/finance/manage/review">财务审核</router-link>
+       / {{ row.name }} 贴近号</section>
     <el-tabs v-model="activeName" @tab-click="handleClick" class="flex flex-v flex-1">
       <el-tab-pane label="贴近号信息" name="info">
         <closer-info></closer-info>
@@ -62,6 +65,10 @@ export default {
   background: #fff;
   margin-bottom: 15px;
   border-radius: 0 0 3px 3px;
+}
+.back_link {
+  font-weight: bold;
+  color: #495060;
 }
 </style>
 

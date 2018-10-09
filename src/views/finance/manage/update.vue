@@ -1,6 +1,6 @@
 <template>
   <section id="permission" class="apply flex flex-v">
-    <section class="permission_title">财务申请</section>
+    <section class="permission_title">财务管理 / 财务申请</section>
     <section class="flex-1">
       <section class="permission_table_top flex">
         <section class="flex flex-align-center userinfo">
@@ -32,32 +32,32 @@
           </el-table-column>
           <el-table-column label="未解冻余额">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.total_lock_balance }}</span>
+              <span>{{ scope.row.extend.total_allowance_remain / 100 }}</span>
             </template>
           </el-table-column>
           <el-table-column label="可用余额">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.total_available_Balance }}</span>
+              <span>{{ scope.row.extend.total_available_Balance / 100 }}</span>
             </template>
           </el-table-column>
           <el-table-column label="累计充值">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.total_recharge }}</span>
+              <span>{{ scope.row.extend.total_recharge / 100 }}</span>
             </template>
           </el-table-column>
           <el-table-column label="累计补贴">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.total_allowance }}</span>
+              <span>{{ scope.row.extend.total_allowance / 100 }}</span>
             </template>
           </el-table-column>
           <el-table-column label="日缓释额度">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.daily_allowance }}</span>
+              <span>{{ scope.row.extend.daily_allowance / 100}}</span>
             </template>
           </el-table-column>
           <el-table-column label="单一贴发放上限">
             <template slot-scope="scope">
-              <span>{{ scope.row.extend.transMaxAmt }}</span>
+              <span>{{ scope.row.extend.transMaxAmt / 100 }}</span>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="250">
@@ -217,13 +217,13 @@ export default {
     handleLook(row) {
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
-        path: `/finance/closer?type=info&id=${row.objectID}`
+        path: `/finance/closer?type=info&id=${row.objectID}&from=apply`
       });
     },
     handleRecords(row) {
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
       this.$router.push({
-        path: `/finance/closer?type=recharge&id=${row.objectID}`
+        path: `/finance/closer?type=recharge&id=${row.objectID}&from=apply`
       });
     }
   }

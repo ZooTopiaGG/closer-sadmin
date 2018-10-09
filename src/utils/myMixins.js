@@ -15,7 +15,7 @@ Vue.mixin({
   },
   methods: {
     // 远程搜索
-    ...mapActions("finance", ['searchCommunity', "withdrawAuthList2csv", "allRechargeList2csv", "rechargeSettingsApplyList2csv", "settingAuditList2csv", "subjectFeeList2csv"]),
+    ...mapActions("finance", ['searchCommunity', "withdrawAuthList2csv", "allRechargeList2csv", "rechargeSettingsApplyList2csv", "settingAuditList2csv", "subjectFeeList2csv", "userWalletDetail2csv"]),
     async querySearchAsync(queryString, cb) {
       await this.searchCommunity({
         communityName: queryString,
@@ -50,6 +50,7 @@ Vue.mixin({
               if (n === 'createTime' || n === 'applyTime' || n === 'updateTime' || n === 'auditedTime' || n === 'auditTime' || n === "long_publish_time") return `Time: ${v}`;
               if (n === 'userPhone') return `Tel: ${v}`;
               if (n === 'certNo') return `Cert: ${v}`;
+              if (n === 'payeeAccount') return `AliPay: ${v}`;
               if (!isNaN(Number(v)) && v.length > 11) return `Number: ${v}`;
             }
           }

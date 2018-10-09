@@ -28,7 +28,7 @@
           </section>
           <section class="flex flex-align-center">
             <section style="margin-left: 15px;">
-              <el-button type="primary">导出数据</el-button>
+              <el-button type="primary" @click="preDownCsv">导出数据</el-button>
             </section>
           </section>
         </section>
@@ -64,6 +64,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+  mixins: ["myMixins"],
   computed: {
     ...mapState("finance", ["serialList"])
   },
@@ -154,7 +155,9 @@ export default {
           label: "注册",
           value: "register"
         }
-      ]
+      ],
+      keys: ["类型", "金额", "到账时间", "说明"],
+      values: ["transChannel", "transAmt", "createTime", "transRemark"]
     };
   },
   created() {
@@ -163,7 +166,25 @@ export default {
     this.userWalletDetail(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["userWalletDetail"]),
+    ...mapActions("finance", ["userWalletDetail", "userWalletDetail2csv"]),
+    async preDownCsv() {
+      let self = this;
+      await self.userWalletDetail2csv({
+        uid: self.$route.query.id,
+        endTime: self.dataValue[1] || "",
+        startTime: self.dataValue[0] || "",
+        transChannel: self.recharge_type || "",
+        transType: "in"
+      });
+      await self.json2csv(
+        self.rechargeList2Csv.data,
+        self.keys,
+        self.values,
+        `提现审核-入账记录-用户昵称：${self.row.userName}-手机号：${
+          self.row.userPhone
+        }-身份证号：${self.row.certNo}-支付宝号：${self.row.payeeAccount}`
+      );
+    },
     async handleSelect() {
       let self = this;
       self.financepara["uid"] = self.$route.query.id;

@@ -789,6 +789,50 @@ export default {
         $message.error(data.result)
       }
     },
+    async userWalletDetail2csv({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await userWalletDetail(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.transAmt = x.transAmt / 100;
+          switch (x.transChannel) {
+            case "recharge":
+              x.transChannel = "财务充值";
+              break;
+            case "payment":
+              x.transChannel = "稿费";
+              break;
+            case "refund":
+              x.transChannel = "稿费退款";
+              break;
+            case "withdraw":
+              x.transChannel = "提现";
+              break;
+            case "redpackage":
+              x.transChannel = "红包";
+              break;
+            case "allowance":
+              x.transChannel = "补贴";
+              break;
+            case "award":
+              x.transChannel = "奖励金";
+              break;
+            default:
+              x.transChannel = "其他";
+          }
+          return x;
+        });
+        commit('rechargeList2Csv', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
     async clearWallet({
       commit
     }, payload) {

@@ -64,7 +64,7 @@
       </section>
     </section>
     <section class="block" v-if="feeList.count > 0">
-      <el-pagination @current-change="handleCurrentChange1" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
+      <el-pagination @current-change="handleCurrentChange1" :current-page="page" :page-size="count" layout="total, prev, pager, next, jumper"
         :total="feeList.count">
       </el-pagination>
     </section>
@@ -80,14 +80,14 @@ export default {
   data() {
     return {
       financepara: {
-        pageNum: 1,
-        pageSize: 10,
+        page: 1,
+        count: 10,
         month: null,
         communityid: null
       },
       dialogTableVisible: false,
-      pagenum: 1,
-      pagesize: 10,
+      page: 1,
+      count: 10,
       row: {},
       months: $async.createTime(Date.now(), "yy_mm"),
       keys: [
@@ -152,9 +152,9 @@ export default {
     async clearSearch() {
       let self = this;
       self.dataValue = "";
-      self.pagenum = 1;
+      self.page = 1;
       self.financepara["month"] = self.months || null;
-      self.financepara["pageNum"] = 1;
+      self.financepara["page"] = 1;
       await self.getColumnaList();
       await self.subjectFeeTotal({
         month: self.months || null,
@@ -163,8 +163,8 @@ export default {
     },
     async handleCurrentChange1(val) {
       let self = this;
-      self.pagenum = val;
-      self.financepara["pageNum"] = self.pagenum;
+      self.page = val;
+      self.financepara["page"] = self.page;
       await self.getColumnaList();
     },
     // 获取栏目列表

@@ -1,6 +1,8 @@
 <template>
   <section id="permission" class="closer flex flex-v">
-    <section class="permission_title">财务管理 / 提现审核 / 个人详情</section>
+    <section class="permission_title">
+      <router-link class="back_link" to="/finance/withdraw">提现审核</router-link>
+       / 个人详情</section>
     <el-tabs v-model="activeName" @tab-click="handleClick" class="flex flex-v flex-1">
       <el-tab-pane label="入账记录" name="account_entry">
         <account-entry></account-entry>

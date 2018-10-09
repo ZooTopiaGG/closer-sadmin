@@ -22,7 +22,7 @@
           </section>
           <section class="flex flex-align-center">
             <section style="margin-left: 15px;">
-              <el-button type="primary">导出数据</el-button>
+              <el-button type="primary" @click="preDownCsv">导出数据</el-button>
             </section>
           </section>
         </section>
@@ -116,7 +116,27 @@ export default {
       dataValue: "",
       username: "",
       recharge_type: "",
-      recharge_type_list: []
+      recharge_type_list: [],
+      keys: [
+        "提现金额",
+        "包含税金",
+        "实际提现金额",
+        "申请时间",
+        "审批时间",
+        "审批结果",
+        "拒绝理由",
+        "经办人"
+      ],
+      values: [
+        "withdrawApply",
+        "withdrawTax",
+        "withdrawAmt",
+        "createTime",
+        "auditTime",
+        "auditStatus",
+        "withdrawRemark",
+        "auditUser"
+      ]
     };
   },
   created() {
@@ -126,6 +146,23 @@ export default {
   },
   methods: {
     ...mapActions("finance", ["withdrawAuthList"]),
+    async preDownCsv() {
+      let self = this;
+      await self.withdrawAuthList2csv({
+        auditStatus: "",
+        startTime: self.dataValue[0] || "",
+        endTime: self.dataValue[1] || "",
+        uid: self.$route.query.id
+      });
+      await self.json2csv(
+        self.withdrawList2csv.data,
+        self.keys,
+        self.values,
+        `提现审核-提现记录-用户昵称：${self.row.userName}-手机号：${
+          self.row.userPhone
+        }-身份证号：${self.row.certNo}-支付宝号：${self.row.payeeAccount}`
+      );
+    },
     async handleSelect() {
       let self = this;
       self.financepara["uid"] = self.$route.query.id;
