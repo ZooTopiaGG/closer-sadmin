@@ -19,6 +19,7 @@ import approvalList from "@/components/approvalList.vue";
 import fApply from "@/components/fApply.vue";
 import fRecharge from "@/components/fRecharge.vue";
 export default {
+  mixins: ["myMixins"],
   name: "info",
   components: {
     approvalList,

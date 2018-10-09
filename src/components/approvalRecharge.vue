@@ -134,7 +134,7 @@ export default {
     async clearSearch() {
       this.pagenum = 1;
       this.columnName = "";
-      self.columnid = null;
+      this.columnid = null;
       await this.handleSelect();
     },
     async handleCurrentChange(val) {

@@ -86,6 +86,7 @@
 import { mapState, mapActions } from "vuex";
 import rechargePopup from "@/components/rechargePopup";
 export default {
+  mixins: ["myMixins"],
   computed: {
     ...mapState("finance", ["communityRecordsList"]),
     authUser() {
@@ -152,7 +153,7 @@ export default {
     async clearSearch() {
       this.pagenum = 1;
       this.columnid = null;
-      this.columnName = '';
+      this.columnName = "";
       await this.getMoreColumnList();
     },
     async handleCurrentChange(val) {
