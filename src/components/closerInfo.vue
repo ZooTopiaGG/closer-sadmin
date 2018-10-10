@@ -52,10 +52,10 @@
       <aside>充额度</aside>
       <section>
         <section>
-          <p><span>充值余额：</span><span>{{ communityInfo.wallet.availableBalance / 100 }}</span></p>
+          <p><span>可用余额：</span><span>{{ communityInfo.wallet.availableBalance / 100 }}</span></p>
         </section>
         <section>
-          <p><span>缓释余额：</span><span>{{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}</span></p>
+          <p><span>未解冻余额：</span><span>{{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}</span></p>
         </section>
       </section>
     </section>
@@ -70,8 +70,8 @@
         width="30%">
         <span style="color: red;">是否清空当前贴近号下所有余额，包含未解冻金额</span>
         <section class="flex flex-v flex-align-center">
-          <span>充值余额： {{ communityInfo.wallet.availableBalance / 100 }}元</span>
-          <span>缓释余额： {{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}元</span>
+          <span>可用余额： {{ communityInfo.wallet.availableBalance / 100 }}元</span>
+          <span>未解冻余额： {{ (communityInfo.summary.totalAllowanceAmt -  communityInfo.summary.totalAllowancedAmt) / 100 }}元</span>
         </section>
         <span slot="footer" class="dialog-footer">
           <el-button type="text" style="color: #999;" @click="dialogVisible = false">取 消</el-button>
@@ -80,7 +80,7 @@
       </el-dialog>
     </section>
     <section v-if="dialogTableVisible">
-      <recharge-popup :title="title" :type="type" @visible="visible" :row="row"></recharge-popup> 
+      <recharge-popup :title="title" :type="type" @visible="visible" :row="communityInfo"></recharge-popup> 
     </section>
   </section>
 </template>

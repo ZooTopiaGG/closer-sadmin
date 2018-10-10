@@ -30,7 +30,7 @@
       </section>
       <!-- table 改政策查看操作 -->
       <section class="permission_table_content" style="margin-top: 0;">
-        <el-table :data="rechargeList.data" style="width: 100%">
+        <el-table :data="rechargeListAudit.data" style="width: 100%">
           <el-table-column fixed prop="communityName" label="申请贴近号">
           </el-table-column>
           <el-table-column prop="communityId" label="贴近号ID">
@@ -50,9 +50,9 @@
         </el-table>
       </section>
     </section>
-    <section class="block" v-if="rechargeList.count > 0">
+    <section class="block" v-if="rechargeListAudit.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="rechargeList.count">
+        :total="rechargeListAudit.count">
       </el-pagination>
     </section>
   </section>
@@ -62,7 +62,7 @@
 import { mapActions, mapState } from "vuex";
 export default {
   computed: {
-    ...mapState("finance", ["rechargeList"]),
+    ...mapState("finance", ["rechargeListAudit"]),
     authUser() {
       return this.$store.state.authUser;
     }
@@ -118,10 +118,10 @@ export default {
   },
   created() {
     this.financepara["auditStatus"] = "audited";
-    this.allRechargeList(this.financepara);
+    this.allRechargeListAudit(this.financepara);
   },
   methods: {
-    ...mapActions("finance", ["allRechargeList"]),
+    ...mapActions("finance", ["allRechargeListAudit"]),
     async preDownCsv() {
       let self = this;
       await self.allRechargeList2csv({
@@ -146,7 +146,7 @@ export default {
       self.financepara["page"] = self.pagenum || 1;
       self.financepara["auditStatus"] = self.recharge_type || "audited";
       self.financepara["uid"] = self.columnid || null;
-      await self.allRechargeList(self.financepara);
+      await self.allRechargeListAudit(self.financepara);
     },
     async clearSearch() {
       this.pagenum = 1;

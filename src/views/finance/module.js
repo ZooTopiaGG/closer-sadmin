@@ -71,6 +71,10 @@ export default {
       data: [],
       count: 0
     },
+    rechargeListAudit: {
+      data: [],
+      count: 0
+    },
     rechargeList2Csv: {
       data: [],
       count: 0
@@ -146,6 +150,9 @@ export default {
     },
     rechargeList2(state, para) {
       state.rechargeList2 = para
+    },
+    rechargeListAudit(state, para) {
+      state.rechargeListAudit = para
     },
     rechargeList2Csv(state, para) {
       state.rechargeList2Csv = para
@@ -654,7 +661,40 @@ export default {
           x.auditUser = x.auditUser ? x.auditUser : '-';
           return x;
         });
+        console.log('data.result===', data.result)
         commit('rechargeList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async allRechargeListAudit({
+      commit
+    }, payload) {
+      let {
+        data
+      } = await allRechargeList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        await data.result.data.map(x => {
+          x.applyTime = x.applyTime ? $async.createTime(x.applyTime, "yy-mm-dd hh:MM") : '-';
+          x.auditTime = x.auditTime ? $async.createTime(x.auditTime, "yy-mm-dd hh:MM") : '-';
+          if (x.auditStatus === "success") {
+            x.auditStatus = "通过";
+          } else if (x.auditStatus === "apply") {
+            x.auditStatus = "审核中";
+          } else {
+            x.auditStatus = "拒绝";
+          }
+          x.type = '充值';
+          x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
+          x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
+          x.auditUid = x.auditUid ? x.auditUid : '-';
+          x.auditUser = x.auditUser ? x.auditUser : '-';
+          return x;
+        });
+        console.log('data.result===', data.result)
+        commit('rechargeListAudit', data.result)
       } else {
         $message.error(data.result)
       }
