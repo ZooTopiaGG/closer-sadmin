@@ -5,7 +5,7 @@
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
           <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="所属区域">
-            <el-option v-for="item in searchregion" :key="item.region_name" :label="item.region_name" :value="item.region_id">
+            <el-option v-for="item in regionList" :key="item.region_name" :label="item.region_name" :value="item.region_id">
             </el-option>
           </el-select>
         </section>
@@ -19,7 +19,7 @@
         </section>
       </section>
       <section class="permission_table_content">
-        <el-table :data="logList.data" style="width: 100%">
+        <el-table :data="pushList.data" style="width: 100%">
           <el-table-column type="index" label="序号">
           </el-table-column>
           <el-table-column prop="phone" label="推送帖子链接">
@@ -32,7 +32,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="medium">查看贴子</el-button>
+              <el-button type="text" size="medium" @click="preview(scope.row.subjectid)">查看贴子</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -40,31 +40,42 @@
     </section>
     <el-dialog title="建立推送" :visible.sync="dialogFormVisible">
       <el-form :model="form">
+        <el-form-item label="推送城市" :label-width="formLabelWidth">
+          <section class="flex flex-align-center">
+            <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="所属区域">
+              <el-option v-for="item in regionList" :key="item.region_name" :label="item.region_name" :value="item.region_id">
+              </el-option>
+            </el-select>
+          </section>
+        </el-form-item>
         <el-form-item label="贴子链接" :label-width="formLabelWidth">
-          <el-input v-model="form.name" type="url" autocomplete="off"></el-input>
+          <el-input v-model="form.url" type="url" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="推送方式" :label-width="formLabelWidth">
-          <el-radio v-model="pushWay" label="立即推送">立即推送</el-radio>
+          <el-radio v-model="pushWay" :label="1">立即推送</el-radio>
           <!-- <el-radio v-model="pushWay" label="立即推送">立即推送</el-radio> -->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">查看贴子</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="preview(subjectid)">查看贴子</el-button>
+        <el-button type="primary" @click="sureCreatePush">确 定</el-button>
       </div>
     </el-dialog>
-    <section class="block cloumn-block" v-if="logList.count > 0">
+    <section class="block cloumn-block" v-if="pushList.count > 0">
       <el-pagination @current-change="handleCurrentChange" :current-page="pagenum" :page-size="pagesize" layout="total, prev, pager, next, jumper"
-        :total="logList.count">
+        :total="pushList.count">
       </el-pagination>
     </section>
+    <el-dialog title="手机预览" class="preview" :visible.sync="dialogVisible" width="375px">
+       <iframe :src="pre_src" frameborder="0" width="375px" height="667px"></iframe>
+    </el-dialog>
   </section>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("push", ["logList"])
+    ...mapState("push", ["regionList", "pushList"])
   },
   data() {
     return {
@@ -82,50 +93,97 @@ export default {
       },
       user_phone: "",
       dialogFormVisible: false,
+      dialogVisible: false,
       formLabelWidth: "80px",
       form: {
-        name: "",
-        region: ""
+        url: ""
       },
-      pushWay: "立即推送",
+      pushWay: 1,
       // 分页
       pagenum: 1,
       pagesize: 10,
       fliterregion: "",
-      searchregion: []
+      flitername: "",
+      searchregion: [],
+      subjectid: ""
     };
   },
   created() {
-    this.getLog(this.logpara);
     this.subjectPushList(this.pushpara);
+    this.allRegions();
   },
   methods: {
-    ...mapActions("push", ["getLog", "subjectPushList"]),
-    handleSelectRegion() {},
-    // 分页
-    handleCurrentChange(val) {
-      this.pagenum = val;
-      this.getLogList();
-    },
-    handleSelect() {
-      this.getLogList();
-    },
-    searchLog() {
-      this.pagenum = 1;
-      this.getLogList();
-    },
-    async getLogList() {
+    ...mapActions("push", ["subjectPushList", "subjectPushAdd", "allRegions"]),
+    async sureCreatePush() {
       let self = this;
-      self.logpara["page"] = self.pagenum;
-      self.logpara["phone"] = self.user_phone || "";
-      self.logpara["startTime"] = self.dataValue[0] || null;
-      self.logpara["endTime"] = self.dataValue[1] || null;
-      await self.getLog(self.logpara);
+      if (!self.fliterregion) {
+        self.$message.warning("城市必选");
+        return;
+      }
+      if (!self.pushWay) {
+        self.$message.warning("推送方式必选");
+        return;
+      }
+      if (!self.form["url"]) {
+        self.$message.warning("推送链接必填");
+        return;
+      }
+      await self.subjectPushAdd({
+        pushtype: self.pushWay,
+        subjecturl: self.form["url"],
+        regionname: self.flitername || "",
+        regionid: self.fliterregion || ""
+      });
+      // 字符串分割取id
+      self.subjectid = self.form["url"].split("feed/")[1];
+    },
+    async handleSelectRegion(item) {
+      let self = this;
+      self.fliterregion = item;
+      await self.regionList.map(x => {
+        if (x.region_id === item) {
+          self.flitername = x.region_name;
+        }
+      });
+      await self.handleSelect();
+    },
+    preview(id) {
+      let host = window.location.host,
+        url;
+      if (/sandbox.tiejin/.test(host)) {
+        url = "https://h5-sandbox.tiejin.cn";
+      } else if (/tiejin/.test(host)) {
+        url = "https://h5.tiejin.cn";
+      }
+      this.pre_src = `${url}/feed/${id}?view=pre`;
+      this.dialogVisible = true;
+    },
+    // 分页
+    async handleCurrentChange(val) {
+      this.pagenum = val;
+      await this.handleSelect();
+    },
+    async handleSelect() {
+      let self = this;
+      self.pushpara["regionid"] = self.fliterregion || "";
+      self.pushpara["pagenum"] = self.pagenum || 1;
+      await self.subjectPushList(self.pushpara);
     }
   },
   mounted() {}
 };
 </script>
+<style>
+.preview .el-dialog {
+  min-width: 375px !important;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px #333;
+}
+.preview .el-dialog__body {
+  padding: 10px 0;
+}
+</style>
+
 <style scoped="scoped">
 .labelname {
   margin-right: 10px;

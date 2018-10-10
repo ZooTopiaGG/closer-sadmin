@@ -149,6 +149,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
           </el-menu-item>
+          <el-menu-item index="推送管理"  v-if="authUser.permissions && authUser.permissions.subject">
+            <i class="el-icon-setting"></i>
+            <span slot="title">推送管理</span>
+          </el-menu-item>
           <el-menu-item index="操作日志" v-if="authUser.permissions && authUser.permissions.log">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>

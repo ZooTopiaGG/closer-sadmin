@@ -1,8 +1,10 @@
 import {
   getLog,
   subjectPushAdd,
-  subjectPushList
+  subjectPushList,
+  allRegions
 } from './service'
+import Store from '../../store.js'
 
 export default {
   namespaced: true,
@@ -10,11 +12,22 @@ export default {
     logList: {
       data: [],
       count: 0
+    },
+    regionList: [],
+    pushList: {
+      data: [],
+      count: 0
     }
   },
   mutations: {
     logList(state, para) {
       state.logList = para
+    },
+    regionList(state, para) {
+      state.regionList = para
+    },
+    pushList(state, para) {
+      state.pushList = para
     }
   },
   actions: {
@@ -48,6 +61,50 @@ export default {
       })
       if (data.code === 0) {
         console.log(data)
+        commit('pushList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async subjectPushAdd({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await subjectPushAdd(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        console.log(data)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async allRegions({
+      commit,
+      state
+    }) {
+      let {
+        data
+      } = await allRegions().catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        let p = JSON.parse,
+          ps = Store.state.authUser.pushCity,
+          narr = [];
+        if (ps && p(ps).length > 0) {
+          await p(ps).map(async x => {
+            await data.result.data.map(y => {
+              if (y.region_id === x) {
+                narr.push(y)
+              }
+            })
+          })
+          console.log(narr)
+          commit('regionList', narr)
+        }
       } else {
         $message.error(data.result)
       }

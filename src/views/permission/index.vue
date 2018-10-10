@@ -122,7 +122,7 @@
                   <span class="manage-label">推送管理权限：</span>
                   <section class="flex flex-v">
                     <el-checkbox-group v-model="checkPush" @change="handlePushChange">
-                      <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
+                      <el-checkbox :label="item.id" v-for="item in permissionlist.subject" :key="item.id">
                         {{ item.name }}
                       </el-checkbox>
                     </el-checkbox-group>
@@ -398,6 +398,7 @@ export default {
       self.checkListLog = [];
       self.checkListCity = [];
       self.checkContent = [];
+      self.checkPush = [];
       self.checkListFinance = [];
 
       self.scope_row = row;
@@ -437,8 +438,8 @@ export default {
         // push 推送管理
         if (self.checkPushCity.length > 0) {
           // 内容审核
-          if (row.permissions.push) {
-            self.checkPush = row.permissions.push.map(x => {
+          if (row.permissions.subject) {
+            self.checkPush = row.permissions.subject.map(x => {
               return x.id;
             });
           }
@@ -524,7 +525,8 @@ export default {
         self.checkListNotice,
         self.checkListCommunity,
         self.checkListConfig,
-        self.checkContent
+        self.checkContent,
+        self.checkPush
       );
       if (!$async.isPhoneNum(self.u_phone)) {
         self.$message.error("手机号格式错误！");
@@ -535,8 +537,9 @@ export default {
         phone: self.u_phone,
         username: self.u_username,
         columnCity: self.checkListColumn,
-        permissions: arr
-        // citys: self.checkListColumn2
+        permissions: arr,
+        // citys: self.checkListColumn2,
+        pushManageCity: self.checkPushCity
       });
       if (res) {
         self.outerVisible = false;
