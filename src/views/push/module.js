@@ -1,5 +1,7 @@
 import {
-  getLog
+  getLog,
+  subjectPushAdd,
+  subjectPushList
 } from './service'
 
 export default {
@@ -31,6 +33,21 @@ export default {
           return x;
         });
         commit('logList', data.result)
+      } else {
+        $message.error(data.result)
+      }
+    },
+    async subjectPushList({
+      commit,
+      state
+    }, payload) {
+      let {
+        data
+      } = await subjectPushList(payload).catch(err => {
+        $message.error('网络开小差了。。。')
+      })
+      if (data.code === 0) {
+        console.log(data)
       } else {
         $message.error(data.result)
       }

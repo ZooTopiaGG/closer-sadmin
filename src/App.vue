@@ -24,8 +24,7 @@ import sadminAside from "@/components/sadminAside.vue";
 import sadminNav from "@/components/sadminNav.vue";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     authUser() {
@@ -38,8 +37,8 @@ export default {
     sadminAside
   },
   mounted() {
-    // console.log("this.authUser===", this.authUser);
-    // console.log("this.state===", this.$store.state);
+    console.log("this.authUser===", this.authUser);
+    console.log("this.state===", this.$store.state);
   }
 };
 </script>

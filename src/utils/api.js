@@ -1,8 +1,8 @@
 let api = {
   // 测试环境api-dev.tiejin.cn
   // serverDevUrl: 'https://api-dev.tiejin.cn/command/',
-  serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
+  // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
+  serverDevUrl: 'https://api-qa.tiejin.cn/command/',
   // serverDevUrl: 'http://10.0.3.94:8080/command/',
 
   // 正式环境
@@ -216,6 +216,12 @@ let api = {
     select_class_like: 'community_class.select_class_like',
     // 修改栏目类别状态
     update_class_status: 'community_class.update_class_status'
+  },
+  push: {
+    // 建立推送
+    subject_push_add: 'closer_subject.subject_push_add',
+    // 贴子列表
+    subject_push_list: 'closer_subject.subject_push_list'
   }
 };
 export default api

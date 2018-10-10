@@ -24,11 +24,11 @@
           </el-table-column>
           <el-table-column prop="phone" label="推送帖子链接">
           </el-table-column>
-          <el-table-column prop="phone" label="推送帖子链接">
+          <el-table-column prop="phone" label="推送贴子名称">
           </el-table-column>
-          <el-table-column prop="phone" label="推送帖子链接">
+          <el-table-column prop="phone" label="推送时间">
           </el-table-column>
-          <el-table-column prop="phone" label="推送帖子链接">
+          <el-table-column prop="phone" label="推送状态">
           </el-table-column>
           <el-table-column fixed="right" label="操作">
             <template slot-scope="scope">
@@ -64,7 +64,7 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
-    ...mapState("log", ["logList"])
+    ...mapState("push", ["logList"])
   },
   data() {
     return {
@@ -74,6 +74,11 @@ export default {
         phone: "",
         startTime: null,
         endTime: null
+      },
+      pushpara: {
+        pagenum: 1,
+        pagesize: 10,
+        regionid: ""
       },
       user_phone: "",
       dialogFormVisible: false,
@@ -92,9 +97,10 @@ export default {
   },
   created() {
     this.getLog(this.logpara);
+    this.subjectPushList(this.pushpara);
   },
   methods: {
-    ...mapActions("log", ["getLog"]),
+    ...mapActions("push", ["getLog", "subjectPushList"]),
     handleSelectRegion() {},
     // 分页
     handleCurrentChange(val) {

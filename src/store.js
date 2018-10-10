@@ -14,6 +14,7 @@ import activity_question from '@/views/activity/data/question/module'
 import notice from '@/views/notice/module'
 import config from '@/views/config/module'
 import closer from '@/views/closer/module'
+import push from '@/views/push/module'
 
 Vue.use(Vuex)
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
     activity_question,
     notice,
     config,
-    closer
+    closer,
+    push
   }
 })

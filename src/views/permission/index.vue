@@ -69,7 +69,6 @@
                 </section>
                 <section class="city-column-manage manage flex">
                   <span class="manage-label">城市栏目管理员：</span>
-                  
                   <el-select v-model="checkListColumn" class="region_list" multiple placeholder="请选择">
                     <el-option
                       v-for="item in regionlist"
@@ -118,6 +117,24 @@
                       {{ item.name }}
                     </el-checkbox>
                   </el-checkbox-group>
+                </section>
+                <section class="content-manage manage flex flex-align-center">
+                  <span class="manage-label">推送管理权限：</span>
+                  <section class="flex flex-v">
+                    <el-checkbox-group v-model="checkPush" @change="handlePushChange">
+                      <el-checkbox :label="item.id" v-for="item in permissionlist.content" :key="item.id">
+                        {{ item.name }}
+                      </el-checkbox>
+                    </el-checkbox-group>
+                    <el-select v-model="checkPushCity" multiple placeholder="请选择" @change="handlePushSelect" v-show="blurCheckRegion">
+                      <el-option
+                        v-for="item in regionlist"
+                        :key="item.region_id"
+                        :label="item.region_name"
+                        :value="item.region_id">
+                      </el-option>
+                    </el-select>
+                  </section>
                 </section>
               </el-tab-pane>
               <el-tab-pane label="其他" name="其他">
@@ -268,8 +285,10 @@ export default {
       checkListCity: [],
       checkListColumn: [],
       checkListColumn2: [],
+      checkPushCity: [],
       checkListPermission: [],
       checkListLog: [],
+      checkPush: [],
       checkContent: [],
       checkListFinance: [],
       checkListData: [],
@@ -312,6 +331,11 @@ export default {
       this.getuserlist["phone"] = "";
       this.getUserList(this.getuserlist);
     },
+    handlePushChange(val) {
+      this.blurCheckRegion = val.length > 0 ? true : false;
+    },
+    // push 城市选择
+    handlePushSelect() {},
     handleSelect1() {
       this.blurCheckRegion = this.checkListColumn2.length > 0 ? true : false;
     },
@@ -409,6 +433,18 @@ export default {
           self.checkContent = row.permissions.content.map(x => {
             return x.id;
           });
+        }
+        // push 推送管理
+        if (self.checkPushCity.length > 0) {
+          // 内容审核
+          if (row.permissions.push) {
+            self.checkPush = row.permissions.push.map(x => {
+              return x.id;
+            });
+          }
+        } else {
+          // 没有城市权限， 是没有审核或者工作量查看权限
+          self.checkPush = [];
         }
         // 城市栏目
         if (row.columnCity) {
