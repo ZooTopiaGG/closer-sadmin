@@ -117,6 +117,7 @@ export default {
     };
   },
   created() {
+    this.financepara["auditStatus"] = "audited";
     this.allRechargeList(this.financepara);
   },
   methods: {
