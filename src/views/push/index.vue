@@ -11,7 +11,7 @@
         </section>
         <section class="flex flex-align-center">
           <section>
-            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;">5</span></span>
+            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;">{{ pushList.remainingCount || 5 }}</span></span>
           </section>
           <section class="flex flex-align-center" style="margin-left: 30px;" >
             <el-button type="primary" @click="dialogFormVisible = true">建立推送</el-button>
@@ -23,16 +23,20 @@
           <el-table-column type="index" label="序号">
           </el-table-column>
           <el-table-column prop="phone" label="推送帖子链接">
+            <template slot-scope="scope">
+              <span>closer://feed/{{ scope.row.subjectId }}</span>
+            </template>
           </el-table-column>
           <el-table-column prop="phone" label="推送贴子名称">
           </el-table-column>
-          <el-table-column prop="phone" label="推送时间">
+          <el-table-column prop="createTime" label="推送时间">
           </el-table-column>
-          <el-table-column prop="phone" label="推送状态">
+          <el-table-column prop="status" label="推送状态">
           </el-table-column>
-          <el-table-column fixed="right" label="操作">
+          <el-table-column fixed="right" label="操作" width="120px">
             <template slot-scope="scope">
-              <el-button type="text" size="medium" @click="preview(scope.row.subjectid)">查看贴子</el-button>
+              <el-button type="text" size="medium" @click="preview(scope.row.subjectId)">查看贴子</el-button>
+              <el-button type="text" size="medium" v-if="scope.row.status ==='已推送'" @click="preview(scope.row.subjectId)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -105,7 +109,8 @@ export default {
       fliterregion: "",
       flitername: "",
       searchregion: [],
-      subjectid: ""
+      subjectid: "",
+      pre_src: ""
     };
   },
   created() {

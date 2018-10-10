@@ -16,7 +16,8 @@ export default {
     regionList: [],
     pushList: {
       data: [],
-      count: 0
+      count: 0,
+      remainingCount: 5
     }
   },
   mutations: {
@@ -61,6 +62,10 @@ export default {
       })
       if (data.code === 0) {
         console.log(data)
+        await data.result.data.map(x => {
+          x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.status = x.status === 1 ? '已推送' : '定时推送'
+        })
         commit('pushList', data.result)
       } else {
         $message.error(data.result)
@@ -102,8 +107,9 @@ export default {
               }
             })
           })
-          console.log(narr)
           commit('regionList', narr)
+        } else {
+          commit('regionList', data.result.data)
         }
       } else {
         $message.error(data.result)
