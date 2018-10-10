@@ -47,7 +47,7 @@
         </span>
       </el-form>
       <section slot="footer" class="dialog-footer">
-        <el-button type="text">取 消</el-button>
+        <el-button type="text" @click="dialogTableVisible = false">取 消</el-button>
         <el-button type="primary" @click="f_commit_apply" :disabled="loading">
           <span v-if="loading">
               <span class="el-icon-loading"></span>
@@ -198,9 +198,6 @@ export default {
         await self.commit_apply();
       }
     }
-  },
-  mounted() {
-    console.log(";row===", this.row);
   }
 };
 </script>

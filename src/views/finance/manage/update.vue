@@ -8,9 +8,9 @@
             class="inp"
             v-model="columnName"
             :fetch-suggestions="querySearchAsync"
-            placeholder="请输入贴近号名称、企业、个人名称进行搜索"
+            placeholder="请输入贴近号名称"
             @select="handleSearch"
-          ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+          >
           </el-autocomplete>
         </section>
         <section class="flex flex-align-center" style="margin-left: 15px">

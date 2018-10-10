@@ -15,7 +15,7 @@
             :fetch-suggestions="querySearchAsync"
             placeholder="请输入栏目名称"
             @select="handleSearch"
-          ><el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
+          >
           </el-autocomplete>
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">
@@ -117,6 +117,7 @@ export default {
     };
   },
   created() {
+    this.financepara["auditStatus"] = "audited";
     this.allRechargeList(this.financepara);
   },
   methods: {

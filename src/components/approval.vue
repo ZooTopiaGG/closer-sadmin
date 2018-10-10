@@ -11,7 +11,6 @@
           </section>
           <section class="flex flex-align-center">
             <el-input v-model="columnid" placeholder="请输入栏目名称" @keyup.enter.native="handleSearch">
-              <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
             </el-input>
           </section>
           <section class="flex flex-align-center" style="margin-left: 15px">

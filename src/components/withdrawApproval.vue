@@ -47,6 +47,13 @@
       <p style="margin-bottom: 20px;">选择以下原因后拒绝：</p>
       <el-radio-group v-model="refuseLabel">
         <el-radio label="由于您的账户存在安全风险，已暂时冻结">由于您的账户存在安全风险，已暂时冻结</el-radio>
+        <el-input
+          type="textarea"
+          autosize
+          style="margin-top: 15px"
+          placeholder="输入理由"
+          v-model="reasonLabel">
+        </el-input>
       </el-radio-group>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -210,7 +217,7 @@ export default {
         para = {
           withdrawId: self.listRow.withdraw.withdrawId,
           auditStatus: "fail",
-          rejectReason: self.refuseLabel
+          rejectReason: self.reasonLabel || self.refuseLabel
         };
       }
       let res = await self.authStatus(para);

@@ -1,21 +1,31 @@
 <template>
   <section id="closerInfo" class="flex flex-v flex-align-center">
     <section class="cm flex">
-      <aside>栏目基本信息</aside>
-      <section class="flex-1">
-        <section class="flex flex-pack-justify">
-          <p><span>贴近号名称：</span><span>{{ communityInfo.community.name }}</span></p>
-          <p><span>注册手机：</span><span>{{ communityInfo.community.phone }}</span></p>
+      <aside>栏目基本信息</aside>      
+      <el-form label-position="right" label-width="120px" class="flex">
+        <section>
+          <el-form-item label="贴近号名称：">
+            <span>{{ communityInfo.community.name }}</span>
+          </el-form-item>
+          <el-form-item label="贴近号归属：">
+            <span>{{ communityInfo.region.region_name }}</span>
+          </el-form-item>
+          <el-form-item label="创建时间：">
+            <span>{{ $com.createTime(communityInfo.community.long_create_time, 'yy-mm-dd hh:MM') }}</span>
+          </el-form-item>
         </section>
-        <section class="flex flex-pack-justify">
-          <p><span>贴近号归属：</span><span>{{ communityInfo.region.region_name }}</span></p>
-          <p><span>企业/个人名称：</span><span>{{ communityInfo.community.person_name }}</span></p>
+        <section>
+          <el-form-item label="注册手机：">
+            <span>{{ communityInfo.community.phone }}</span>
+          </el-form-item>
+          <el-form-item label="企业/个人名称：">
+            <span>{{ communityInfo.community.companyname || communityInfo.community.person_name }}</span>
+          </el-form-item>
+          <el-form-item label="社会信用代码：">
+            <span>{{ communityInfo.community.business_license || noValue }}</span>
+          </el-form-item>
         </section>
-        <section class="flex flex-pack-justify">
-          <p><span>创建时间：</span><span>{{ $com.createTime(communityInfo.community.long_create_time, 'yy-mm-dd hh:MM') }}</span></p>
-          <p><span>社会信用代码：</span><span>{{ communityInfo.community.business_license || noValue }}</span></p>
-        </section>
-      </section>
+      </el-form>
     </section>
     <section class="split_line"></section>
     <section class="cm flex">
@@ -33,7 +43,7 @@
             <span>{{ communityInfo.summary.dailyAllowanceAmt / 100 }}</span>
           </p>
         </section>
-        <section>
+        <section  v-if="$route.query.from != 'audit'">
           <el-button type="primary" @click="showRechargePopup(1)">申请修改</el-button>
         </section>
       </section>
@@ -49,7 +59,7 @@
         </section>
       </section>
     </section>
-    <section class="cm cm-group-button flex">
+    <section class="cm cm-group-button flex" v-if="$route.query.from != 'audit'">
       <el-button type="primary" @click="showRechargePopup(2)">申请充值</el-button>
       <el-button type="primary" @click="showClearPopup">清空余额</el-button>
     </section>
@@ -151,7 +161,7 @@ export default {
 }
 .cm {
   margin-bottom: 30px;
-  width: 600px;
+  min-width: 680px;
 }
 .cm aside {
   margin-right: 30px;
@@ -177,5 +187,12 @@ export default {
   background: url("../assets/images/write.png") no-repeat;
   margin-left: 5px;
   background-size: cover;
+}
+.label {
+  width: 120px;
+  text-align: right;
+}
+span.label～span {
+  width: 120px;
 }
 </style>
