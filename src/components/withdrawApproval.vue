@@ -94,6 +94,7 @@ export default {
       row: "",
       dialogVisible: false,
       refuseLabel: "由于您的账户存在安全风险，已暂时冻结",
+      reasonLabel: "",
       keys: ["ID", "申请者昵称", "手机号", "身份证号", "申请金额", "申请时间"],
       values: [
         "objectID",
