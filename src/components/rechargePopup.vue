@@ -4,7 +4,7 @@
       <el-form class="userinfo2" :model="ruleForm">
         <section v-if="type === 0 || type === 1">
           <el-form-item label="当前日缓释金额" class="flex flex-align-center" >
-              <span>{{row.extend.daily_allowance}}元</span>
+              <span>{{row.extend.daily_allowance / 100 }}元</span>
           </el-form-item>
           <el-form-item label="修改额度" class="flex flex-align-center">
             <p class="flex flex-align-center">
@@ -13,7 +13,7 @@
             </p>
           </el-form-item>
           <el-form-item label="当前单一帖发放上限" class="flex flex-align-center" >
-              <span>{{ row.extend.transMaxAmt }}元</span>
+              <span>{{ row.extend.transMaxAmt / 100 }}元</span>
           </el-form-item>
           <el-form-item label="修改额度" class="flex flex-align-center">
             <p class="flex flex-align-center">
@@ -24,10 +24,10 @@
         </section>
         <section v-if="type === 2 || type === 3">
           <el-form-item label="可用余额" class="flex flex-align-center">
-            <span>{{ row.extend.total_available_Balance }}元</span>
+            <span>{{ row.extend.total_available_Balance / 100 }}元</span>
           </el-form-item>
           <el-form-item label="缓释金余额" class="flex flex-align-center">
-            <span>{{ row.extend.total_lock_balance }}元</span>
+            <span>{{ row.extend.total_lock_balance / 100 }}元</span>
           </el-form-item>
           <el-form-item label="充值" class="flex flex-align-center">
             <p class="flex flex-align-center">
