@@ -120,27 +120,31 @@ export default {
         return;
       }
       if (
-        !self.$com.isInteger(Number(self.ruleForm.give1)) ||
+        !self.$com.isInteger(self.ruleForm.give1) ||
         Number(self.ruleForm.give1) < 0
       ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
+        self.$message.warning(
+          "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
+        );
         self.loading = false;
         return false;
       }
       if (
-        !self.$com.isInteger(Number(self.ruleForm.givelimit1)) ||
+        !self.$com.isInteger(self.ruleForm.givelimit1) ||
         Number(self.ruleForm.givelimit1) < 0
       ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
+        self.$message.warning(
+          "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
+        );
         self.loading = false;
         return false;
       }
       let res = await self.updateRechargeSetting({
-        toUid: self.row.objectID, //被改政策用户ID
+        toUid: self.row.summary.uid, //被改政策用户ID
         dailyAllowanceAmt:
-          self.ruleForm.give1 * 100 || self.row.extend.daily_allowance, //每天发放额度(单位分)
+          self.ruleForm.give1 * 100 || self.row.summary.dailyAllowanceAmt / 100, //每天发放额度(单位分)
         transMaxAmt:
-          self.ruleForm.givelimit1 * 100 || self.row.extend.transMaxAmt //每个帖子能够发放的额度上线
+          self.ruleForm.givelimit1 * 100 || self.row.summary.transMaxAmt / 100 //每个帖子能够发放的额度上线
       });
       if (res) {
         self.dialogTableVisible = false;
@@ -158,28 +162,35 @@ export default {
         return;
       }
       if (
-        !self.$com.isInteger(Number(self.ruleForm.rechargeAmount)) ||
+        !self.$com.isInteger(self.ruleForm.rechargeAmount) ||
         Number(self.ruleForm.rechargeAmount) < 0
       ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
+        self.$message.warning(
+          "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
+        );
         self.loading = false;
         return false;
       }
       if (
-        !self.$com.isInteger(Number(self.ruleForm.subsidy)) ||
+        !self.$com.isInteger(self.ruleForm.subsidy) ||
         Number(self.ruleForm.subsidy) < 0
       ) {
-        self.$message.warning("请输入大于零的正整数，如1，11，111...");
+        self.$message.warning(
+          "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
+        );
         self.loading = false;
         return false;
       }
       let res = await self.commitApply({
-        toUid: self.row.objectID, //被充额度用户ID
+        toUid: self.row.summary.uid, //被充额度用户ID
         rechargeAmt:
           self.ruleForm.rechargeAmount * 100 ||
-          self.row.extend.total_available_Balance, //新增一次性到账额度(单位分)
+          self.row.wallet.availableBalance / 100, //新增一次性到账额度(单位分)
         totalAllowanceAmt:
-          self.ruleForm.subsidy * 100 || self.row.extend.total_lock_balance //新增缓释额度(单位分)
+          self.ruleForm.subsidy * 100 ||
+          (self.row.summary.totalAllowanceAmt -
+            self.row.summary.totalAllowancedAmt) /
+            100 //新增缓释额度(单位分)
       });
       if (res) {
         self.dialogTableVisible = false;

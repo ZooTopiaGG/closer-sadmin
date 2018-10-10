@@ -135,6 +135,11 @@ export default {
     let regex = /^1[^01][0-9]\d{8}$/;
     return regex.test(str)
   },
+  // 判断设为正整数
+  isInteger(str) {
+    var regex = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+    return regex.test(str)
+  },
   /**
    * 
 
@@ -201,10 +206,6 @@ export default {
         return `00:${m}`
       }
     }
-  },
-  // 判断设为正整数
-  isInteger(obj) {
-    return typeof obj === 'number' && obj % 1 === 0
   },
   clipBorad(value, callback) {
     const input = document.createElement('input');

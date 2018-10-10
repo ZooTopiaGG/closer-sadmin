@@ -54,7 +54,7 @@
               <span>{{ scope.row.long_view }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="transStatus" label="稿费发放">
+          <el-table-column prop="sendPeopleNames" label="稿费发放人员">
           </el-table-column>
           <el-table-column prop="sendPeopleNum" label="发放人数">
           </el-table-column>
@@ -133,16 +133,12 @@ export default {
         self.rechargeList2Csv.data,
         self.keys,
         self.values,
-        `${name}贴近号-${self.months}稿费记录-稿件数量：${
-          self.feeTotal.totalSubjectSize
-        }-稿费数额：${self.feeTotal.totalFee / 100}-发放稿费人次：${
-          self.feeTotal.totalSendManTimes
-        }`
+        `${name}贴近号-${self.months}稿费记录`
       );
     },
     async handleSelect() {
       let self = this;
-      self.financepara["month"] = self.months || null;
+      self.page = 1;
       await self.getColumnaList();
       await self.subjectFeeTotal({
         month: self.months || null,
@@ -154,7 +150,7 @@ export default {
       self.dataValue = "";
       self.page = 1;
       self.financepara["month"] = self.months || null;
-      self.financepara["page"] = 1;
+      self.months;
       await self.getColumnaList();
       await self.subjectFeeTotal({
         month: self.months || null,
@@ -164,12 +160,13 @@ export default {
     async handleCurrentChange1(val) {
       let self = this;
       self.page = val;
-      self.financepara["page"] = self.page;
       await self.getColumnaList();
     },
     // 获取栏目列表
     async getColumnaList() {
       let self = this;
+      self.financepara["page"] = self.page || 1;
+      self.financepara["month"] = self.months || null;
       await self.subjectFeeList(self.financepara);
     }
   }
