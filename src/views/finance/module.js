@@ -1016,7 +1016,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.applyTime = $async.createTime(x.apply_time, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
             x.auditStatus = "通过";
@@ -1046,7 +1046,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.applyTime = $async.createTime(x.apply_time, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
             x.auditStatus = "通过";
