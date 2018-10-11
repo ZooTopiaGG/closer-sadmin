@@ -127,7 +127,8 @@ export default {
     async preDownCsv() {
       let self = this;
       await self.allRechargeList2csv({
-        auditStatus: self.recharge_type || "audited"
+        auditStatus: self.recharge_type || "audited",
+        uid: self.columnid || ""
       });
       await self.json2csv(
         self.rechargeList2Csv.data,
