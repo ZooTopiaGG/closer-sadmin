@@ -244,6 +244,14 @@ const router = new Router({
       keepAlive: true
     }
   }, {
+    path: '/push',
+    name: 'push',
+    component: () =>
+      import ('./views/push/index.vue'),
+    meta: {
+      keepAlive: true
+    }
+  }, {
     path: '/statistic',
     name: 'statistic',
     component: () =>
@@ -401,6 +409,9 @@ router.beforeEach((to, from, next) => {
       break;
     case 'group_message_remind':
       store.state.activeIndex = '群消息智能提示设置';
+      break;
+    case 'push':
+      store.state.activeIndex = '推送管理';
       break;
     default:
       store.state.activeIndex = '/'

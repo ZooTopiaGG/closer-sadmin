@@ -37,8 +37,8 @@ export default {
     sadminAside
   },
   mounted() {
-    // console.log("this.authUser===", this.authUser);
-    // console.log("this.state===", this.$store.state);
+    console.log("this.authUser===", this.authUser);
+    console.log("this.state===", this.$store.state);
   }
 };
 </script>
