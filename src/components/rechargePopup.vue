@@ -119,20 +119,14 @@ export default {
         self.loading = false;
         return;
       }
-      if (
-        !self.$com.isInteger(self.ruleForm.give1) ||
-        Number(self.ruleForm.give1) < 0
-      ) {
+      if (!self.$com.isInteger(self.ruleForm.give1)) {
         self.$message.warning(
           "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
         );
         self.loading = false;
         return false;
       }
-      if (
-        !self.$com.isInteger(self.ruleForm.givelimit1) ||
-        Number(self.ruleForm.givelimit1) < 0
-      ) {
+      if (!self.$com.isInteger(self.ruleForm.givelimit1)) {
         self.$message.warning(
           "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
         );
@@ -161,20 +155,14 @@ export default {
         self.loading = false;
         return;
       }
-      if (
-        !self.$com.isInteger(self.ruleForm.rechargeAmount) ||
-        Number(self.ruleForm.rechargeAmount) < 0
-      ) {
+      if (!self.$com.isInteger(self.ruleForm.rechargeAmount)) {
         self.$message.warning(
           "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
         );
         self.loading = false;
         return false;
       }
-      if (
-        !self.$com.isInteger(self.ruleForm.subsidy) ||
-        Number(self.ruleForm.subsidy) < 0
-      ) {
+      if (!self.$com.isInteger(self.ruleForm.subsidy)) {
         self.$message.warning(
           "请输入大于零且最多保留两位小数的正实数，如1.01，1.1，111..."
         );
@@ -188,9 +176,7 @@ export default {
           self.row.wallet.availableBalance / 100, //新增一次性到账额度(单位分)
         totalAllowanceAmt:
           self.ruleForm.subsidy * 100 ||
-          (self.row.summary.totalAllowanceAmt -
-            self.row.summary.totalAllowancedAmt) /
-            100 //新增缓释额度(单位分)
+          self.row.summary.total_allowance_remain / 100 //新增缓释额度(单位分)
       });
       if (res) {
         self.dialogTableVisible = false;

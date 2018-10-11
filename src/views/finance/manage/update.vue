@@ -178,7 +178,8 @@ export default {
         summary: {
           dailyAllowanceAmt: row.extend.daily_allowance,
           transMaxAmt: row.extend.transMaxAmt,
-          total_allowance_remain: row.extend.total_allowance_remain
+          total_allowance_remain: row.extend.total_allowance_remain,
+          uid: row.objectID
         },
         wallet: {
           availableBalance: row.extend.total_available_Balance

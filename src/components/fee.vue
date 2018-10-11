@@ -36,7 +36,7 @@
           </el-table-column>
           <el-table-column label="来源">
             <template slot-scope="scope">
-              <span>{{ scope.row.int_release_type }}</span>
+              <span>{{ scope.row.isOffical }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="create_time" label="标题">
@@ -100,7 +100,7 @@ export default {
         "发放总量"
       ],
       values: [
-        "int_release_type",
+        "isOffical",
         "title",
         "long_publish_time",
         "long_view",
