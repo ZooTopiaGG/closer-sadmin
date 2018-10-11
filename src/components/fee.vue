@@ -95,7 +95,7 @@ export default {
         "标题",
         "发布时间",
         "总阅读量",
-        "稿费发放",
+        "稿费发放人员",
         "发放人数",
         "发放总量"
       ],
@@ -104,7 +104,7 @@ export default {
         "title",
         "long_publish_time",
         "long_view",
-        "transStatus",
+        "sendPeopleNames",
         "sendPeopleNum",
         "totalFee"
       ]
