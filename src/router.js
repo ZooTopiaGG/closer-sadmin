@@ -85,49 +85,31 @@ const router = new Router({
     name: 'manage_update',
     component: () =>
       import ('./views/finance/manage/update.vue'),
-    meta: {
-      keepAlive: true
-    }
   }, {
     path: '/finance/manage/review',
     name: 'manage_review',
     component: () =>
       import ('./views/finance/manage/review.vue'),
-    meta: {
-      keepAlive: true
-    }
   }, {
     path: '/finance/records',
     name: 'records',
     component: () =>
       import ('./views/finance/records.vue'),
-    meta: {
-      keepAlive: true
-    },
     children: [{
       path: '/finance/records/column',
       name: 'records_column',
       component: () =>
         import ('./views/finance/records/column.vue'),
-      meta: {
-        keepAlive: true
-      }
     }, {
       path: '/finance/records/apply',
       name: 'records_apply',
       component: () =>
         import ('./views/finance/records/apply.vue'),
-      meta: {
-        keepAlive: true
-      }
     }, {
       path: '/finance/records/user',
       name: 'records_user',
       component: () =>
         import ('./views/finance/records/user.vue'),
-      meta: {
-        keepAlive: true
-      }
     }, ]
   }, {
     path: '/finance/withdraw',
@@ -142,17 +124,11 @@ const router = new Router({
       name: 'withdraw_audited',
       component: () =>
         import ('./views/finance/withdraw/audited.vue'),
-      meta: {
-        keepAlive: true
-      }
     }, {
       path: '/finance/withdraw/applying',
       name: 'withdraw_applying',
       component: () =>
         import ('./views/finance/withdraw/applying.vue'),
-      meta: {
-        keepAlive: true
-      }
     }]
   }, {
     path: '/finance/withdraw/details',
