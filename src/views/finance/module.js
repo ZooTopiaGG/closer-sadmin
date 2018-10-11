@@ -1084,10 +1084,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        await data.result.data.map(x => {
-          x.summary.total_allowance_remain = x.summary.totalAllowanceAmt - x.summary.totalAllowancedAmt
-          return x;
-        });
+        data.result.summary.total_allowance_remain = data.result.summary.totalAllowanceAmt - data.result.summary.totalAllowancedAmt
         commit('communityInfo', data.result)
       } else {
         $message.error(data.result)
