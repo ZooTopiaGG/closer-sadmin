@@ -135,8 +135,10 @@ export default {
       }
       let res = await self.updateRechargeSetting({
         toUid: self.row.summary.uid, //被改政策用户ID
-        dailyAllowanceAmt: self.ruleForm.give1 * 100 || 0, //每天发放额度(单位分)
-        transMaxAmt: self.ruleForm.givelimit1 * 100 || 0 //每个帖子能够发放的额度上线
+        dailyAllowanceAmt:
+          self.ruleForm.give1 * 100 || self.row.summary.dailyAllowanceAmt / 100, //每天发放额度(单位分)
+        transMaxAmt:
+          self.ruleForm.givelimit1 * 100 || self.row.summary.transMaxAmt / 100 //每个帖子能够发放的额度上线
       });
       if (res) {
         self.dialogTableVisible = false;
