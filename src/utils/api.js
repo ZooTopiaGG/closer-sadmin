@@ -32,6 +32,8 @@ let api = {
     show: 'closer_region_superadmin.show',
     // 修改城市（权限验证待加）
     update: 'closer_region_superadmin.update',
+    // 查询全部城市
+    all_regions: 'closer_region_superadmin.all_regions'
   },
   // 栏目管理接口
   community: {
