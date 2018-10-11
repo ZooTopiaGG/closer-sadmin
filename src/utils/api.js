@@ -1,8 +1,8 @@
 let api = {
   // 测试环境api-dev.tiejin.cn
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
-  // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
+  // serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
+  serverDevUrl: 'https://api-qa.tiejin.cn/command/',
   // serverDevUrl: 'http://10.3.0.72:8080/command/',
 
   // 正式环境
@@ -32,6 +32,8 @@ let api = {
     show: 'closer_region_superadmin.show',
     // 修改城市（权限验证待加）
     update: 'closer_region_superadmin.update',
+    // 查询全部城市
+    all_regions: 'closer_region_superadmin.all_regions'
   },
   // 栏目管理接口
   community: {
@@ -232,6 +234,12 @@ let api = {
     select_class_like: 'community_class.select_class_like',
     // 修改栏目类别状态
     update_class_status: 'community_class.update_class_status'
+  },
+  push: {
+    // 建立推送
+    subject_push_add: 'closer_subject.subject_push_add',
+    // 贴子列表
+    subject_push_list: 'closer_subject.subject_push_list'
   }
 };
 export default api
