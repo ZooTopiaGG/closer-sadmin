@@ -1,6 +1,6 @@
 <template>
   <section id="permission" class="flex flex-v">
-    <section class="permission_title">操作日志</section>
+    <section class="permission_title">推送管理</section>
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
         <section class="flex flex-align-center">
@@ -14,7 +14,7 @@
             <span>今日剩余推送次数：<span style="color: red; font-size: 18px;">{{ pushList.remainingCount || 5 }}</span></span>
           </section>
           <section class="flex flex-align-center" style="margin-left: 30px;" >
-            <el-button type="primary" @click="dialogFormVisible = true">建立推送</el-button>
+            <el-button type="primary" @click="createPush">建立推送</el-button>
           </section>
         </section>
       </section>
@@ -22,12 +22,12 @@
         <el-table :data="pushList.data" style="width: 100%">
           <el-table-column type="index" label="序号">
           </el-table-column>
-          <el-table-column prop="phone" label="推送帖子链接">
+          <el-table-column label="推送帖子链接">
             <template slot-scope="scope">
               <span>closer://feed/{{ scope.row.subjectId }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="phone" label="推送贴子名称">
+          <el-table-column prop="subjectName" label="推送贴子名称">
           </el-table-column>
           <el-table-column prop="createTime" label="推送时间">
           </el-table-column>
@@ -36,7 +36,7 @@
           <el-table-column fixed="right" label="操作" width="120px">
             <template slot-scope="scope">
               <el-button type="text" size="medium" @click="preview(scope.row.subjectId)">查看贴子</el-button>
-              <el-button type="text" size="medium" v-if="scope.row.status ==='已推送'" @click="preview(scope.row.subjectId)">删除</el-button>
+              <el-button type="text" size="medium" v-if="scope.row.status ==='定时推送'" @click="preview(scope.row.subjectId)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -44,16 +44,13 @@
     </section>
     <el-dialog title="建立推送" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="推送城市" :label-width="formLabelWidth">
+        <el-form-item>
           <section class="flex flex-align-center">
-            <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="所属区域">
-              <el-option v-for="item in regionList" :key="item.region_name" :label="item.region_name" :value="item.region_id">
-              </el-option>
-            </el-select>
+            <span>当前推送城市：<span style="color: red">{{ flitername }}</span></span>
           </section>
         </el-form-item>
         <el-form-item label="贴子链接" :label-width="formLabelWidth">
-          <el-input v-model="form.url" type="url" autocomplete="off"></el-input>
+          <el-input v-model="form.url" type="url"></el-input>
         </el-form-item>
         <el-form-item label="推送方式" :label-width="formLabelWidth">
           <el-radio v-model="pushWay" :label="1">立即推送</el-radio>
@@ -61,7 +58,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="preview(subjectid)">查看贴子</el-button>
+        <el-button @click="preview2(subjectid)">查看贴子</el-button>
         <el-button type="primary" @click="sureCreatePush">确 定</el-button>
       </div>
     </el-dialog>
@@ -79,21 +76,17 @@
 import { mapState, mapActions } from "vuex";
 export default {
   computed: {
+    authUser() {
+      return this.$store.state.authUser;
+    },
     ...mapState("push", ["regionList", "pushList"])
   },
   data() {
     return {
-      logpara: {
-        page: 1,
-        count: 10,
-        phone: "",
-        startTime: null,
-        endTime: null
-      },
       pushpara: {
         pagenum: 1,
         pagesize: 10,
-        regionid: ""
+        regionid: "0"
       },
       user_phone: "",
       dialogFormVisible: false,
@@ -114,11 +107,26 @@ export default {
     };
   },
   created() {
-    this.subjectPushList(this.pushpara);
-    this.allRegions();
+    let self = this;
+    let city =
+      self.authUser.type === 1 ? "0" : JSON.parse(self.authUser.pushCity)[0];
+    self.pushpara["regionid"] = city;
+    self.subjectPushList(self.pushpara);
+    self.allRegions();
+    self.fliterregion = city;
   },
   methods: {
     ...mapActions("push", ["subjectPushList", "subjectPushAdd", "allRegions"]),
+    async createPush() {
+      let self = this;
+      self.form["url"] = "";
+      await self.regionList.map(x => {
+        if (x.region_id === self.fliterregion) {
+          self.flitername = x.region_name;
+        }
+      });
+      self.dialogFormVisible = true;
+    },
     async sureCreatePush() {
       let self = this;
       if (!self.fliterregion) {
@@ -139,8 +147,11 @@ export default {
         regionname: self.flitername || "",
         regionid: self.fliterregion || ""
       });
-      // 字符串分割取id
-      self.subjectid = self.form["url"].split("feed/")[1];
+      setTimeout(async () => {
+        self.pagenum = 1;
+        await self.handleSelect();
+      }, 2000);
+      self.dialogFormVisible = false;
     },
     async handleSelectRegion(item) {
       let self = this;
@@ -163,6 +174,16 @@ export default {
       this.pre_src = `${url}/feed/${id}?view=pre`;
       this.dialogVisible = true;
     },
+    async preview2() {
+      let self = this;
+      if (!self.form["url"]) {
+        self.$message.warning("推送链接必填");
+        return;
+      }
+      // 字符串分割取id
+      self.subjectid = self.form["url"].split("feed/")[1];
+      await self.preview(self.subjectid);
+    },
     // 分页
     async handleCurrentChange(val) {
       this.pagenum = val;
@@ -174,8 +195,7 @@ export default {
       self.pushpara["pagenum"] = self.pagenum || 1;
       await self.subjectPushList(self.pushpara);
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style>

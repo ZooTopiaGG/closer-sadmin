@@ -81,7 +81,7 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        console.log(data)
+        $message.success('操作成功！')
       } else {
         $message.error(data.result)
       }
