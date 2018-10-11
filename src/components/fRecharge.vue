@@ -103,6 +103,7 @@ export default {
         "一次性到账金额",
         "缓释金额",
         "申请时间",
+        "审批时间",
         "审核结果"
       ],
       values: [
@@ -112,6 +113,7 @@ export default {
         "rechargeAmt",
         "totalAllowanceAmt",
         "applyTime",
+        "auditTime",
         "auditStatus"
       ]
     };
