@@ -132,9 +132,10 @@ export default {
     },
     // table操作
     handleClick(id) {
-      this.$router.push({
-        path: "/content/read?id=" + id
-      });
+      window.open(`/content/read?id=${id}`);
+      // this.$router.push({
+      //   path: "/content/read?id=" + id
+      // });
     },
     // 日期查询
     handleSelect() {

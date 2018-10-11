@@ -116,9 +116,6 @@ const router = new Router({
     name: 'withdraw',
     component: () =>
       import ('./views/finance/withdraw/index.vue'),
-    meta: {
-      keepAlive: true
-    },
     children: [{
       path: '/finance/withdraw/audited',
       name: 'withdraw_audited',

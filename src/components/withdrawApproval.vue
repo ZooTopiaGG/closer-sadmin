@@ -146,9 +146,10 @@ export default {
     // 改版
     handleLook(row) {
       window.sessionStorage.setItem("closer_user_info", JSON.stringify(row));
-      this.$router.push({
-        path: `/finance/withdraw/details?id=${row.objectID}`
-      });
+      window.open(`/finance/withdraw/details?id=${row.objectID}`);
+      // this.$router.push({
+      //   path: `/finance/withdraw/details?id=${row.objectID}`
+      // });
     },
     async showDialog(type, row) {
       let self = this;
