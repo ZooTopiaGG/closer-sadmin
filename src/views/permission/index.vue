@@ -399,8 +399,10 @@ export default {
       self.checkListCity = [];
       self.checkContent = [];
       self.checkPush = [];
+      self.checkPushCity = row.pushManageCity
+        ? JSON.parse(row.pushManageCity)
+        : [];
       self.checkListFinance = [];
-
       self.scope_row = row;
       await self.getPermissionList();
       self.u_username = row.username;
@@ -437,6 +439,7 @@ export default {
         }
         // push 推送管理
         if (self.checkPushCity.length > 0) {
+          self.blurCheckRegion = true;
           // 内容审核
           if (row.permissions.subject) {
             self.checkPush = row.permissions.subject.map(x => {

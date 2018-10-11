@@ -82,8 +82,10 @@ export default {
       })
       if (data.code === 0) {
         $message.success('操作成功！')
+        return true
       } else {
         $message.error(data.result)
+        return false
       }
     },
     async allRegions({
