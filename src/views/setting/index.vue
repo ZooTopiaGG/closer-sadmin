@@ -304,15 +304,18 @@ export default {
       }
     },
     spread(row) {
-      this.$router.push({
-        path: `/statistic/spread/${row.planid}?type=${row.name}`
-      });
+      window.open(`/statistic/spread/${row.planid}?type=${row.name}`);
+
+      // this.$router.push({
+      //   path: `/statistic/spread/${row.planid}?type=${row.name}`
+      // });
     },
     retain() {
+      window.open(`/statistic/retain/channel/8asd19ds`);
       // channel渠道  plan推广  activity活动
-      this.$router.push({
-        path: `/statistic/retain/channel/8asd19ds`
-      });
+      // this.$router.push({
+      //   path: `/statistic/retain/channel/8asd19ds`
+      // });
     },
     // 获取渠道或者推广计划列表 包括搜索
     async getList() {

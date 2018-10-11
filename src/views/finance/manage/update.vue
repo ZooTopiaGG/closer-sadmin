@@ -197,15 +197,17 @@ export default {
     },
     handleLook(row) {
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
-      this.$router.push({
-        path: `/finance/closer?type=info&id=${row.objectID}&from=apply`
-      });
+      window.open(`/finance/closer?type=info&id=${row.objectID}&from=apply`);
+      // this.$router.push({
+      //   path: `/finance/closer?type=info&id=${row.objectID}&from=apply`
+      // });
     },
     handleRecords(row) {
       window.sessionStorage.setItem("closer_cloumn_row", JSON.stringify(row));
-      this.$router.push({
-        path: `/finance/closer?type=recharge&id=${row.objectID}&from=apply`
-      });
+      window.open(`/finance/closer?type=info&id=${row.objectID}&from=apply`);
+      // this.$router.push({
+      //   path: `/finance/closer?type=recharge&id=${row.objectID}&from=apply`
+      // });
     }
   }
 };
