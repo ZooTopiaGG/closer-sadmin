@@ -216,7 +216,7 @@ export default {
       textarea2: "",
       row: {},
       // 上传地址
-      uploadUrl: `${api.filePath}${api.file}`,
+      uploadUrl: `${server.filePath}${server.file}`,
       res: {},
       operationtype: 0, // 操作类型
       // dialog

@@ -347,7 +347,7 @@ export default {
       selfRow: {},
       title2: "",
       // 上传地址
-      uploadUrl: `${api.filePath}${api.file}`,
+      uploadUrl: `${server.filePath}${server.file}`,
       columnerphone: "",
       state5: "",
       // 分页
@@ -617,7 +617,7 @@ export default {
           // 本地展示图片
           this.ruleForm.frontCredUrl = URL.createObjectURL(file.raw);
           // 线上图片 上传到服务器
-          this.ruleForm.frontCredOnlineUrl = api.filePath + res.result.url;
+          this.ruleForm.frontCredOnlineUrl = server.filePath + res.result.url;
           // res.result.attributes //图片属性
         } else {
           this.$meeage.error(res.result);
@@ -635,7 +635,7 @@ export default {
           // 本地展示图片
           this.ruleForm.backCredUrl = URL.createObjectURL(file.raw);
           // 线上图片 上传到服务器
-          this.ruleForm.backCredOnlineUrl = api.filePath + res.result.url;
+          this.ruleForm.backCredOnlineUrl = server.filePath + res.result.url;
           // res.result.attributes //图片属性
         } else {
           this.$meeage.error(res.result);
@@ -653,7 +653,8 @@ export default {
           // 本地展示图片
           this.ruleForm.frontHandCredUrl = URL.createObjectURL(file.raw);
           // 线上图片 上传到服务器
-          this.ruleForm.frontHandCredOnlineUrl = api.filePath + res.result.url;
+          this.ruleForm.frontHandCredOnlineUrl =
+            server.filePath + res.result.url;
           // res.result.attributes //图片属性
         } else {
           this.$meeage.error(res.result);
@@ -671,7 +672,8 @@ export default {
           // 本地展示图片
           this.ruleForm.frontLicenseUrl = URL.createObjectURL(file.raw);
           // 线上图片 上传到服务器
-          this.ruleForm.frontLicenseOnlineUrl = api.filePath + res.result.url;
+          this.ruleForm.frontLicenseOnlineUrl =
+            server.filePath + res.result.url;
           // res.result.attributes //图片属性
         } else {
           this.$meeage.error(res.result);
@@ -690,7 +692,7 @@ export default {
           // 本地展示图片
           this.ruleForm.blogoUrl = URL.createObjectURL(file.raw);
           // 线上图片 上传到服务器
-          this.ruleForm.blogoOnlineUrl = api.filePath + res.result.url;
+          this.ruleForm.blogoOnlineUrl = server.filePath + res.result.url;
           // res.result.attributes //图片属性
           self.imageSize =
             res.result.attributes.dimensions.width === 164 &&
@@ -1061,7 +1063,7 @@ export default {
       });
       if (res) {
         self.copyInviteValue = res.invite_code;
-        self.copyInviteLink = api.invitepath + res.invite_code;
+        self.copyInviteLink = server.invitepath + res.invite_code;
         self.innerVisible2 = true;
       }
     },
