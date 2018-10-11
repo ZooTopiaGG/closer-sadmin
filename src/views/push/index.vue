@@ -160,7 +160,7 @@ export default {
       });
       await self.handleSelect();
     },
-    preview(id) {
+    preview(id, _src) {
       let host = window.location.host,
         url;
       if (/sandbox.tiejin/.test(host)) {
@@ -168,7 +168,7 @@ export default {
       } else if (/tiejin/.test(host)) {
         url = "https://h5.tiejin.cn";
       }
-      this.pre_src = `${url}/feed/${id}?view=pre`;
+      this.pre_src = _src ? _src : `${url}/feed/${id}?view=pre`;
       this.dialogVisible = true;
     },
     async preview2() {
@@ -178,8 +178,8 @@ export default {
         return;
       }
       // 字符串分割取id
-      self.subjectid = self.form["url"].split("feed/")[1];
-      await self.preview(self.subjectid);
+      // self.subjectid = self.form["url"].split("feed/")[1];
+      await self.preview(0, self.form["url"]);
     },
     // 分页
     async handleCurrentChange(val) {
