@@ -47,7 +47,7 @@ Vue.mixin({
             title: $key,
             key: $value,
             formatter: function (n, v) {
-              if (n === 'createTime' || n === 'applyTime' || n === 'updateTime' || n === 'auditedTime' || n === 'auditTime' || n === "long_publish_time") return `Time: ${v}`;
+              if (n === 'createTime' || n === 'applyTime' || n === 'apply_time' || n === 'updateTime' || n === 'auditedTime' || n === 'auditTime' || n === "long_publish_time") return `Time: ${v}`;
               if (n === 'userPhone') return `Tel: ${v}`;
               if (n === 'certNo') return `Cert: ${v}`;
               if (n === 'payeeAccount') return `AliPay: ${v}`;

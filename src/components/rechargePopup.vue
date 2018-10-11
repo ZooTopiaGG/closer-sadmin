@@ -135,10 +135,8 @@ export default {
       }
       let res = await self.updateRechargeSetting({
         toUid: self.row.summary.uid, //被改政策用户ID
-        dailyAllowanceAmt:
-          self.ruleForm.give1 * 100 || self.row.summary.dailyAllowanceAmt / 100, //每天发放额度(单位分)
-        transMaxAmt:
-          self.ruleForm.givelimit1 * 100 || self.row.summary.transMaxAmt / 100 //每个帖子能够发放的额度上线
+        dailyAllowanceAmt: self.ruleForm.give1 * 100 || 0, //每天发放额度(单位分)
+        transMaxAmt: self.ruleForm.givelimit1 * 100 || 0 //每个帖子能够发放的额度上线
       });
       if (res) {
         self.dialogTableVisible = false;
@@ -171,12 +169,8 @@ export default {
       }
       let res = await self.commitApply({
         toUid: self.row.summary.uid, //被充额度用户ID
-        rechargeAmt:
-          self.ruleForm.rechargeAmount * 100 ||
-          self.row.wallet.availableBalance / 100, //新增一次性到账额度(单位分)
-        totalAllowanceAmt:
-          self.ruleForm.subsidy * 100 ||
-          self.row.summary.total_allowance_remain / 100 //新增缓释额度(单位分)
+        rechargeAmt: self.ruleForm.rechargeAmount * 100 || 0, //新增一次性到账额度(单位分)
+        totalAllowanceAmt: self.ruleForm.subsidy * 100 || 0 //新增缓释额度(单位分)
       });
       if (res) {
         self.dialogTableVisible = false;

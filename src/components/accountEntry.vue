@@ -36,7 +36,7 @@
       <!-- table 修改查看操作 -->
       <section class="permission_table_content" style="margin-top: 0;">
         <el-table :data="serialList.data" style="width: 100%">
-          <el-table-column fixed prop="transChannel" label="类型">
+          <el-table-column fixed prop="channelName" label="类型">
           </el-table-column>
           <el-table-column prop="transAmt" label="金额">
           </el-table-column>
@@ -46,7 +46,7 @@
             <template slot-scope="scope">
               <section class="flex flex-align-center">
                 <span>{{ scope.row.transRemark }}</span>
-                <el-button type="text" v-if="scope.row.transChannel==='稿费'" @click="toPreview(scope.row)">查看贴子</el-button>
+                <el-button type="text" v-if="scope.row.channelName==='稿费'" @click="toPreview(scope.row)">查看贴子</el-button>
               </section>
             </template>
           </el-table-column>
@@ -162,7 +162,7 @@ export default {
         }
       ],
       keys: ["类型", "金额", "到账时间", "说明"],
-      values: ["transChannel", "transAmt", "createTime", "transRemark"]
+      values: ["channelName", "transAmt", "createTime", "transRemark"]
     };
   },
   created() {

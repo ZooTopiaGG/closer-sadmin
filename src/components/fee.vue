@@ -34,25 +34,13 @@
               <img v-lazy="scope.row.blogo" alt="logo" width='93.75' height="36.5">
             </template>
           </el-table-column>
-          <el-table-column label="来源">
-            <template slot-scope="scope">
-              <span>{{ scope.row.isOffical }}</span>
-            </template>
+          <el-table-column prop="isOffical" label="来源">
           </el-table-column>
-          <el-table-column prop="create_time" label="标题">
-            <template slot-scope="scope">
-              <span>{{ scope.row.title }}</span>
-            </template>
+          <el-table-column prop="title" label="标题">
           </el-table-column>
-          <el-table-column label="发布时间">
-            <template slot-scope="scope">
-              <span>{{ scope.row.long_publish_time }}</span>
-            </template>
+          <el-table-column prop="long_publish_time" label="发布时间">
           </el-table-column>
-          <el-table-column label="总阅读量">
-            <template slot-scope="scope">
-              <span>{{ scope.row.long_view }}</span>
-            </template>
+          <el-table-column prop="long_view" label="总阅读量">
           </el-table-column>
           <el-table-column prop="sendPeopleNames" label="稿费发放人员">
           </el-table-column>
