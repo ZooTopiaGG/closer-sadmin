@@ -138,17 +138,17 @@ export default {
         self.$message.warning("推送链接必填");
         return;
       }
-      await self.subjectPushAdd({
+      let res = await self.subjectPushAdd({
         pushtype: self.pushWay,
         subjecturl: self.form["url"],
         regionname: self.flitername || "",
         regionid: self.fliterregion || ""
       });
+      self.dialogFormVisible = res;
       setTimeout(async () => {
         self.pagenum = 1;
         await self.handleSelect();
       }, 2000);
-      self.dialogFormVisible = false;
     },
     async handleSelectRegion(item) {
       let self = this;
