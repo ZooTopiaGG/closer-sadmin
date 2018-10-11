@@ -22,10 +22,7 @@
         <el-table :data="pushList.data" style="width: 100%">
           <el-table-column type="index" label="序号">
           </el-table-column>
-          <el-table-column label="推送帖子链接">
-            <template slot-scope="scope">
-              <span>closer://feed/{{ scope.row.subjectId }}</span>
-            </template>
+          <el-table-column prop="link" label="推送帖子链接">
           </el-table-column>
           <el-table-column prop="subjectName" label="推送贴子名称">
           </el-table-column>

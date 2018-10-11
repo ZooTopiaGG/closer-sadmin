@@ -515,7 +515,6 @@ export default {
     async modifyPermission() {
       let self = this;
       // checkListLog, checkListCity, checkListPermission, checkContent
-      console.log("self.checkListFinance===", self.checkListFinance);
       let arr = await self.checkListPermission.concat(
         self.checkListCity,
         self.checkListFinance,

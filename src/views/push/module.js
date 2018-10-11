@@ -61,10 +61,10 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        console.log(data)
         await data.result.data.map(x => {
           x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
-          x.status = x.status === 1 ? '已推送' : '定时推送'
+          x.status = x.status === 1 ? '已推送' : '定时推送';
+          x.link = Store.state.IS_DEV ? `https://h5-sandbox.tiejin.cn/feed/${x.subjectId}` : `https://h5.tiejin.cn/feed/${x.subjectId}`
         })
         commit('pushList', data.result)
       } else {

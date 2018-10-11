@@ -111,7 +111,6 @@ export default {
       })
       if (data.code === 0) {
         dispatch('getRegionList', payload)
-        console.log('data.result===', data.result)
         commit('permissionlist', data.result)
       } else {
         $message.error(data.result);
