@@ -27,7 +27,7 @@
             <span>{{ row.wallet.availableBalance / 100 }}元</span>
           </el-form-item>
           <el-form-item label="未解冻余额" class="flex flex-align-center">
-            <span>{{ (row.summary.totalAllowanceAmt - row.summary.totalAllowancedAmt) / 100 }}元</span>
+            <span>{{ (row.summary.total_allowance_remain) / 100 }}元</span>
           </el-form-item>
           <el-form-item label="充值" class="flex flex-align-center">
             <p class="flex flex-align-center">

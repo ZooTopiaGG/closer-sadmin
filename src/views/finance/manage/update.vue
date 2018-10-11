@@ -71,7 +71,7 @@
         </el-table>
       </section>
       <section v-if="dialogTableVisible">
-        <recharge-popup :title="title" :type="type" @visible="visible" :row="row"></recharge-popup> 
+        <recharge-popup :title="title" :type="type" @visible="visible" :row="communityInfo"></recharge-popup> 
       </section>
     </section>
     <section class="block" v-if="communityRecordsList.count > 0">
@@ -169,43 +169,21 @@ export default {
       self.financepara["page"] = self.pagenum || 1;
       await self.communityRecords(self.financepara);
     },
-    // 改政策查看 community_detail 改政策commit_apply 同意recharge_audit
-    async lookAndModify() {
-      let self = this;
-      self.loading = false;
-      let res = await self.communityDetail({
-        communityId: self.row.objectID
-      });
-      if (res) {
-        self.ruleForm = {
-          name: self.row.name,
-          regionName: self.row.regionName,
-          balance: res.UMSWallet.availableBalance / 100,
-          allsubsidy: res.UMSWalletRechargeSummary.totalAllowancedAmt / 100,
-          give: res.UMSWalletRechargeSummary.dailyAllowanceAmt / 100,
-          givelimit: res.UMSWalletRechargeSummary.transMaxAmt / 100,
-          rechargeAmount: "",
-          subsidy: "",
-          give1: res.UMSWalletRechargeSummary.dailyAllowanceAmt / 100,
-          givelimit1: res.UMSWalletRechargeSummary.transMaxAmt / 100
-        };
-      }
-    },
-    // table操作
-    async handleClick(row, type) {
-      let self = this;
-      self.row = row;
-      self.type = type;
-      await self.lookAndModify();
-      self.dialogTableVisible = true;
-      self.operationType = 0;
-      self.disabled = false;
-    },
 
     // 改版方法
     update_recharge(type, row) {
       let self = this;
       self.row = row;
+      self.communityInfo = {
+        summary: {
+          dailyAllowanceAmt: row.extend.daily_allowance,
+          transMaxAmt: row.extend.transMaxAmt,
+          total_allowance_remain: row.extend.total_allowance_remain
+        },
+        wallet: {
+          availableBalance: row.extend.total_available_Balance
+        }
+      };
       self.dialogTableVisible = true;
       self.type = type;
       if (type === 1) {

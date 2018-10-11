@@ -110,6 +110,7 @@ export default {
         dailyAllowanceAmt: '',
         totalAllowanceAmt: '',
         totalAllowancedAmt: '',
+        total_allowance_remain: ''
       },
       region: {
         region_name: ''
@@ -1083,12 +1084,10 @@ export default {
         $message.error('网络开小差了。。。')
       })
       if (data.code === 0) {
-        // await data.result.data.map(x => {
-        //   x.applyTime = $async.createTime(x.applyTime, "yy-mm-dd hh:MM");
-        //   x.rechargeAmt = x.rechargeAmt ? x.rechargeAmt / 100 : 0;
-        //   x.totalAllowanceAmt = x.totalAllowanceAmt ? x.totalAllowanceAmt / 100 : 0;
-        //   return x;
-        // });
+        await data.result.data.map(x => {
+          x.summary.total_allowance_remain = x.summary.totalAllowanceAmt - x.summary.totalAllowancedAmt
+          return x;
+        });
         commit('communityInfo', data.result)
       } else {
         $message.error(data.result)

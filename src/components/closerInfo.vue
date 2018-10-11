@@ -114,6 +114,7 @@ export default {
     } catch (e) {
       console.log(e);
     }
+    console.log("this.$route.query.id==", this.$route.query.id);
     this.getCommunityDetail({
       communityid: this.$route.query.id
     });
