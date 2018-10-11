@@ -150,7 +150,7 @@ export default {
         "dailyAllowanceAmt",
         "transMaxAmtOld",
         "transMaxAmt",
-        "createTime",
+        "applyTime",
         "auditUid",
         "auditUser",
         "auditTime",

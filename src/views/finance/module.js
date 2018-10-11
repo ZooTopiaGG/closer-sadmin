@@ -906,18 +906,9 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          switch (x.int_release_type) {
-            case 0:
-              x.int_release_type = '自媒体'
-              break;
-            case 1:
-              x.int_release_type = '班级'
-              break;
-            default:
-              x.int_release_type = '自媒体'
-          }
+          x.isOffical = x.isOffical ? "自营" : "投稿";
           try {
-            x.title = x.title ? x.title : '-'
+            x.title = $async.toOverflow(x.title, 10)
           } catch (e) {}
           x.long_publish_time = $async.createTime(x.long_publish_time, "yy-mm-dd hh:MM");
           x.transStatus = x.transStatus === 'success' ? '是' : '否';

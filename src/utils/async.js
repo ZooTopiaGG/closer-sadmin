@@ -138,7 +138,7 @@ export default {
   // 判断设为正整数
   isInteger(str) {
     var regex = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
-    return regex.test(str)
+    return regex.test(str) || str == ""
   },
   /**
    * 
@@ -205,6 +205,18 @@ export default {
       } else {
         return `00:${m}`
       }
+    }
+  },
+  // len个字截取
+  toOverflow(str, len) {
+    if (str) {
+      if (str.length > len) {
+        return str.substr(0, len) + '...'
+      } else {
+        return str
+      }
+    } else {
+      return '-'
     }
   },
   clipBorad(value, callback) {
