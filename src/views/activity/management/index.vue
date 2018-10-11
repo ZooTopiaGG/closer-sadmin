@@ -156,7 +156,7 @@ export default {
       loadingAvatarUpload: false,
       outerVisible: false,
       outerVisible1: false,
-      uploadUrl: `${api.filePath}${api.file}`,
+      uploadUrl: `${server.filePath}${server.file}`,
       imageUrl: "",
       imageOnlineUrl: "",
       operationtype: "",
@@ -233,7 +233,7 @@ export default {
         if (res.code === 0) {
           self.$message.success("上传成功");
           self.imageUrl = URL.createObjectURL(file.raw);
-          self.imageUrl = `${api.filePath}${res.result.url}`;
+          self.imageUrl = `${server.filePath}${res.result.url}`;
         } else {
           self.$message.error(res.result);
         }

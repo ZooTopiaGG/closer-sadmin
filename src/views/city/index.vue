@@ -200,7 +200,7 @@ export default {
       update_region_id: "",
       //上传图片
       // 加载
-      uploadUrl: `${api.filePath}${api.file}`,
+      uploadUrl: `${server.filePath}${server.file}`,
       loadingAvatarUpload: false,
       // 图片地址
       imageUrl: "",
@@ -269,7 +269,7 @@ export default {
         if (res.code === 0) {
           self.$message.success("上传成功");
           self.imageUrl = URL.createObjectURL(file.raw);
-          self.imageOnlineUrl = `${api.filePath}${res.result.url}`;
+          self.imageOnlineUrl = `${server.filePath}${res.result.url}`;
           self.imageSize =
             res.result.attributes.dimensions.width === 750 &&
             res.result.attributes.dimensions.height === 930;
@@ -309,7 +309,7 @@ export default {
       try {
         if (res.code === 0) {
           self.fileList = fileList.slice(-1);
-          self.fileOnlineUrl = `${api.filePath}${res.result.url}`;
+          self.fileOnlineUrl = `${server.filePath}${res.result.url}`;
         } else {
           self.$message.error(res.result);
         }

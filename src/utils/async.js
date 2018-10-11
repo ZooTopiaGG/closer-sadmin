@@ -1,4 +1,4 @@
-import api from './api'
+import server from './server'
 let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空
@@ -99,9 +99,9 @@ export default {
     if (url) {
       let sizes = size ? size : 500
       if (type === 'src') {
-        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : api.filePath + url + '?s=' + sizes;
+        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : server.filePath + url + '?s=' + sizes;
       } else {
-        return (url.indexOf('://') !== -1) ? url : api.filePath + url;
+        return (url.indexOf('://') !== -1) ? url : server.filePath + url;
       }
     } else {
       return

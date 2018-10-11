@@ -1,5 +1,5 @@
 import axios from 'axios';
-import api from './api';
+import server from './server';
 import Store from '../store';
 const axio = axios.create({ 
 	// baseURL: process.env.BASE_API, // node环境的不同，对应不同的baseURL
@@ -42,15 +42,15 @@ axio.interceptors.request.use(
 		if (Store.state.loadingMain) {
 			showFullScreenLoading()
 		}
-		let reqUrl = api.serverDevUrl + config.url
+		let reqUrl = server.serverDevUrl + config.url
 		if (/s1-sandbox.tiejin/.test(window.location.href)) {
 			reqUrl = 'https://api-sandbox.tiejin.cn/command/' + config.url;
 		} else if (/sadmin-qa.tiejin/.test(window.location.href)) {
-			reqUrl = api.serverDevUrl + config.url;
+			reqUrl = server.serverDevUrl + config.url;
 		} else if (/admin.tiejin/.test(window.location.href)) {
-			reqUrl = api.serverUrl + config.url;
+			reqUrl = server.serverUrl + config.url;
 		} else if (/admin-test.tiejin/.test(window.location.href)) {
-			reqUrl = api.serverUrl + config.url;
+			reqUrl = server.serverUrl + config.url;
 		}
 		config.url = reqUrl;
 		if (config.url.indexOf('/command/closer_sys.login') === -1 && config.url.indexOf('/command/closer_sys.register') === -1 && config.url.indexOf('/command/closer_sys.send_code') === -1) {
