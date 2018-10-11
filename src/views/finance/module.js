@@ -805,6 +805,9 @@ export default {
             case "recharge":
               x.transChannel = "财务充值";
               break;
+            case "register":
+              x.transChannel = "财务充值";
+              break;
             case "payment":
               x.transChannel = "稿费";
               break;
@@ -930,18 +933,9 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          switch (x.int_release_type) {
-            case 0:
-              x.int_release_type = '自媒体'
-              break;
-            case 1:
-              x.int_release_type = '班级'
-              break;
-            default:
-              x.int_release_type = '自媒体'
-          }
+          x.isOffical = x.isOffical ? "自营" : "投稿";
           try {
-            x.title = x.title ? x.title : '-';
+            x.title = $async.toOverflow(x.title, 10)
           } catch (e) {}
           x.long_publish_time = $async.createTime(x.long_publish_time, "yy-mm-dd hh:MM");
           x.transStatus = x.transStatus === 'success' ? '是' : '否';
@@ -1016,7 +1010,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.applyTime = $async.createTime(x.apply_time, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
             x.auditStatus = "通过";
@@ -1046,7 +1040,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.applyTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
+          x.applyTime = $async.createTime(x.apply_time, "yy-mm-dd hh:MM");
           x.auditTime = $async.createTime(x.auditTime, "yy-mm-dd hh:MM");
           if (x.auditStatus === "success") {
             x.auditStatus = "通过";
