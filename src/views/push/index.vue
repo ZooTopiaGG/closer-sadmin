@@ -144,7 +144,7 @@ export default {
         regionname: self.flitername || "",
         regionid: self.fliterregion || ""
       });
-      self.dialogFormVisible = res;
+      self.dialogFormVisible = !res;
       setTimeout(async () => {
         self.pagenum = 1;
         await self.handleSelect();
@@ -162,12 +162,12 @@ export default {
     },
     preview(id, _src) {
       let host = window.location.host,
-        url;
-      if (/sandbox.tiejin/.test(host)) {
-        url = "https://h5-sandbox.tiejin.cn";
-      } else if (/tiejin/.test(host)) {
         url = "https://h5.tiejin.cn";
-      }
+      // if (/sandbox.tiejin/.test(host)) {
+      //   url = "https://h5-sandbox.tiejin.cn";
+      // } else if (/tiejin/.test(host)) {
+      //   url = "https://h5.tiejin.cn";
+      // }
       this.pre_src = _src ? _src : `${url}/feed/${id}?view=pre`;
       this.dialogVisible = true;
     },
