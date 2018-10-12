@@ -11,10 +11,10 @@
         </section>
         <section class="flex flex-align-center">
           <section>
-            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;">{{ pushList.remainingCount || 5 }}</span></span>
+            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;" ref="remaining">{{ pushList.remainingCount || 5 }}</span></span>
           </section>
           <section class="flex flex-align-center" style="margin-left: 30px;" >
-            <el-button type="primary" @click="createPush">建立推送</el-button>
+            <el-button type="primary" @click="createPush" :disabled="pushList.remainingCount <= 0">建立推送</el-button>
           </section>
         </section>
       </section>
@@ -138,6 +138,10 @@ export default {
         self.$message.warning("推送链接必填");
         return;
       }
+      if (self.$refs.remaining.innerHTML <= 0) {
+        self.$message.warning("今天的推送次数用完了！");
+        return;
+      }
       let res = await self.subjectPushAdd({
         pushtype: self.pushWay,
         subjecturl: self.form["url"],
@@ -145,10 +149,13 @@ export default {
         regionid: self.fliterregion || ""
       });
       self.dialogFormVisible = !res;
-      setTimeout(async () => {
-        self.pagenum = 1;
-        await self.handleSelect();
-      }, 2000);
+      if (res) {
+        self.$refs.remaining.innerHTML = self.$refs.remaining.innerHTML - 1;
+        setTimeout(async () => {
+          self.pagenum = 1;
+          await self.handleSelect();
+        }, 2000);
+      }
     },
     async handleSelectRegion(item) {
       let self = this;
