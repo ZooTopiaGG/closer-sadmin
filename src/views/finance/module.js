@@ -909,7 +909,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.isOffical = x.isOffical ? "自营" : "投稿";
+          x.isOffical = x.subject.isOffical ? "自营" : "投稿";
           try {
             x.title = $async.toOverflow(x.title, 10)
           } catch (e) {}
@@ -933,7 +933,7 @@ export default {
       })
       if (data.code === 0) {
         await data.result.data.map(x => {
-          x.isOffical = x.isOffical ? "自营" : "投稿";
+          x.isOffical = x.subject.isOffical ? "自营" : "投稿";
           try {
             x.title = $async.toOverflow(x.title, 10)
           } catch (e) {}
