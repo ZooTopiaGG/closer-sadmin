@@ -64,7 +64,7 @@ export default {
         await data.result.data.map(x => {
           x.createTime = $async.createTime(x.createTime, "yy-mm-dd hh:MM");
           x.status = x.status === 1 ? '已推送' : '定时推送';
-          x.link = `https://h5.tiejin.cn/feed/${x.subjectId}`;
+          x.subjectUrl = x.subjectUrl ? x.subjectUrl : '-';
           x.subjectName = $async.toOverflow(x.subjectName, 10);
         })
         commit('pushList', data.result)

@@ -22,7 +22,7 @@
         <el-table :data="pushList.data" style="width: 100%">
           <el-table-column type="index" label="序号">
           </el-table-column>
-          <el-table-column prop="link" label="推送帖子链接">
+          <el-table-column prop="subjectUrl" label="推送帖子链接">
           </el-table-column>
           <el-table-column prop="subjectName" label="推送贴子名称">
           </el-table-column>
@@ -32,7 +32,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="120px">
             <template slot-scope="scope">
-              <el-button type="text" size="medium" @click="preview(scope.row.subjectId)">查看贴子</el-button>
+              <el-button type="text" size="medium" v-if="scope.row.subjectUrl && scope.row.subjectUrl != '-'" @click="preview(scope.row)">查看贴子</el-button>
               <el-button type="text" size="medium" v-if="scope.row.status ==='定时推送'" @click="preview(scope.row.subjectId)">删除</el-button>
             </template>
           </el-table-column>
@@ -160,15 +160,8 @@ export default {
       });
       await self.handleSelect();
     },
-    preview(id, _src) {
-      let host = window.location.host,
-        url = "https://h5.tiejin.cn";
-      // if (/sandbox.tiejin/.test(host)) {
-      //   url = "https://h5-sandbox.tiejin.cn";
-      // } else if (/tiejin/.test(host)) {
-      //   url = "https://h5.tiejin.cn";
-      // }
-      this.pre_src = _src ? _src : `${url}/feed/${id}?view=pre`;
+    preview(row, _src) {
+      this.pre_src = _src ? _src : row.subjectUrl;
       this.dialogVisible = true;
     },
     async preview2() {
@@ -179,7 +172,7 @@ export default {
       }
       // 字符串分割取id
       // self.subjectid = self.form["url"].split("feed/")[1];
-      await self.preview(0, self.form["url"]);
+      await self.preview(null, self.form["url"]);
     },
     // 分页
     async handleCurrentChange(val) {
