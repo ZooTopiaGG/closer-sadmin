@@ -134,8 +134,8 @@ export default {
   data() {
     return {
       // 加载
-      uploadUrl: `${api.filePath}${api.file}`,
-      radioRecord:'topic',
+      uploadUrl: `${server.filePath}${server.file}`,
+      radioRecord: "topic",
       row: {},
       pagenum: 1,
       pagesize: 10,

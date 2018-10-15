@@ -63,24 +63,30 @@ export default {
     handleCurrentChange() {},
     searchCityByKeywords() {},
     look(row) {
-      let type = row.activityDesc ? row.activityDesc : 'else';
-      switch(type) {
-        case 'question': this.$router.push({
+      let type = row.activityDesc ? row.activityDesc : "else";
+      switch (type) {
+        case "question":
+          this.$router.push({
             path: `/activity/data/question?id=${row.activityId}&type=${type}`
           });
-        break;
-        case 'else': this.$router.push({
+          break;
+        case "else":
+          this.$router.push({
             path: `/activity/data/taijibing?id=${row.activityId}&type=${type}`
           });
-        break;
-        default: return;
+          break;
+        default:
+          return;
       }
     },
     goConfig(row) {
-      let type = row.activityDesc ? row.activityDesc : 'else';
-      this.$router.push({
-        path: `/activity/data/question/config?id=${row.activityId}&type=${type}`
-      });
+      let type = row.activityDesc ? row.activityDesc : "else";
+      window.open(
+        `/activity/data/question/config?id=${row.activityId}&type=${type}`
+      );
+      // this.$router.push({
+      //   path: `/activity/data/question/config?id=${row.activityId}&type=${type}`
+      // });
     }
   }
 };

@@ -24,8 +24,7 @@ import sadminAside from "@/components/sadminAside.vue";
 import sadminNav from "@/components/sadminNav.vue";
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     authUser() {
@@ -44,6 +43,14 @@ export default {
 };
 </script>
 <style>
+.preview .el-dialog {
+  min-width: 375px !important;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px #333;
+}
+.preview .el-dialog__body {
+  padding: 10px 0;
+}
 #loadingMain {
   position: relative;
 }
@@ -57,6 +64,10 @@ export default {
 
 /*必须*/
 
+.back_link {
+  font-weight: bold;
+  color: #495060;
+}
 .container {
   height: 100vh;
   overflow-x: auto;

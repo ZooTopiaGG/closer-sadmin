@@ -207,7 +207,7 @@ export default {
       seachbytitle: "",
       dialogVisible: false,
       // 贴子状态筛选
-      fliterfeeds: 0,// 0未读 1 已读
+      fliterfeeds: 0, // 0未读 1 已读
       // 贴子id和状态（删除， 上墙）
       subjectid: "",
       flags: -1,
@@ -256,14 +256,16 @@ export default {
     ]),
     // table操作
     recover(id) {
-      this.$router.push({
-        path: `/content/recover?id=${id}`
-      });
+      window.open(`/content/recover?id=${id}`);
+      // this.$router.push({
+      //   path: `/content/recover?id=${id}`
+      // });
     },
     read() {
-      this.$router.push({
-        path: `/content/read?id=${this.fliterVerify}`
-      });
+      window.open(`/content/read?id=${this.fliterVerify}`);
+      // this.$router.push({
+      //   path: `/content/read?id=${this.fliterVerify}`
+      // });
     },
     // 删除
     async dropoff(id, index, flag) {
@@ -291,15 +293,17 @@ export default {
     // 下拉框
     handleSelect() {
       document.querySelectorAll("#feed>li").forEach(async (x, i) => {
-        $("#feed>li .isRead").eq(i).hide();
-      })
+        $("#feed>li .isRead")
+          .eq(i)
+          .hide();
+      });
       let self = this;
       self.getreadlist["flag"] = self.fliterfeeds;
       self.getreadlist["keywords"] = self.seachbytitle;
       self.getreadlist["pagenum"] = 1;
       self.getreadlist["intVerify"] = self.fliterVerify;
       self.getReadList1(self.getreadlist);
-      self.getReadCount({intVerify: self.fliterVerify});
+      self.getReadCount({ intVerify: self.fliterVerify });
     },
     // 搜索按钮
     bindSearch() {
@@ -385,7 +389,7 @@ export default {
     let self = this;
     self.getreadlist["intVerify"] = self.fliterVerify;
     self.getReadList(self.getreadlist);
-    self.getReadCount({intVerify: self.fliterVerify});
+    self.getReadCount({ intVerify: self.fliterVerify });
   },
   mounted() {
     this._scroll();

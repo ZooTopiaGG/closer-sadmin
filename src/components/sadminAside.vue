@@ -42,7 +42,6 @@
             <el-menu-item index="财务申请">财务申请</el-menu-item>
             <el-menu-item index="财务审核">财务审核</el-menu-item>
             <el-menu-item index="提现审核">提现审核</el-menu-item>
-            <el-menu-item index="财务记录">财务记录</el-menu-item>
           </el-submenu>
           <el-menu-item index="活动管理">
             <i class="el-icon-setting"></i>
@@ -79,6 +78,10 @@
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
           </el-menu-item>
+          <el-menu-item index="推送管理">
+            <i class="el-icon-setting"></i>
+            <span slot="title">推送管理</span>
+          </el-menu-item>
           <el-menu-item index="操作日志">
             <i class="el-icon-setting"></i>
             <span slot="title">操作日志</span>
@@ -113,7 +116,6 @@
             </template>
             <el-menu-item :index="item.name" v-for="(item, index) in authUser.permissions.finance"
                 :key="index">{{ item.name }}</el-menu-item>
-              <el-menu-item index="财务记录">财务记录</el-menu-item>
           </el-submenu>
           <el-menu-item index="活动管理" v-if="authUser.permissions && authUser.permissions.activity">
             <i class="el-icon-setting"></i>
@@ -144,6 +146,10 @@
           <el-menu-item index="配置管理" v-if="authUser.permissions && authUser.permissions.config">
             <i class="el-icon-setting"></i>
             <span slot="title">配置管理</span>
+          </el-menu-item>
+          <el-menu-item index="推送管理"  v-if="authUser.permissions && authUser.permissions.subject">
+            <i class="el-icon-setting"></i>
+            <span slot="title">推送管理</span>
           </el-menu-item>
           <el-menu-item index="操作日志" v-if="authUser.permissions && authUser.permissions.log">
             <i class="el-icon-setting"></i>
@@ -228,12 +234,7 @@ export default {
           break;
         case "提现审核":
           this.$router.push({
-            path: "/finance/withdraw/applying"
-          });
-          break;
-        case "财务记录":
-          this.$router.push({
-            path: "/finance/records/column"
+            path: "/finance/withdraw"
           });
           break;
         case "贴近号分类":
@@ -284,6 +285,11 @@ export default {
         case "配置管理":
           this.$router.push({
             path: "/config"
+          });
+          break;
+        case "推送管理":
+          this.$router.push({
+            path: "/push"
           });
           break;
         default:

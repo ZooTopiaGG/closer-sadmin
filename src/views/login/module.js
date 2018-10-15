@@ -68,6 +68,7 @@ export default {
           type: user.type,
           columnCity: user.columnCity, // 城市权限 
           permissions: user.permissions, // 权限列表
+          pushCity: user.pushManageCity,
           phone: user.phone,
         };
         store.state.authUser = base;

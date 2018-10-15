@@ -21,7 +21,7 @@
           </section>
           <el-button type="primary" class="text-button" @click="showDialog('通过')">通过</el-button>
           <el-button type="primary" class="text-button" @click="showDialog('拒绝')">拒绝</el-button>
-          <el-button type="primary" class="text-button" @click="json2csv">导出数据</el-button>
+          <el-button type="primary" class="text-button" @click="json2csv(serialList.data)">导出数据</el-button>
         </section>
       </section>
       <!-- table 改政策查看操作 -->
@@ -215,17 +215,18 @@ export default {
       if (res) {
         self.dialogVisible = false;
       }
-    },
-    async exportData() {
+    }
+    /* async exportData(arr) {
       let self = this,
         newData = new Array(),
-        sd = self.serialList["data"];
-      newData = newData.concat(sd, sd);
+        sd = arr;
+      newData = newData.concat(arr, arr);
+      console.log(newData);
       return newData;
     },
-    async json2csv() {
+    async json2csv(arr) {
       let self = this;
-      let newData = await self.exportData();
+      let newData = await self.exportData(arr);
       if (newData.length > 0) {
         JSonToCSV.setDataConver({
           data: newData,
@@ -245,7 +246,7 @@ export default {
           }
         });
       }
-    }
+    } */
   },
   mounted() {
     let self = this;

@@ -156,7 +156,7 @@ export default {
       planTitle: "新建推广计划",
       op: "", // 操作类型
       // 加载
-      uploadUrl: `${api.filePath}${api.file}`,
+      uploadUrl: `${server.filePath}${server.file}`,
       // 日期选择
       pickerOptions2: {
         disabledDate(time) {
@@ -221,7 +221,7 @@ export default {
       try {
         if (res.code === 0) {
           self.fileList = fileList.slice(-1);
-          self.planForm.fileOnlineUrl = `${api.filePath}${res.result.url}`;
+          self.planForm.fileOnlineUrl = `${server.filePath}${res.result.url}`;
         } else {
           self.$message.error(res.result);
         }
@@ -304,15 +304,18 @@ export default {
       }
     },
     spread(row) {
-      this.$router.push({
-        path: `/statistic/spread/${row.planid}?type=${row.name}`
-      });
+      window.open(`/statistic/spread/${row.planid}?type=${row.name}`);
+
+      // this.$router.push({
+      //   path: `/statistic/spread/${row.planid}?type=${row.name}`
+      // });
     },
     retain() {
+      window.open(`/statistic/retain/channel/8asd19ds`);
       // channel渠道  plan推广  activity活动
-      this.$router.push({
-        path: `/statistic/retain/channel/8asd19ds`
-      });
+      // this.$router.push({
+      //   path: `/statistic/retain/channel/8asd19ds`
+      // });
     },
     // 获取渠道或者推广计划列表 包括搜索
     async getList() {

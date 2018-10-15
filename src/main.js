@@ -4,6 +4,7 @@ import App from './App.vue'
 import axios from '@/utils/axio'
 import store from './store'
 import router from './router'
+import '@/utils/myMixins'
 import ElementUI from 'element-ui'
 import VueLazyload from 'vue-lazyload'
 import Grid from 'vue-js-grid'
@@ -26,6 +27,7 @@ import '@/assets/font/iconfont.css'
 import '@/utils/opreation'
 import async from '@/utils/async'
 import api from '@/utils/api'
+import server from '@/utils/server'
 import '@/utils/json2csv'
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.use(ElementUI)
@@ -55,24 +57,25 @@ window.Axios = axios;
 window.Cookies = Cookies;
 window.$async = async;
 window.api = api;
+window.server = server;
 try {
   let t = Cookies.get('_tcloser'),
-  u = localStorage.getItem('_ucloser');
+    u = localStorage.getItem('_ucloser');
   store.state.authUser = u ? JSON.parse(u) : '';
   store.state.token = t ? t : '';
-} catch(e) {
+} catch (e) {
   console.log(e)
 }
 if (/sandbox.tiejin/.test(window.location.href) || /localhost/.test(window.location.href) || /10.3.0.27/.test(window.location.href)) {
   store.state.IS_DEV = true
-  api['filePath'] = 'https://file-sandbox.tiejin.cn';
-  api['invitepath'] = 'https://admin-sandbox.tiejin.cn/register/';
+  server['filePath'] = 'https://file-sandbox.tiejin.cn';
+  server['invitepath'] = 'https://admin-sandbox.tiejin.cn/register/';
   Cookies.set("IS_DEV", true, {
     expires: 1
   });
 } else {
-  api['filePath'] = 'https://file.tiejin.cn';
-  api['invitepath'] = 'https://open.tiejin.cn/register/';
+  server['filePath'] = 'https://file.tiejin.cn';
+  server['invitepath'] = 'https://open.tiejin.cn/register/';
 }
 Vue.config.productionTip = false
 

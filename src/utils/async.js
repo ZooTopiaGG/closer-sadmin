@@ -1,4 +1,4 @@
-import api from './api'
+import server from './server'
 let options = {
   str: '', // 文本字符串
   flg: '', // 需要插入的值 可为空
@@ -27,6 +27,8 @@ export default {
       return y + '-' + m + '-' + d + ' ' + minute + ':' + seconds;
     } else if (type === '年/月/日') {
       return y + '年' + m + '月' + d + '日';
+    } else if (type === 'yy_mm') {
+      return y + '_' + m;
     } else {
       return y + '-' + m + '-' + d;
     }
@@ -97,19 +99,19 @@ export default {
     if (url) {
       let sizes = size ? size : 500
       if (type === 'src') {
-        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : api.filePath + url + '?s=' + sizes;
+        return (url.indexOf('://') !== -1) ? url + '?s=' + sizes : server.filePath + url + '?s=' + sizes;
       } else {
-        return (url.indexOf('://') !== -1) ? url : api.filePath + url;
+        return (url.indexOf('://') !== -1) ? url : server.filePath + url;
       }
     } else {
       return
     }
   },
-  compare(property){
-    return function(obj1,obj2){
+  compare(property) {
+    return function (obj1, obj2) {
       var value1 = obj1[property];
       var value2 = obj2[property];
-      return value1 - value2;     // 升序
+      return value1 - value2; // 升序
     }
   },
   once(fn, context) {
@@ -132,6 +134,11 @@ export default {
   isPhoneNum(str) {
     let regex = /^1[^01][0-9]\d{8}$/;
     return regex.test(str)
+  },
+  // 判断设为正整数
+  isInteger(str) {
+    var regex = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+    return regex.test(str) || str == ""
   },
   /**
    * 
@@ -200,9 +207,17 @@ export default {
       }
     }
   },
-  // 判断设为正整数
-  isInteger(obj) {
-    return typeof obj === 'number' && obj % 1 === 0
+  // len个字截取
+  toOverflow(str, len) {
+    if (str) {
+      if (str.length > len) {
+        return str.substr(0, len) + '...'
+      } else {
+        return str
+      }
+    } else {
+      return '-'
+    }
   },
   clipBorad(value, callback) {
     const input = document.createElement('input');

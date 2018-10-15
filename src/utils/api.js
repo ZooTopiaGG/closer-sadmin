@@ -1,15 +1,4 @@
 let api = {
-  // 测试环境
-  // serverDevUrl: 'https://api-dev.tiejin.cn/command/',
-  serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
-  // serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
-  // serverDevUrl: 'http://10.0.3.94:8080/command/',
-
-  // 正式环境
-  serverUrl: 'https://api.tiejin.cn/command/',
-  // filepath: filePath || 'http://file-sandbox.tiejin.cn',
-  file: '/file/upload/public',
   // 用户权限接口
   admin: {
     login: 'closer_sys.login', // 登录
@@ -33,6 +22,8 @@ let api = {
     show: 'closer_region_superadmin.show',
     // 修改城市（权限验证待加）
     update: 'closer_region_superadmin.update',
+    // 查询全部城市
+    all_regions: 'closer_region_superadmin.all_regions'
   },
   // 栏目管理接口
   community: {
@@ -118,7 +109,7 @@ let api = {
     lock_wallet: 'closer_finance_superadmin.lock_wallet',
     // 是否允许提现 状态
     wallet_lock_type: 'closer_finance_superadmin.wallet_lock_type',
-    // 查询栏目审核通过的充值记录
+    // 查询栏目通过的充值记录
     wallet_detail_list: 'closer_finance_superadmin.wallet_detail_list',
     // 超管系统财务管理提现记录查询
     withdraw_list: 'closer_finance_superadmin.withdraw_list',
@@ -127,7 +118,23 @@ let api = {
     // 审核操作
     auth_status: 'closer_finance_superadmin.auth_status',
     // 近期流水
-    user_wallet_detail: 'closer_finance_superadmin.user_wallet_detail'
+    user_wallet_detail: 'closer_finance_superadmin.user_wallet_detail',
+    // 清空余额
+    clear_wallet: 'closer_finance_superadmin.clear_wallet',
+    // 稿费记录
+    subject_fee_list: 'subject_fee.subject_fee_list',
+    // 稿费统计
+    subject_fee_total: 'closer_community_fee.subject_fee_total_new',
+    // 充值记录
+    recharge_list_new: 'closer_finance_superadmin.recharge_list_new',
+    // 查询提现列表
+    searchUser: 'closer_finance_superadmin.searchUser',
+    // 改政策记录列表
+    setting_audit_list: 'closer_finance_superadmin.setting_audit_list',
+    // get_community_detail 贴近号信息
+    get_community_detail: 'closer_finance_superadmin.get_community_detail',
+    // search_community 搜索栏目
+    search_community: 'closer_finance_superadmin.search_community'
   },
   activity: {
     // 获取活动列表
@@ -217,6 +224,12 @@ let api = {
     select_class_like: 'community_class.select_class_like',
     // 修改栏目类别状态
     update_class_status: 'community_class.update_class_status'
+  },
+  push: {
+    // 建立推送
+    subject_push_add: 'closer_subject.subject_push_add',
+    // 贴子列表
+    subject_push_list: 'closer_subject.subject_push_list'
   }
 };
 export default api

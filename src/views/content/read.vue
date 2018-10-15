@@ -158,9 +158,10 @@ export default {
         });
     },
     contentLook(row) {
-      this.$router.push({
-        path: `/content/feed/${row.subjectid}`
-      });
+      window.open(`/content/feed/${row.subjectid}`);
+      // this.$router.push({
+      //   path: `/content/feed/${row.subjectid}`
+      // });
     }
   }
 };
