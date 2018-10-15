@@ -11,7 +11,7 @@
         </section>
         <section class="flex flex-align-center">
           <section>
-            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;" ref="remaining">{{ pushList.remainingCount || 5 }}</span></span>
+            <span>今日剩余推送次数：<span style="color: red; font-size: 18px;" ref="remaining">{{ pushList.remainingCount }}</span></span>
           </section>
           <section class="flex flex-align-center" style="margin-left: 30px;" >
             <el-button type="primary" @click="createPush" :disabled="pushList.remainingCount <= 0">建立推送</el-button>
