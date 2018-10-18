@@ -169,6 +169,7 @@
 </template>
 <script>
 export default {
+  name: "aside-nav",
   computed: {
     authUser() {
       return this.$store.state.authUser;
