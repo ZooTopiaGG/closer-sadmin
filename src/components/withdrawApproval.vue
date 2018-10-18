@@ -224,7 +224,7 @@ export default {
       }
       let res = await self.authStatus(para);
       if (res) {
-        self.clearSearch();
+        await self.handleSelect();
         self.dialogVisible = false;
       }
     }
