@@ -3,7 +3,7 @@ let server = {
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
   // serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
+  serverDevUrl: 'https://api-qa.tiejin.cn/command/',
   // serverDevUrl: 'http://10.3.0.72:8080/command/',
 
   // 正式环境
