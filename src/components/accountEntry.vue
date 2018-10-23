@@ -217,8 +217,10 @@ export default {
     toPreview(row) {
       let host = window.location.host,
         url;
-      if (/sandbox.tiejin/.test(host) || /qa.tiejin/.test(host)) {
+      if (/sandbox.tiejin/.test(host)) {
         url = "https://h5-sandbox.tiejin.cn";
+      } else if (/qa.tiejin/.test(host)) {
+        url = "https://h5-qa.tiejin.cn";
       } else if (/tiejin/.test(host)) {
         url = "https://h5.tiejin.cn";
       }
