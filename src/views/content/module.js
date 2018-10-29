@@ -173,30 +173,36 @@ export default {
       commit,
       state
     }, payload) {
-      let {
-        data
-      } = await getReadList(payload).catch(err => {
-        $message.error('网络开小差了。。。')
-      })
-      if (data.code === 0) {
-        // 待发布
-        await data.result.data.map(x => {
-          // await data.result.result1.data.map(x => {
-          // 判断是否有title 没有用text替换
-          x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
-          x.bool_tip = x.bool_tip ? "是" : "否";
-          x.drop_reason = x.drop_reason ? x.drop_reason : '-';
-          x.long_update_time = $async.createTime(
-            x.long_update_time,
-            "yy-mm-dd hh:MM"
-          );
-          return x;
-        });
-        // commit('readList2', data.result.result1)
-        commit('readList2', data.result)
-      } else {
-        $message.error(data.result);
-      }
+      try {
+        let {
+          data
+        } = await getReadList(payload).catch(err => {
+          $message.error('网络开小差了。。。')
+        })
+        if (data.code === 0) {
+          // 待发布
+          await data.result.data.map(x => {
+            // await data.result.result1.data.map(x => {
+            // 判断是否有title 没有用text替换
+            if (x.releaseSubjectTitle) {
+              x.title = x.releaseSubjectTitle.substr(0, 10);
+            } else {
+              x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
+            }
+            x.bool_tip = x.bool_tip ? "是" : "否";
+            x.drop_reason = x.drop_reason ? x.drop_reason : '-';
+            x.long_update_time = $async.createTime(
+              x.long_update_time,
+              "yy-mm-dd hh:MM"
+            );
+            return x;
+          });
+          // commit('readList2', data.result.result1)
+          commit('readList2', data.result)
+        } else {
+          $message.error(data.result);
+        }
+      } catch (e) {}
     },
     loadMore({
       commit,
@@ -215,7 +221,7 @@ export default {
     },
     async getReadCount({
       commit
-    },payload) {
+    }, payload) {
       let {
         data
       } = await getReadCount(payload).catch(err => {
@@ -260,26 +266,32 @@ export default {
       commit,
       state
     }, payload) {
-      let {
-        data
-      } = await recycleBin(payload).catch(err => {
-        $message.error('网络开小差了。。。')
-      })
-      if (data.code === 0) {
-        let arr = data.result.data.map(x => {
-          x.long_update_time = $async.createTime(
-            x.long_update_time,
-            "yy-mm-dd hh:MM"
-          );
-          x.communityName = x.communityName ? x.communityName : x.user.fullname;
-          // 判断是否有title 没有用text替换
-          x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
-          return x;
-        });
-        commit('recycleList', data.result)
-      } else {
-        $message.error(data.result);
-      }
+      try {
+        let {
+          data
+        } = await recycleBin(payload).catch(err => {
+          $message.error('网络开小差了。。。')
+        })
+        if (data.code === 0) {
+          let arr = data.result.data.map(x => {
+            x.long_update_time = $async.createTime(
+              x.long_update_time,
+              "yy-mm-dd hh:MM"
+            );
+            x.communityName = x.communityName ? x.communityName : x.user.fullname;
+            // 判断是否有title 没有用text替换
+            if (x.releaseSubjectTitle) {
+              x.title = x.releaseSubjectTitle.substr(0, 10);
+            } else {
+              x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
+            }
+            return x;
+          });
+          commit('recycleList', data.result)
+        } else {
+          $message.error(data.result);
+        }
+      } catch (e) {}
     },
     async workLoad({
       commit,
