@@ -184,10 +184,10 @@ export default {
           await data.result.data.map(x => {
             // await data.result.result1.data.map(x => {
             // 判断是否有title 没有用text替换
-            if (x.releaseSubjectTitle) {
-              x.title = x.releaseSubjectTitle.substr(0, 10);
+            if (x.title) {
+              x.title = x.title;
             } else {
-              x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
+              x.title = '-';
             }
             x.bool_tip = x.bool_tip ? "是" : "否";
             x.drop_reason = x.drop_reason ? x.drop_reason : '-';
@@ -280,10 +280,10 @@ export default {
             );
             x.communityName = x.communityName ? x.communityName : x.user.fullname;
             // 判断是否有title 没有用text替换
-            if (x.releaseSubjectTitle) {
-              x.title = x.releaseSubjectTitle.substr(0, 10);
+            if (x.title) {
+              x.title = x.title;
             } else {
-              x.title = x.title ? x.title.substr(0, 10) : JSON.parse(x.content).text.substr(0, 10);
+              x.title = '-';
             }
             return x;
           });
