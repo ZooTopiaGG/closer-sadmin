@@ -1,7 +1,7 @@
 let server = {
   // 测试环境api-dev.tiejin.cn
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
-  serverDevUrl: 'https://api-qa2.tiejin.cn/command/',
+  serverDevUrl: 'https://api-qa.tiejin.cn/command/',
   // serverDevUrl: 'https://api-sandbox.tiejin.cn/command/',
   // serverDevUrl: 'https://api-qa.tiejin.cn/command/',
   // serverDevUrl: 'http://10.3.0.72:8080/command/',
