@@ -2,10 +2,10 @@
   <section id="permission" class="flex flex-v">
     <section class="permission_title">
       <section>城市栏目管理</section>
-      <span class="bind-prompt flex-1" v-if="JSON.stringify(res.needBindCover) === 'true'">当前选择城市暂未绑定城市封面栏目，
+      <!-- <span class="bind-prompt flex-1" v-if="JSON.stringify(res.needBindCover) === 'true'">当前选择城市暂未绑定城市封面栏目，
         <span class="tobind" @click="tobindcover(res.needBindCover)">去绑定</span>
         后城市才能在首页显示
-      </span>
+      </span> -->
     </section>
     <section class="permission_table flex-1">
       <section class="permission_table_top flex flex-pack-justify">
@@ -19,9 +19,6 @@
             </el-input>
           </section>
           <section class="list-filter">
-            <!-- <span class="labelname column_labelname ">
-                            所属区域
-                        </span> -->
             <el-select class='list-filter-select' @change="handleSelectRegion" v-model="fliterregion" placeholder="所属区域">
               <el-option v-for="item in searchregion" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -35,17 +32,17 @@
           </section>
         </section>
         <section class="flex flex-align-center">
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="columnAdd">添加默认栏目</el-button>
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="tobindcover(res.needBindCover)">
+          <!-- <el-button type="primary" icon="el-icon-circle-plus-outline" @click="columnAdd">添加默认栏目</el-button> -->
+          <!-- <el-button type="primary" icon="el-icon-circle-plus-outline" @click="tobindcover(res.needBindCover)">
             <span v-if="JSON.stringify(res.needBindCover) === 'true'">设置封面栏目</span>
             <span v-else>修改封面栏目</span>
-          </el-button>
+          </el-button> -->
           <el-button type="primary" icon="el-icon-circle-check-outline" @click="columnInvite">邀请栏目</el-button>
         </section>
         <!-- dialog.信息 开始 设置默认栏目 绑定/设置城市封面  -->
         <el-dialog :title="title" :visible.sync="outerVisible">
           <section class="dialog-content">
-            <section v-if="type === 0 || !res.needBindCover">
+            <section v-if="type === 0">
               <span>所属区域：</span>
               <el-select class='list-filter-select' disabled v-model="fliterregion" placeholder="所属区域">
                 <el-option v-for="item in allregion" :key="item.value" :label="item.label" :value="item.value">
@@ -59,20 +56,17 @@
             <!-- 待修改 城市封面栏目 -->
             <section class="result flex flex-align-center" v-if="showResult">
               <el-radio v-if="searchRow.int_self === 1 && type === 0" v-model="defaultradio" label="1">{{ searchRow.name }}</el-radio>
-              <el-radio v-else-if="searchRow.tags && searchRow.tags.indexOf('region-cover') > -1 && type === 1" v-model="defaultradio" label="1">{{ searchRow.name }}</el-radio>
               <el-checkbox v-else v-model="defaultchecked" disabled>{{ searchRow.name }}</el-checkbox>
               <p>{{ searchRow.objectID }}</p>
               <p>
                 <img class="logo" :src="searchRow.blogo">
               </p>
               <p v-if="searchRow.int_self === 1 && type === 0" style="color: #f00">已经是默认栏目</p>
-              <p v-else-if="searchRow.tags && searchRow.tags.indexOf('region-cover') > -1 && type === 1" style="color: #f00">已经被绑定为封面栏目</p>
             </section>
           </section>
           <section slot="footer" class="dialog-footer">
             <el-button @click="outerVisible = false">取 消</el-button>
-            <el-button type="primary" v-if=" type === 0 " @click="setDefault">确 定</el-button>
-            <el-button type="primary" v-else @click="tosetbindcover(searchRow)">确 定</el-button>
+            <el-button type="primary" v-if=" type === 0 " :disabled="!searchRow.name" @click="setDefault">确 定</el-button>
           </section>
         </el-dialog>
         <!-- dialog.信息  添加账号 结束  -->
@@ -206,11 +200,11 @@
       <!-- table 修改查看操作 -->
       <section class="permission_table_content">
         <el-table :data="res.data" style="width: 100%">
-          <el-table-column fixed>
+          <!-- <el-table-column fixed>
             <template slot-scope="scope">
               <span v-if="scope.row.isCover" class="covers">封面</span>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column fixed prop="objectID" label="栏目id">
           </el-table-column>
           <el-table-column fixed prop="phone" label="手机号">
@@ -260,8 +254,11 @@
                   <span v-else>取消禁言</span>
                 </el-button>
                 <el-button @click="columnEdit(scope.row)" type="text" size="small">编辑</el-button>
-                <el-button @click="columnDefault(scope.row)" type="text" size="small">
-                  <span v-if="scope.row.int_self === 1">取消默认</span>
+                <el-button @click="columnDefault(scope.row)" type="text" v-if="scope.row.int_self === 1" size="small">
+                  <span>取消默认</span>
+                </el-button>
+                <el-button @click="columnDefault(scope.row)" type="text" v-else size="small">
+                  <span>设成默认栏目</span>
                 </el-button>
                 <!-- <el-button type="text" v-if="!scope.row.isCover" size="small" @click="tosetbindcover(scope.row)">
                   <span>设置封面栏目</span>
