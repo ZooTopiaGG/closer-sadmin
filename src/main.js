@@ -66,7 +66,7 @@ try {
 } catch (e) {
   console.log(e)
 }
-if (/sandbox.tiejin/.test(window.location.href) || /localhost/.test(window.location.href) || /10.3.0.27/.test(window.location.href)) {
+if (/sandbox.tiejin/.test(window.location.href) || /qa.tiejin/.test(window.location.href) || /localhost/.test(window.location.href) || /10.3.0.27/.test(window.location.href)) {
   store.state.IS_DEV = true
   server['filePath'] = 'https://file-sandbox.tiejin.cn';
   server['invitepath'] = 'https://admin-sandbox.tiejin.cn/register/';
